@@ -13,16 +13,11 @@ interface ProfileEquipmentProps {
 }
 
 const equipmentItems = [
-  "body_only",
-  "foam_roll",
-  "kettlebells",
-  "dumbbell",
-  "cable",
   "barbell",
-  "bands",
-  "medicine_ball",
-  "exercise_ball",
-  "e_z_curl_bar",
+  "cable",
+  "dumbbell",
+  "ez_curl_bar",
+  "machine",
 ];
 
 const formatText = (text: string): string => {
@@ -62,7 +57,7 @@ export default function ProfileEquipment({ equipment }: ProfileEquipmentProps) {
     <Card shadow="none" className="shadow-md">
       <CardHeader className="text-xl font-semibold px-5 pb-0 gap-x-3  items-center">
         <IconBarbell className="text-danger" />
-        Equipment
+        Equipments
       </CardHeader>
       <CardBody className="px-5">
         <CheckboxGroup
