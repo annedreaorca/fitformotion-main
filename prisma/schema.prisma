@@ -15,12 +15,6 @@ model UserInfo {
   weight Float?
 }
 
-model Image {
-  id         Int      @id @default(autoincrement())
-  url        String   @unique
-  uploadedAt DateTime @default(now())
-}
-
 model Exercise {
   id                  String                @id @default(uuid())
   name                String
