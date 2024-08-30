@@ -79,6 +79,13 @@ export default function SidebarNav() {
           active={pathname.startsWith("/profile/advanced")}
         />
 
+        <NavItem
+          icon={<IconSettings size={22} className="shrink-0" />}
+          label="Gallery"
+          href="/gallery"
+          active={pathname.startsWith("/gallery")}
+        />
+
         <div className="absolute bottom-0 left-0 right-0 py-5 px-5 flex flex-col items-start">
           <SidebarToggle />
         </div>
