@@ -21,6 +21,7 @@ import {
   IconLayoutSidebarLeftExpand,
   IconSettings,
   IconUser,
+  IconPhoto,
 } from "@tabler/icons-react";
 
 export default function SidebarNav() {
@@ -73,17 +74,17 @@ export default function SidebarNav() {
         />
 
         <NavItem
-          icon={<IconSettings size={22} className="shrink-0" />}
-          label="Settings"
-          href="/profile/advanced"
-          active={pathname.startsWith("/profile/advanced")}
+          icon={<IconPhoto size={22} className="shrink-0" />}
+          label="Gallery"
+          href="/gallery"
+          active={pathname.startsWith("/gallery")}
         />
 
         <NavItem
           icon={<IconSettings size={22} className="shrink-0" />}
-          label="Gallery"
-          href="/gallery"
-          active={pathname.startsWith("/gallery")}
+          label="Settings"
+          href="/profile/advanced"
+          active={pathname.startsWith("/profile/advanced")}
         />
 
         <div className="absolute bottom-0 left-0 right-0 py-5 px-5 flex flex-col items-start">
