@@ -18,7 +18,6 @@ import { handleSaveWorkout } from "@/server-actions/WorkoutServerActions";
 import ExerciseOrderIndicator from "@/components/Generic/ExerciseOrderIndicator";
 
 import { CldUploadWidget } from "next-cloudinary";
-import { saveImageUrl } from "../../../../../prisma/scripts/UploadImages";
 
 interface Exercise {
   id: string;
@@ -412,10 +411,6 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
         onUpload={(error, result) => {
           if (result?.info?.secure_url) {
             setImageUrls((prev) => [...prev, result.info.secure_url]);
-            // Save image URL to database
-            saveImageUrl(result.info.secure_url).catch((err) => {
-              toast.error("Failed to save image URL");
-            });
           }
         }}
       >
