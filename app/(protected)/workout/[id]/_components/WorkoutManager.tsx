@@ -46,9 +46,6 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
   const [pausedTime, setPausedTime] = useState(0); // State to track the total paused duration
   const [pauseStartTime, setPauseStartTime] = useState<number | null>(null); // State to track the time when the workout is paused
 
-  const [selectedFile, setSelectedFile] = useState(null); // State to track the uploaded file
-  const [isUploading, setIsUploading] = useState(false); // State to track the upload status
-
   const { startConfetti } = useConfetti();
   const { workoutExercises, setWorkoutExercises } = useWorkoutData();
   const {
@@ -400,98 +397,46 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
   const progressPercentage =
     totalSets > 0 ? Math.round((completedSets / totalSets) * 100) : 0;
 
-  const handleFileChange = (event: {
-    target: { files: SetStateAction<null>[] };
-  }) => {
-    setSelectedFile(event.target.files[0]);
-  };
-
-  const handleUpload = async () => {
-    if (!selectedFile) {
-      toast.error("Please select a file before uploading");
-      return;
-    }
-
-    setIsUploading(true);
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-
-    try {
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      const result = await response.json();
-      if (result.valid) {
-        toast.success("Image uploaded and validated successfully!");
-        // Proceed with the workout
-      } else {
-        toast.error("Invalid workout image. Please try again.");
-      }
-    } catch (error) {
-      toast.error("An error occurred during the upload. Please try again.");
-    } finally {
-      setIsUploading(false);
-    }
-  };
-
   return (
-    <div className="pb-32">
-      {workout.notes && (
-        <p className="mb-3 text-sm text-zinc-500">{workout.notes}</p>
-      )}
-      <div className="mb-5">
-        <input type="file" onChange={handleFileChange} />
-        <Button
-          size="sm"
-          onPress={handleUpload}
-          isLoading={isUploading}
-          disabled={isUploading}
-        >
-          Upload Workout Image
-        </Button>
-      </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-3">
-        {workoutExercises?.map((exercise, index) => (
-          <Card shadow="none" className="shadow-md" key={exercise.exerciseId}>
-            <CardHeader className="text-lg px-5">
-              <div className="flex gap-2 items-center mb-3">
-                <ExerciseOrderIndicator position={index} />
-                <p className="text-lg">{exercise.exerciseName}</p>
-              </div>
-            </CardHeader>
-            <CardBody className="pb-1 pt-0">
-              <ExerciseTable
-                exerciseDetail={exercise}
-                index={index}
-                handleCompleteSet={handleCompleteSet}
-                handleWeightChange={handleWeightChange}
-                handleRepChange={handleRepChange}
-                handleDurationChange={handleDurationChange}
-              />
-            </CardBody>
-            <CardFooter className="gap-2 px-5 bg-default-100">
-              <ButtonGroup className="shrink-0">
-                <Button
-                  size="sm"
-                  onPress={() => addSet(index, exercise.exerciseName)}
-                >
-                  <IconPlus size={16} />
-                  Add Set
-                </Button>
-                <Button
-                  size="sm"
-                  onPress={() => removeSet(index, exercise.exerciseName)}
-                >
-                  <IconX size={16} />
-                  Remove Set
-                </Button>
-              </ButtonGroup>
-            </CardFooter>
-          </Card>
-        ))}
-      </div>
+    <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-3">
+      {workoutExercises?.map((exercise, index) => (
+        <Card shadow="none" className="shadow-md" key={exercise.exerciseId}>
+          <CardHeader className="text-lg px-5">
+            <div className="flex gap-2 items-center mb-3">
+              <ExerciseOrderIndicator position={index} />
+              <p className="text-lg">{exercise.exerciseName}</p>
+            </div>
+          </CardHeader>
+          <CardBody className="pb-1 pt-0">
+            <ExerciseTable
+              exerciseDetail={exercise}
+              index={index}
+              handleCompleteSet={handleCompleteSet}
+              handleWeightChange={handleWeightChange}
+              handleRepChange={handleRepChange}
+              handleDurationChange={handleDurationChange}
+            />
+          </CardBody>
+          <CardFooter className="gap-2 px-5 bg-default-100">
+            <ButtonGroup className="shrink-0">
+              <Button
+                size="sm"
+                onPress={() => addSet(index, exercise.exerciseName)}
+              >
+                <IconPlus size={16} />
+                Add Set
+              </Button>
+              <Button
+                size="sm"
+                onPress={() => removeSet(index, exercise.exerciseName)}
+              >
+                <IconX size={16} />
+                Remove Set
+              </Button>
+            </ButtonGroup>
+          </CardFooter>
+        </Card>
+      ))}
       <StatusBar
         completeWorkout={completeWorkout}
         progressPercentage={progressPercentage}
