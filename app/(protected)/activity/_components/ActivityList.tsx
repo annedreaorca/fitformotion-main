@@ -68,8 +68,12 @@ export default async function ActivityList() {
             }, 0);
 
             return (
-              <Card key={activity.id} shadow="none" className="shadow-md">
-                <CardHeader className="px-5 pt-4 flex-col items-start">
+              <Card
+                key={activity.id}
+                shadow="none"
+                className="shadow-md gap-[10px]"
+              >
+                <CardHeader className="px-5 pt-4 flex-col items-start gap-[2px]">
                   <div className="flex justify-between gap-2 w-full items-center">
                     <div className="tracking-tight grow">
                       <time>
@@ -88,12 +92,12 @@ export default async function ActivityList() {
                     {activity.WorkoutPlan.name}
                   </p>
                 </CardHeader>
-                <CardBody className="pt-0 px-5 pb-4">
-                  <ul>
+                <CardBody className="pt-0 px-5 pb-5">
+                  <ul className="border-l-[1px] border-zinc-600 pl-[12px]">
                     {activity.exercises.map((exercise) => (
                       <li
                         key={exercise.id}
-                        className="flex gap-1 justify-between text-sm"
+                        className="flex gap-2 justify-between text-sm text-zinc-300"
                       >
                         <p className="grow truncate">
                           {exercise.Exercise.name}

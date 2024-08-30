@@ -2,30 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ===== Start Global Custom Styles ===== */
 html.dark {
   background-color: #101010;
 }
-
 html.light {
   background-color: #ffffff;
 }
-
 nav [data-active="true"] a {
   color: #b91037;
 }
-
 .dark path.recharts-rectangle {
   fill: #b91037;
 }
-
 .dark path.recharts-curve.recharts-area-area {
   fill: #b91037;
 }
-
 .dark path.recharts-curve.recharts-line-curve {
   stroke: #b91037;
 }
+span.cl-internal-9ci4h9 {
+  color: #9c1a1b !important;
+}
+span.cl-internal-rscu79 {
+  color: #b1b1b1 !important;
+}
+span.cl-badge.🔒️.cl-internal-1kacczc,
+span.cl-badge.🔒️.cl-internal-qosp7d {
+  color: #c33838 !important;
+  background-color: #272727 !important;
+}
+/* ===== End Global Custom Styles ===== */
 
+/* ===== Start Custom Style Toast ===== */
 [data-sonner-toast][data-styled="true"] {
   background: #991b1b !important;
 }
+/* ===== End Custom Style Toast ===== */
+
+/* ===== Pages Styles ===== */
+.page-container {
+  padding: 20px;
+}
+/* ===== Pages Styles ===== */
+
+/* ===== Start Pages Heading Styles ===== */
+h1.page-headings {
+  font-size: 30px;
+  font-weight: 600;
+  color: #818181;
+  padding-left: 15px;
+  line-height: 22px;
+  border-left: 2px solid #9c1a1b;
+}
+/* ===== End Pages Heading Styles ===== */

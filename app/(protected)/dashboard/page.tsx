@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import PageHeading from "@/components/PageHeading/PageHeading";
 import DashboardLinks from "./_components/DashboardLinks";
 // import DashboardRecentActivity from "./_components/DashboardRecentActivity";
@@ -22,8 +21,8 @@ export default function DashboardPage({
   const chart4DateRange = searchParams?.chart4 || "1W";
 
   return (
-    <>
-      <PageHeading title="Dashboard" />
+    <div className="page-container">
+      <PageHeading title="Dashboard Overview" />
       <DashboardCards />
       <DashboardCharts
         chart1DateRange={chart1DateRange}
@@ -39,6 +38,6 @@ export default function DashboardPage({
       {/* <Suspense fallback={<div>Loading Recent Activity...</div>}>
         <DashboardRecentActivity />
       </Suspense> */}
-    </>
+    </div>
   );
 }

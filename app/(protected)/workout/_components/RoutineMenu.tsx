@@ -51,7 +51,7 @@ export default function RoutineMenu({ routineId }: { routineId: string }) {
       <DropdownMenu
         aria-label="Static Actions"
         topContent={
-          <h4 className="text-zinc-500 uppercase font-semibold text-xs px-2 pt-2">
+          <h4 className="text-zinc-500 uppercase font-semibold text-xs px-2 pt-2 pb-[10px]">
             Routine Actions
           </h4>
         }

@@ -83,7 +83,11 @@ export default function ActivityMenu({ activity }: { activity: Activity }) {
     <Dropdown>
       <DropdownTrigger>
         <button className="shrink-0">
-          <IconMenu2 className="text-black dark:text-primary" size={22} aria-label="Activity actions" />
+          <IconMenu2
+            className="text-black dark:text-primary"
+            size={22}
+            aria-label="Activity actions"
+          />
         </button>
       </DropdownTrigger>
       <DropdownMenu
@@ -91,7 +95,7 @@ export default function ActivityMenu({ activity }: { activity: Activity }) {
         disabledKeys={["share"]}
         aria-label="Activity Actions"
         topContent={
-          <h4 className="text-zinc-500 uppercase font-semibold text-xs px-2 pt-2">
+          <h4 className="text-zinc-500 uppercase font-semibold text-xs px-2 pt-2 pb-[10px]">
             Activity Actions
           </h4>
         }
@@ -107,9 +111,9 @@ export default function ActivityMenu({ activity }: { activity: Activity }) {
           <DropdownItem startContent={<IconEdit size={20} />} key="edit">
             Edit
           </DropdownItem>
-          <DropdownItem startContent={<IconShare size={20} />} key="share">
+          {/* <DropdownItem startContent={<IconShare size={20} />} key="share">
             Share (Coming Soon)
-          </DropdownItem>
+          </DropdownItem> */}
         </DropdownSection>
         <DropdownItem
           startContent={<IconTrash size={20} />}

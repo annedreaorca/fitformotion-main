@@ -71,7 +71,7 @@ export default async function WorkoutPage() {
   const systemRoutines = routines.filter((routine) => routine.isSystemRoutine);
 
   return (
-    <>
+    <div className="page-container">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
         <PageHeading title="Start Workout" />
 
@@ -85,13 +85,15 @@ export default async function WorkoutPage() {
         </Button>
       </div>
 
-      <h2 className="font-semibold text-xl md:text-2xl mb-3">Your Routines</h2>
+      <h2 className="font-semibold text-xl md:text-[22px] mb-5 mt-5">
+        Your Routines
+      </h2>
       <RoutineCards routines={userRoutines} isSystem={false} />
 
-      <h3 className="font-semibold text-xl md:text-2xl mb-3 mt-10">
+      <h3 className="font-semibold text-xl md:text-[22px] mb-5 mt-10">
         Suggested Routines
       </h3>
       <RoutineCards routines={systemRoutines} isSystem={true} />
-    </>
+    </div>
   );
 }

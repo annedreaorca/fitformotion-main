@@ -1,7 +1,7 @@
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { League_Spartan } from "next/font/google";
+import { Alexandria } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 import { Providers } from "./providers";
@@ -15,7 +15,7 @@ export function generateViewport() {
   };
 }
 
-const league_spartan = League_Spartan({ subsets: ["latin"] });
+const alexandria = Alexandria({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Fitformotion: Log, Analyze, and Optimize Your Workouts",
@@ -35,7 +35,7 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body
-        className={`${league_spartan.className} flex flex-col grow overflow-x-hidden`}
+        className={`${alexandria.className} flex flex-col grow overflow-x-hidden`}
       >
         <Providers>
           <Toaster

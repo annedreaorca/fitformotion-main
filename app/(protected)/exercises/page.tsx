@@ -68,29 +68,31 @@ export default async function ExercisesPage({
       );
 
   return (
-    <ExerciseAddToRoutineModalProvider>
-      <PageHeading title="Exercises" />
-      <ExerciseFilters searchParams={searchParams} />
-      <Suspense
-        key={search + cat + muscle + level + force + currentPage}
-        fallback={<ExerciseTableSkeleton />}
-      >
-        <ExerciseFetch
-          search={search}
-          cat={cat}
-          muscle={muscle}
-          level={level}
-          force={force}
-          currentPage={currentPage}
-          userRoutines={userRoutines}
-          favs={favs}
-          equipmentOwned={equipmentOwned}
-          mode="exercisePage"
-          perPage={perPage}
-        />
-      </Suspense>
-      <ExerciseDetailModal />
-      <ExerciseAddToRoutineModal />
-    </ExerciseAddToRoutineModalProvider>
+    <div className="page-container">
+      <ExerciseAddToRoutineModalProvider>
+        <PageHeading title="Exercises" />
+        <ExerciseFilters searchParams={searchParams} />
+        <Suspense
+          key={search + cat + muscle + level + force + currentPage}
+          fallback={<ExerciseTableSkeleton />}
+        >
+          <ExerciseFetch
+            search={search}
+            cat={cat}
+            muscle={muscle}
+            level={level}
+            force={force}
+            currentPage={currentPage}
+            userRoutines={userRoutines}
+            favs={favs}
+            equipmentOwned={equipmentOwned}
+            mode="exercisePage"
+            perPage={perPage}
+          />
+        </Suspense>
+        <ExerciseDetailModal />
+        <ExerciseAddToRoutineModal />
+      </ExerciseAddToRoutineModalProvider>
+    </div>
   );
 }

@@ -68,10 +68,10 @@ export default function RoutineCard({
   return (
     <Card key={routine.id} shadow="none" className="shadow-md">
       <CardHeader className="flex gap-3 px-5 pt-4">
-        <div className="flex flex-col flex-grow">
+        <div className="flex flex-col flex-grow gap-[5px]">
           <p className="text-md leading-5">{routine.name}</p>
           {!isSystem && (
-            <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-5">
+            <p className="text-xs text-zinc-600 dark:text-zinc-400">
               Updated: {format(new Date(routine.updatedAt), "MM/dd/yyyy")}
             </p>
           )}
@@ -80,11 +80,14 @@ export default function RoutineCard({
       </CardHeader>
 
       <CardBody className="pt-0 px-5">
-        <ul className="text-sm">
+        <ul className="text-sm border-l-[1px] border-zinc-600 pl-[12px]">
           {displayedExercises
             .sort((a, b) => (a.order || 0) - (b.order || 0))
             .map((exerciseDetail) => (
-              <li key={exerciseDetail.Exercise.id} className="truncate">
+              <li
+                key={exerciseDetail.Exercise.id}
+                className="truncate text-zinc-300"
+              >
                 {exerciseDetail.sets && exerciseDetail.sets} x{" "}
                 {exerciseDetail.Exercise.name}
               </li>
@@ -98,7 +101,7 @@ export default function RoutineCard({
           href={`/workout/${routine.id}`}
           size="sm"
           //color={isAnotherWorkoutInProgress ? "danger" : "primary"}
-          className="gap-unit-1"
+          className="gap-unit-1 mt-[5px]"
           isDisabled={isAnotherWorkoutInProgress}
         >
           {isCurrentWorkout ? (

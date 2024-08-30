@@ -15,7 +15,7 @@ export default function SidebarBrand() {
       )}
     >
       <Link href="/" className="flex items-center gap-3">
-        <div className="flex items-end justify-center w-11 h-[60px] pb-2">
+        <div className="flex items-end justify-center w-11 h-[60px]">
           <Image
             src="/images/logo/Fitformotion Brandmark Logo White Ver.svg"
             alt="Fitformotion Logo"
@@ -25,8 +25,8 @@ export default function SidebarBrand() {
           />
         </div>
         {!sidebarCollapse && (
-          <div className="flex gap-3 items-center pt-[16px]">
-            <p className="text-xl brand uppercase font-bold text-zinc-400">
+          <div className="flex gap-3 items-center pt-[18px]">
+            <p className="text-[18px] brand uppercase font-semibold text-zinc-400">
               Fitformotion
             </p>
             {/* <Chip color="primary" radius="full">Pro</Chip> */}
