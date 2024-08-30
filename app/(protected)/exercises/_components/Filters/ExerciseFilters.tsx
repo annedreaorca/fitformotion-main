@@ -54,18 +54,24 @@ export default function ExerciseFilters({
       <div className="flex gap-3 mb-3">
         <ExerciseSearch />
         <ExerciseFilterPerPage />
-        <Button isIconOnly size="lg" variant="flat" onClick={toggleFilters} aria-label="Toggle Filters">
+        <Button
+          isIconOnly
+          size="lg"
+          variant="flat"
+          onClick={toggleFilters}
+          aria-label="Toggle Filters"
+        >
           {showFilters ? <IconFilterOff /> : <IconFilter />}
         </Button>
       </div>
       {showFilters && (
-        <div className=" mb-3">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
+        <div className="grid grid-cols-2 mb-3 gap-[10px]">
+          {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
             <ExerciseFilterCategory />
-            <ExerciseFilterMuscle />
             <ExerciseFilterLevel />
             <ExerciseFilterForce />
-          </div>
+          </div> */}
+          <ExerciseFilterMuscle />
           <ExerciseUserFilters />
         </div>
       )}

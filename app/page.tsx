@@ -2,46 +2,39 @@ import { Button } from "@nextui-org/button";
 import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import {
   IconBarbell,
-  IconBodyScan,
-  IconPhoneFilled,
+  IconChartHistogram,
+  IconClipboardData,
   IconPlayerPlayFilled,
-  IconTargetArrow,
-  IconTimeline,
+  IconUserScan,
 } from "@tabler/icons-react";
 
 import Image from "next/image";
 import Link from "next/link";
 
-import {
-  Hacker,
-  Hipster,
-  Hustler,
-  MockupFitformotion,
-  partnersLogo,
-} from "./index";
+import { MockupFitformotion } from "./index";
 
 export default function Home() {
   const cardData = [
     {
       icon: IconBarbell,
-      title: "Personalized Workouts",
-      body: "Dive into an expansive library of exercises complete with detailed guides, videos, and tips. Whether you&apos;re aiming to tone, build muscle, or improve flexibility, our vast collection has you covered. Filter by muscle group, difficulty, or equipment to easily find exercises that match your goals. It&apos;s like having a personal trainer in your pocket!",
+      title: "Find Your Ideal Workout",
+      body: "Explore a wide library of workouts complete with instructions, videos, and useful tips on how to perform all kinds of exercises. Whether your goal is to tone your body, build muscles or get flexible, we offer a variety of selection for you. You can also select according to the muscle area and choose the difficulty level or equipment so that you get a list of exercises that matches your goal. Even though Fitformotion cannot replace a personal trainer it certainly feels like having one in your pocket.",
       className: "",
     },
     {
-      icon: IconTimeline,
-      title: "Progress Tracking",
-      body: "Create workout routines that are uniquely yours. Select from our comprehensive exercise database to craft plans that fit your goals, schedule, and fitness level. Adjust sets, reps, and duration to match your progress. With the ability to personalize your fitness journey, reaching your goals has never been more attainable.",
+      icon: IconUserScan,
+      title: "Personalized Fitness Programs",
+      body: "Choose from our extensive collection of exercises to make personalized plans for your goals, timetable, and ability. Incorporate the changes based on your performance level while doing exercises by varying the number of sets, repetitions, and time. This level of customization means that no matter what you have in mind, achieving those goals has never been easier.",
     },
     {
-      icon: IconBodyScan,
-      title: "Form Feedback",
-      body: "Stay focused and on track with real-time workout tracking. Initiate any routine from your plan and log your performance as you go—record every rep, set, and the weight you lift with ease. This immediate feedback keeps you motivated and ensures every workout counts towards your fitness milestones.",
+      icon: IconClipboardData,
+      title: "Record & Track your workouts",
+      body: "Stay motivated and keep your pace by tracking workouts in real time. Any exercise in your plan? Try it out and track your progress on a daily basis – record the number of sets, reps and the weight you lift effortlessly. This feedback helps to motivate you and also makes sure that every session is productive in terms of improving your fitness goals.",
     },
     {
-      icon: IconTargetArrow,
-      title: "Goal Setting",
-      body: "Watch your fitness journey unfold with our detailed progress tracking and analytics. From workout summaries to trend analyses, our dashboard offers valuable insights into your performance over time. Set goals, monitor your achievements, and celebrate every improvement. With our analytics, you&apos;re not just working out; you&apos;re building a better you.",
+      icon: IconChartHistogram,
+      title: "See Your Progress in Motion",
+      body: "Stay connected to your fitness progress through specialized tracking and customizable visualization tools. Providing workout summaries, trend analysis or whatever you want to know about your performance over any period of time. Most importantly, always set goals, track your progress and ensure that you acknowledge any progress made no matter how small it may be. Our analytics are not just for workouts, but for building up a better you.",
     },
   ];
 
@@ -90,12 +83,10 @@ export default function Home() {
               In Every <span style={styles.text_red}>Motion!</span>
             </h1>
             <p className="text-lg text-zinc-500 mb-5 text-center w-3/5 max-md:w-4/5">
-              Fitformotion is an AI-driven fitness app that delivers
-              personalized workouts, tracks progress, and provides comprehensive
-              feedback on form and technique through computer vision technology.
-              Whether you&apos;re starting out or pushing your limits,
-              Fitformotion optimizes every workout for maximum results, making
-              fitness more effective and accessible than ever.
+              Fitformotion is an AI-powered fitness app for beginners, offering
+              personalized workout plans, real-time tracking, and progress
+              insights. Easily find exercises, customize your routine, and stay
+              motivated as you achieve your fitness goals.
             </p>
             <div className="flex gap-3 mt-6 justify-center">
               <Button
@@ -143,7 +134,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mb-10 py-[50px] px-3 pb-50 max-md:px-[30px]   max-w-screen-2xl mx-auto flex justify-center">
+      {/* <section className="mb-10 py-[50px] px-3 pb-50 max-md:px-[30px]   max-w-screen-2xl mx-auto flex justify-center">
         <div className="flex flex-row max-md:flex-col gap-x-10 w-4/5 max-md:w-full">
           <div className="w-2/5 max-md:w-full">
             <Image
@@ -203,9 +194,9 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
-      <section className="mb-10 py-[50px] px-3 pb-50 max-md:px-[30px] max-w-screen-2xl mx-auto flex justify-center">
+      {/* <section className="mb-10 py-[50px] px-3 pb-50 max-md:px-[30px] max-w-screen-2xl mx-auto flex justify-center">
         <div className="flex flex-col items-center justify-center gap-[50px]">
           <div className="flex flex-col max-md:flex-col gap-y-[10px] w-4/5 max-md:w-full">
             <p
@@ -248,7 +239,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       <footer className="mb-5 py-3 px-3 md:px-10 bg-background">
         <div className="copyright">

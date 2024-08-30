@@ -15,7 +15,10 @@ import {
   IconActivity,
   IconBook,
   IconClipboardList,
+  IconLayoutDashboard,
+  IconAlarmAverage,
   IconDashboard,
+  IconBarbell,
   IconJumpRope,
   IconLayoutSidebarLeftCollapse,
   IconLayoutSidebarLeftExpand,
@@ -32,7 +35,7 @@ export default function SidebarNav() {
     <div className="px-5">
       <ul className="text-sm">
         <NavItem
-          icon={<IconDashboard size={22} className="shrink-0" />}
+          icon={<IconLayoutDashboard size={22} className="shrink-0" />}
           label="Dashboard"
           href="/dashboard"
           active={pathname === "/dashboard"}
@@ -53,14 +56,14 @@ export default function SidebarNav() {
         />
 
         <NavItem
-          icon={<IconBook size={22} className="shrink-0" />}
+          icon={<IconBarbell size={22} className="shrink-0" />}
           label="Browse Exercises"
           href="/exercises"
           active={pathname === "/exercises"}
         />
 
         <NavItem
-          icon={<IconJumpRope size={22} className="shrink-0" />}
+          icon={<IconAlarmAverage size={22} className="shrink-0" />}
           label="Workout Routine"
           href="/workout"
           active={pathname.startsWith("/workout")}
