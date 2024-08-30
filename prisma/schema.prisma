@@ -174,7 +174,7 @@ enum EquipmentType {
   bands
   medicine_ball @map("medicine ball")
   exercise_ball @map("exercise ball")
-  e_z_curl_bar  @map("e-z curl bar")
+  ez_curl_bar  @map("ez curl bar")
 }
 
 enum ForceType {
