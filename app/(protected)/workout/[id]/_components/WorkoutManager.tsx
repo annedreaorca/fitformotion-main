@@ -1,5 +1,5 @@
 "use client";
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useConfetti } from "@/contexts/ConfettiContext";
@@ -16,6 +16,9 @@ import ExerciseTable from "./ExerciseTable";
 import StatusBar from "./StatusBar";
 import { handleSaveWorkout } from "@/server-actions/WorkoutServerActions";
 import ExerciseOrderIndicator from "@/components/Generic/ExerciseOrderIndicator";
+
+import { CldUploadWidget } from "next-cloudinary";
+import { saveImageUrl } from "../../../../../prisma/scripts/UploadImages";
 
 interface Exercise {
   id: string;
@@ -41,6 +44,7 @@ interface Workout {
 export default function WorkoutManager({ workout }: { workout: Workout }) {
   const router = useRouter();
   const workoutPlanId = workout.id;
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
 
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [pausedTime, setPausedTime] = useState(0); // State to track the total paused duration
@@ -398,45 +402,73 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
     totalSets > 0 ? Math.round((completedSets / totalSets) * 100) : 0;
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-3">
-      {workoutExercises?.map((exercise, index) => (
-        <Card shadow="none" className="shadow-md" key={exercise.exerciseId}>
-          <CardHeader className="text-lg px-5">
-            <div className="flex gap-2 items-center mb-3">
-              <ExerciseOrderIndicator position={index} />
-              <p className="text-lg">{exercise.exerciseName}</p>
-            </div>
-          </CardHeader>
-          <CardBody className="pb-1 pt-0">
-            <ExerciseTable
-              exerciseDetail={exercise}
-              index={index}
-              handleCompleteSet={handleCompleteSet}
-              handleWeightChange={handleWeightChange}
-              handleRepChange={handleRepChange}
-              handleDurationChange={handleDurationChange}
-            />
-          </CardBody>
-          <CardFooter className="gap-2 px-5 bg-default-100">
-            <ButtonGroup className="shrink-0">
-              <Button
-                size="sm"
-                onPress={() => addSet(index, exercise.exerciseName)}
-              >
-                <IconPlus size={16} />
-                Add Set
-              </Button>
-              <Button
-                size="sm"
-                onPress={() => removeSet(index, exercise.exerciseName)}
-              >
-                <IconX size={16} />
-                Remove Set
-              </Button>
-            </ButtonGroup>
-          </CardFooter>
-        </Card>
-      ))}
+    <div className="pb-32">
+      {workout.notes && (
+        <p className="mb-3 text-sm text-zinc-500">{workout.notes}</p>
+      )}
+      <CldUploadWidget
+        signatureEndpoint="/api/sign-image"
+        options={{ folder: "fitformotion" }}
+        onUpload={(error, result) => {
+          if (result?.info?.secure_url) {
+            setImageUrls((prev) => [...prev, result.info.secure_url]);
+            // Save image URL to database
+            saveImageUrl(result.info.secure_url).catch((err) => {
+              toast.error("Failed to save image URL");
+            });
+          }
+        }}
+      >
+        {({ open }) => (
+          <button
+            className="px-[20px] py-[12px] mb-[10px] rounded-full text-white bg-red-800"
+            onClick={() => open()}
+          >
+            Upload an Image
+          </button>
+        )}
+      </CldUploadWidget>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-3">
+        {workoutExercises?.map((exercise, index) => (
+          <Card shadow="none" className="shadow-md" key={exercise.exerciseId}>
+            <CardHeader className="text-lg px-5">
+              <div className="flex gap-2 items-center mb-3">
+                <ExerciseOrderIndicator position={index} />
+                <p className="text-lg">{exercise.exerciseName}</p>
+              </div>
+            </CardHeader>
+            <CardBody className="pb-1 pt-0">
+              <ExerciseTable
+                exerciseDetail={exercise}
+                index={index}
+                handleCompleteSet={handleCompleteSet}
+                handleWeightChange={handleWeightChange}
+                handleRepChange={handleRepChange}
+                handleDurationChange={handleDurationChange}
+              />
+            </CardBody>
+            <CardFooter className="gap-2 px-5 bg-default-100">
+              <ButtonGroup className="shrink-0">
+                <Button
+                  size="sm"
+                  onPress={() => addSet(index, exercise.exerciseName)}
+                >
+                  <IconPlus size={16} />
+                  Add Set
+                </Button>
+                <Button
+                  size="sm"
+                  onPress={() => removeSet(index, exercise.exerciseName)}
+                >
+                  <IconX size={16} />
+                  Remove Set
+                </Button>
+              </ButtonGroup>
+            </CardFooter>
+          </Card>
+        ))}
+      </div>
       <StatusBar
         completeWorkout={completeWorkout}
         progressPercentage={progressPercentage}
