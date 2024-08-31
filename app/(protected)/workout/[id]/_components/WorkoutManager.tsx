@@ -17,7 +17,7 @@ import StatusBar from "./StatusBar";
 import { handleSaveWorkout } from "@/server-actions/WorkoutServerActions";
 import ExerciseOrderIndicator from "@/components/Generic/ExerciseOrderIndicator";
 
-import { CldUploadWidget } from "next-cloudinary";
+// import { CldUploadWidget } from "next-cloudinary";
 
 interface Exercise {
   id: string;
@@ -405,7 +405,7 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
       {workout.notes && (
         <p className="mb-3 text-sm text-zinc-500">{workout.notes}</p>
       )}
-      <CldUploadWidget
+      {/* <CldUploadWidget
         signatureEndpoint="/api/sign-image"
         options={{ folder: "fitformotion" }}
       >
@@ -417,7 +417,7 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
             Upload an Image
           </button>
         )}
-      </CldUploadWidget>
+      </CldUploadWidget> */}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-3">
         {workoutExercises?.map((exercise, index) => (
