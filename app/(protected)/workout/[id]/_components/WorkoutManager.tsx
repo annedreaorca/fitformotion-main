@@ -408,11 +408,6 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
       <CldUploadWidget
         signatureEndpoint="/api/sign-image"
         options={{ folder: "fitformotion" }}
-        onUpload={(error, result) => {
-          if (result?.info?.secure_url) {
-            setImageUrls((prev) => [...prev, result.info.secure_url]);
-          }
-        }}
       >
         {({ open }) => (
           <button
