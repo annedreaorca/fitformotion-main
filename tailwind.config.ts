@@ -1,8 +1,6 @@
 import { nextui } from "@nextui-org/react";
 import type { Config } from "tailwindcss";
-import { withUt } from "uploadthing/tw";
 
-// Define your existing Tailwind configuration
 const tailwindConfig: Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -160,5 +158,4 @@ const tailwindConfig: Config = {
   ],
 };
 
-// Wrap the existing config with `withUt`
-export default withUt(tailwindConfig);
+export default tailwindConfig;
