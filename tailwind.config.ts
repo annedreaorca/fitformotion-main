@@ -1,7 +1,9 @@
 import { nextui } from "@nextui-org/react";
 import type { Config } from "tailwindcss";
+import { withUt } from "uploadthing/tw";
 
-const config: Config = {
+// Define your existing Tailwind configuration
+const tailwindConfig: Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -11,8 +13,7 @@ const config: Config = {
   theme: {
     extend: {
       backgroundImage: {
-        "hero-pattern":
-          "url('./app/images/Landing page background - Fitformotion.jpg)",
+        "hero-pattern": "url('./app/images/Landing page background - Fitformotion.jpg')",
       },
     },
   },
@@ -24,7 +25,6 @@ const config: Config = {
           colors: {
             background: "#FFFFFF",
             foreground: "#000000",
-
             primary: {
               100: "#F4FFCC",
               200: "#E6FF99",
@@ -38,7 +38,6 @@ const config: Config = {
               foreground: "#000000",
               DEFAULT: "#A6FF00",
             },
-
             secondary: {
               100: "#D0F9FE",
               200: "#A1EDFE",
@@ -51,7 +50,6 @@ const config: Config = {
               900: "#043178",
               DEFAULT: "#00A5FF",
             },
-
             success: {
               100: "#E8FEE0",
               200: "#CCFDC1",
@@ -64,7 +62,6 @@ const config: Config = {
               900: "#12723D",
               DEFAULT: "#62EF6E",
             },
-
             warning: {
               100: "#FFFCD0",
               200: "#FFF8A1",
@@ -77,7 +74,6 @@ const config: Config = {
               900: "#7A6904",
               DEFAULT: "#FFEA07",
             },
-
             danger: {
               100: "#FFE7D3",
               200: "#FFC9A8",
@@ -96,7 +92,6 @@ const config: Config = {
           colors: {
             background: "#000000",
             foreground: "#ffffff",
-
             primary: {
               100: "#fee2e2",
               200: "#fecaca",
@@ -110,7 +105,6 @@ const config: Config = {
               foreground: "#000000",
               DEFAULT: "#fff",
             },
-
             secondary: {
               100: "#ffe4e6",
               200: "#fecdd3",
@@ -123,7 +117,6 @@ const config: Config = {
               900: "#881337",
               DEFAULT: "#00A5FF",
             },
-
             success: {
               100: "#E8FEE0",
               200: "#CCFDC1",
@@ -136,7 +129,6 @@ const config: Config = {
               900: "#12723D",
               DEFAULT: "#62EF6E",
             },
-
             warning: {
               100: "#FFFCD0",
               200: "#FFF8A1",
@@ -149,7 +141,6 @@ const config: Config = {
               900: "#7A6904",
               DEFAULT: "#FFEA07",
             },
-
             danger: {
               100: "#FFE7D3",
               200: "#FFC9A8",
@@ -169,4 +160,5 @@ const config: Config = {
   ],
 };
 
-export default config;
+// Wrap the existing config with `withUt`
+export default withUt(tailwindConfig);
