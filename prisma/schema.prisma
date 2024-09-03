@@ -86,6 +86,7 @@ model WorkoutLog {
   WorkoutPlan     WorkoutPlan        @relation(fields: [workoutPlanId], references: [id], onDelete: Cascade)
   exercises       WorkoutLogExercise[]
   UserExercisePB  UserExercisePB[]    @relation("WorkoutLogToUserExercisePB")
+  images          WorkoutImage[]      @relation("WorkoutLogToWorkoutImage")
 }
 
 model WorkoutLogExercise {
@@ -212,4 +213,13 @@ enum Muscle {
   forearms
   neck
   abductors
+}
+
+model WorkoutImage {
+  id           String     @id @default(uuid())
+  workoutLogId String
+  imageUrl     String
+  uploadedAt   DateTime   @default(now())
+
+  WorkoutLog   WorkoutLog @relation(fields: [workoutLogId], references: [id], onDelete: Cascade)
 }
