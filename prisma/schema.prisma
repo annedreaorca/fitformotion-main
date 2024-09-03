@@ -74,6 +74,15 @@ model WorkoutPlanExercise {
   WorkoutPlan   WorkoutPlan @relation(fields: [workoutPlanId], references: [id], onDelete: Cascade)
 }
 
+model WorkoutImage {
+  id           String     @id @default(uuid())
+  workoutLogId String
+  imageUrl     String
+  uploadedAt   DateTime   @default(now())
+
+  WorkoutLog   WorkoutLog @relation("WorkoutLogImages", fields: [workoutLogId], references: [id], onDelete: Cascade)
+}
+
 model WorkoutLog {
   id              String              @id @default(uuid())
   userId     String
@@ -86,7 +95,7 @@ model WorkoutLog {
   WorkoutPlan     WorkoutPlan        @relation(fields: [workoutPlanId], references: [id], onDelete: Cascade)
   exercises       WorkoutLogExercise[]
   UserExercisePB  UserExercisePB[]    @relation("WorkoutLogToUserExercisePB")
-  images          WorkoutImage[]      @relation("WorkoutLogToWorkoutImage")
+  images          WorkoutImage[]      @relation("WorkoutLogImages")
 }
 
 model WorkoutLogExercise {
@@ -213,13 +222,4 @@ enum Muscle {
   forearms
   neck
   abductors
-}
-
-model WorkoutImage {
-  id           String     @id @default(uuid())
-  workoutLogId String
-  imageUrl     String
-  uploadedAt   DateTime   @default(now())
-
-  WorkoutLog   WorkoutLog @relation(fields: [workoutLogId], references: [id], onDelete: Cascade)
 }
