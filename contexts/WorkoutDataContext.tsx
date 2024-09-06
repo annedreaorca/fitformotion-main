@@ -20,34 +20,33 @@ interface WorkoutExercise {
 }
 
 interface WorkoutDataContextType {
-  workoutExercises: WorkoutExercise[] | null;
-  setWorkoutExercises: Dispatch<SetStateAction<WorkoutExercise[] | null>>;
+  workoutExercises: WorkoutExercise[];
+  setWorkoutExercises: Dispatch<SetStateAction<WorkoutExercise[]>>;
 }
 
 const defaultContextValue: WorkoutDataContextType = {
-  workoutExercises: null,
+  workoutExercises: [],
   setWorkoutExercises: () => {},
 };
+
 
 const WorkoutDataContext =
   createContext<WorkoutDataContextType>(defaultContextValue);
 
-export const WorkoutDataProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-  const [workoutExercises, setWorkoutExercises] = useState<
-    WorkoutExercise[] | null
-  >(null);
-
-  return (
-    <WorkoutDataContext.Provider
-      value={{ workoutExercises, setWorkoutExercises }}
-    >
-      {children}
-    </WorkoutDataContext.Provider>
-  );
-};
-
+  export const WorkoutDataProvider = ({
+    children,
+  }: {
+    children: React.ReactNode;
+  }) => {
+    const [workoutExercises, setWorkoutExercises] = useState<WorkoutExercise[]>([]);
+  
+    return (
+      <WorkoutDataContext.Provider
+        value={{ workoutExercises, setWorkoutExercises }}
+      >
+        {children}
+      </WorkoutDataContext.Provider>
+    );
+  };
+  
 export const useWorkoutData = () => useContext(WorkoutDataContext);

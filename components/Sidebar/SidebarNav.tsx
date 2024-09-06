@@ -50,6 +50,13 @@ export default function SidebarNav() {
 
         <NavItem
           icon={<IconPhoto size={22} className="shrink-0" />}
+          label="Upload"
+          href="/upload"
+          active={pathname.startsWith("/upload")}
+        />
+
+        <NavItem
+          icon={<IconPhoto size={22} className="shrink-0" />}
           label="Gallery"
           href="/gallery"
           active={pathname.startsWith("/gallery")}

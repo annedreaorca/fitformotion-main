@@ -4,20 +4,16 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useConfetti } from "@/contexts/ConfettiContext";
 import { TrackingType } from "@prisma/client";
-
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { Button, ButtonGroup } from "@nextui-org/button";
 import { IconPlus, IconX } from "@tabler/icons-react";
-
 import { useWorkoutControls } from "@/contexts/WorkoutControlsContext";
 import { useWorkoutData } from "@/contexts/WorkoutDataContext";
-
 import ExerciseTable from "./ExerciseTable";
 import StatusBar from "./StatusBar";
 import { handleSaveWorkout } from "@/server-actions/WorkoutServerActions";
 import ExerciseOrderIndicator from "@/components/Generic/ExerciseOrderIndicator";
-
-// import { CldUploadWidget } from "next-cloudinary";
+import UploadForm from "@/app/form"; // Ensure correct import path
 
 interface Exercise {
   id: string;
@@ -43,11 +39,11 @@ interface Workout {
 export default function WorkoutManager({ workout }: { workout: Workout }) {
   const router = useRouter();
   const workoutPlanId = workout.id;
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
-
   const [isDataLoaded, setIsDataLoaded] = useState(false);
-  const [pausedTime, setPausedTime] = useState(0); // State to track the total paused duration
-  const [pauseStartTime, setPauseStartTime] = useState<number | null>(null); // State to track the time when the workout is paused
+  const [pausedTime, setPausedTime] = useState(0); 
+  const [pauseStartTime, setPauseStartTime] = useState<number | null>(null); 
+  const [showUploadForm, setShowUploadForm] = useState(false); // State for showing UploadForm
+  const [isUploading, setIsUploading] = useState(false); // State to track upload status
 
   const { startConfetti } = useConfetti();
   const { workoutExercises, setWorkoutExercises } = useWorkoutData();
@@ -64,7 +60,6 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
     togglePause,
   } = useWorkoutControls();
 
-  // Populate our empty context state with the exercise data.
   useEffect(() => {
     if (!isDataLoaded && !activeWorkoutRoutine && workout) {
       const initialWorkoutExercises = workout.WorkoutPlanExercise.map(
@@ -89,14 +84,13 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
     exerciseIndex: number,
     setIndex: number,
     exerciseName: string,
-    isSelected: boolean,
+    isSelected: boolean
   ) => {
     if (!workoutExercises) {
       toast.error("Workout exercises data is not loaded yet");
       return;
     }
 
-    // Check if the workout is paused
     if (isPaused) {
       toast.error("You cannot complete a set while the workout is paused");
       return;
@@ -105,7 +99,6 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
     const exerciseDetail = workoutExercises[exerciseIndex];
     const set = exerciseDetail.sets[setIndex];
 
-    // Validation logic for weight, reps, and duration
     if (
       set.weight === null ||
       !Number(set.weight) ||
@@ -120,7 +113,6 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
       return;
     }
 
-    // Calculate total required duration including paused time
     let totalRequiredDuration = 0;
     for (let i = 0; i <= exerciseIndex; i++) {
       const currentExercise = workoutExercises[i];
@@ -138,14 +130,12 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
       }
     }
 
-    // Get current workout duration including paused time
     if (!workoutStartTime) {
       return;
     }
     const currentWorkoutDuration =
       (Date.now() - workoutStartTime - pausedTime) / 1000;
 
-    // Validate for cumulative duration
     if (currentWorkoutDuration < totalRequiredDuration) {
       toast.error(`Please complete the workout.`);
       return;
@@ -189,7 +179,6 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
     });
   };
 
-  // Handle changing reps for a set
   const handleRepChange = (
     exerciseIndex: number,
     setIndex: number,
@@ -208,7 +197,6 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
     });
   };
 
-  // Handle changing exerciseDuration for a set
   const handleDurationChange = (
     exerciseIndex: number,
     setIndex: number,
@@ -227,7 +215,6 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
     });
   };
 
-  // Add Sets to exercise
   const addSet = (exerciseIndex: number, exerciseName: string) => {
     setWorkoutExercises((prevWorkoutExercises) => {
       if (!prevWorkoutExercises) return prevWorkoutExercises;
@@ -247,25 +234,23 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
     });
   };
 
-  // Remove Sets from exercise
   const removeSet = (exerciseIndex: number, exerciseName: string) => {
     setWorkoutExercises((prevWorkoutExercises) => {
       if (!prevWorkoutExercises) return prevWorkoutExercises;
       const updatedWorkoutExercises = [...prevWorkoutExercises];
-      if (updatedWorkoutExercises[exerciseIndex].sets.length > 1) {
-        if (
-          window.confirm(
-            `Are you sure you want to delete the last set from ${exerciseName}?`,
-          )
-        ) {
-          const exerciseToUpdate = {
-            ...updatedWorkoutExercises[exerciseIndex],
-          };
-          exerciseToUpdate.sets.pop();
-          updatedWorkoutExercises[exerciseIndex] = exerciseToUpdate;
-          toast.success(`Set removed from ${exerciseName}`);
-          return updatedWorkoutExercises;
-        }
+      if (
+        updatedWorkoutExercises[exerciseIndex].sets.length > 1 &&
+        window.confirm(
+          `Are you sure you want to delete the last set from ${exerciseName}?`,
+        )
+      ) {
+        const exerciseToUpdate = {
+          ...updatedWorkoutExercises[exerciseIndex],
+        };
+        exerciseToUpdate.sets.pop();
+        updatedWorkoutExercises[exerciseIndex] = exerciseToUpdate;
+        toast.success(`Set removed from ${exerciseName}`);
+        return updatedWorkoutExercises;
       } else {
         toast.error(
           `Cannot remove. At least one set is required for ${exerciseName}.`,
@@ -275,7 +260,6 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
     });
   };
 
-  // Cancel workout and reset states
   const cancelWorkout = () => {
     if (
       window.confirm(
@@ -291,19 +275,15 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
     }
   };
 
-  const completeWorkout = async () => {
+  const completeWorkout = () => {
     if (workoutExercises) {
-      const hasIncompleteSets = workoutExercises.some((exercise) =>
-        exercise.sets.some((set) => !set.completed),
+      const allSetsCompleted = workoutExercises.every((exercise) =>
+        exercise.sets.every((set) => set.completed)
       );
 
-      if (hasIncompleteSets) {
-        const proceedWithIncompleteSets = window.confirm(
-          "There are incomplete sets. These will not be saved. Do you want to proceed?",
-        );
-        if (!proceedWithIncompleteSets) {
-          return;
-        }
+      if (!allSetsCompleted) {
+        toast.error("Please complete all sets before finishing the workout.");
+        return;
       }
 
       const filteredExercises = workoutExercises
@@ -320,59 +300,72 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
         return;
       }
 
-      try {
-        setIsSaving(true);
-
-        const exercisesData = filteredExercises.map((exercise) => ({
-          exerciseId: exercise.exerciseId,
-          trackingType:
-            TrackingType[exercise.trackingType as keyof typeof TrackingType],
-          sets: exercise.sets.map((set) => ({
-            reps: set.reps,
-            weight: set.weight,
-            duration: set.duration,
-            completed: set.completed,
-          })),
-        }));
-
-        const data = {
-          name: workout.name,
-          date: new Date().toISOString(),
-          duration: workoutDuration,
-          workoutPlanId: workout.id,
-          exercises: exercisesData,
-        };
-
-        const response = await handleSaveWorkout(data);
-
-        if (response.success) {
-          startConfetti();
-          router.push("/dashboard");
-          setWorkoutExercises([]);
-          setWorkoutDuration(0);
-          setWorkoutStartTime(null);
-          setActiveWorkoutRoutine(null);
-          toast.success("Workout saved successfully!");
-        } else {
-          toast.error("Failed to save workout");
-        }
-      } catch (error) {
-        toast.error("An error occurred while saving the workout");
-      } finally {
-        setIsSaving(false);
+      // Pause the workout timer when showing the upload form
+      if (!isPaused) {
+        pauseWorkout();
       }
+
+      setShowUploadForm(true); // Show the upload form before saving
     } else {
       toast.error("No workout exercises available.");
     }
   };
 
-  // Pause the workout
+  const handleUploadCompletion = async () => {
+    setIsUploading(true); // Set uploading state to true
+
+    try {
+      const exercisesData = workoutExercises.map((exercise) => ({
+        exerciseId: exercise.exerciseId,
+        trackingType:
+          TrackingType[exercise.trackingType as keyof typeof TrackingType],
+        sets: exercise.sets.map((set) => ({
+          reps: set.reps,
+          weight: set.weight,
+          duration: set.duration,
+          completed: set.completed,
+        })),
+      }));
+
+      const data = {
+        name: workout.name,
+        date: new Date().toISOString(),
+        duration: workoutDuration,
+        workoutPlanId: workout.id,
+        exercises: exercisesData,
+      };
+
+      const response = await handleSaveWorkout(data);
+
+      if (response.success) {
+        startConfetti();
+        router.push("/dashboard");
+        toast.success("Workout saved successfully!");
+      } else {
+        toast.error("Failed to save workout");
+      }
+    } catch (error) {
+      toast.error("An error occurred while saving the workout");
+    } finally {
+      setIsUploading(false); // Reset uploading state
+      setShowUploadForm(false); // Hide upload form after upload
+      setWorkoutExercises([]);
+      setWorkoutDuration(0);
+      setWorkoutStartTime(null);
+      setActiveWorkoutRoutine(null);
+      
+      // Resume the workout timer if it was paused
+      if (isPaused) {
+        resumeWorkout();
+      }
+    }
+  };
+
   const pauseWorkout = () => {
     togglePause();
     setPauseStartTime(Date.now());
   };
 
-  // Resume the workout
   const resumeWorkout = () => {
     togglePause();
     if (pauseStartTime) {
@@ -385,17 +378,16 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
 
   const workoutName = workout.name;
 
-  // Completion Percentage Calculator
   const totalSets = workoutExercises
-    ? workoutExercises.reduce((acc, curr) => acc + curr.sets.length, 0)
-    : 0;
+  ? workoutExercises.reduce((acc, curr) => acc + curr.sets.length, 0)
+  : 0;
 
   const completedSets = workoutExercises
-    ? workoutExercises.reduce(
-        (acc, curr) => acc + curr.sets.filter((set) => set.completed).length,
-        0,
-      )
-    : 0;
+  ? workoutExercises.reduce(
+      (acc, curr) => acc + curr.sets.filter((set) => set.completed).length,
+      0
+    )
+  : 0;
 
   const progressPercentage =
     totalSets > 0 ? Math.round((completedSets / totalSets) * 100) : 0;
@@ -405,19 +397,9 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
       {workout.notes && (
         <p className="mb-3 text-sm text-zinc-500">{workout.notes}</p>
       )}
-      {/* <CldUploadWidget
-        signatureEndpoint="/api/sign-image"
-        options={{ folder: "fitformotion" }}
-      >
-        {({ open }) => (
-          <button
-            className="px-[20px] py-[12px] mb-[10px] rounded-full text-white bg-red-800"
-            onClick={() => open()}
-          >
-            Upload an Image
-          </button>
-        )}
-      </CldUploadWidget> */}
+
+      {showUploadForm && <UploadForm onUploadComplete={handleUploadCompletion} />} 
+
 
       <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-3">
         {workoutExercises?.map((exercise, index) => (

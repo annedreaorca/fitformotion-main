@@ -76,11 +76,9 @@ model WorkoutPlanExercise {
 
 model WorkoutImage {
   id           String     @id @default(uuid())
-  workoutLogId String
   imageUrl     String
   uploadedAt   DateTime   @default(now())
-
-  WorkoutLog   WorkoutLog @relation("WorkoutLogImages", fields: [workoutLogId], references: [id], onDelete: Cascade)
+  userId       String?
 }
 
 model WorkoutLog {
@@ -95,7 +93,6 @@ model WorkoutLog {
   WorkoutPlan     WorkoutPlan        @relation(fields: [workoutPlanId], references: [id], onDelete: Cascade)
   exercises       WorkoutLogExercise[]
   UserExercisePB  UserExercisePB[]    @relation("WorkoutLogToUserExercisePB")
-  images          WorkoutImage[]      @relation("WorkoutLogImages")
 }
 
 model WorkoutLogExercise {
