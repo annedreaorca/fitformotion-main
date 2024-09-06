@@ -48,10 +48,12 @@ export default function Gallery() {
   }
 
   if (images.length === 0) {
-    return <div className="page-container">
-    <PageHeading title="Gallery" />
-      You don't have any images yet. Upload one to get started.
-  </div>;
+    return (
+      <div className="page-container">
+        <PageHeading title="Gallery" />
+        <p>You don't have any images yet. Upload one to get started.</p>
+      </div>
+    );
   }
 
   return (
@@ -59,7 +61,7 @@ export default function Gallery() {
       <PageHeading title="Gallery" />
       <ul className="flex flex-row flex-wrap gap-[10px] mt-[30px]">
         {images.map((image: any) => (
-          <li key={image.id} className="gallery-item ">
+          <li key={image.id} className="gallery-item">
             <a href={image.imageUrl} target="_blank" rel="noopener noreferrer">
               <Image
                 src={image.imageUrl}
