@@ -1,5 +1,5 @@
-import { useState } from "react";
 import Image from "next/image";
+import { useState } from "react";
 
 interface UploadFormProps {
     onUploadComplete: () => Promise<void>;
@@ -34,7 +34,7 @@ export default function UploadForm({ onUploadComplete }: UploadFormProps) {
             }
 
             const data = await response.json();
-            setPreview(data.imageUrl);
+            // setPreview(data.imageUrl);
             await onUploadComplete(); // Notify when upload is complete
         } catch (error) {
             console.error("Upload error:", error);
@@ -44,19 +44,22 @@ export default function UploadForm({ onUploadComplete }: UploadFormProps) {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input
-                type="file"
-                onChange={(e) => setFile(e.target.files?.item(0) || null)}
-            />
-            <button type="submit">
-                {inProgress ? "Uploading..." : "Upload"}
-            </button>
-            {preview && (
-                <div>
-                    <Image src={preview} alt="Uploaded preview" width={200} height={200} />
-                </div>
-            )}
-        </form>
+        <div className="flex flex-col gap-[20px]">
+            <h2 className="text-[20px]">Upload a picture of your progress</h2>
+            <form onSubmit={handleSubmit} className="form-uploading-container">
+                <input
+                    type="file"
+                    onChange={(e) => setFile(e.target.files?.item(0) || null)}
+                />
+                <button type="submit">
+                    <span  className="upload-form-button">{inProgress ? "Uploading..." : "Upload"}</span>
+                </button>
+                {preview && (
+                    <div>
+                        <Image src={preview} alt="Uploaded preview" width={200} height={200} />
+                    </div>
+                )}
+            </form>
+        </div>
     );
 }

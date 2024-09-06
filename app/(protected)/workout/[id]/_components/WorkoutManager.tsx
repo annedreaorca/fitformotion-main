@@ -1,19 +1,19 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import UploadForm from "@/app/form"; // Ensure correct import path
+import ExerciseOrderIndicator from "@/components/Generic/ExerciseOrderIndicator";
 import { useConfetti } from "@/contexts/ConfettiContext";
-import { TrackingType } from "@prisma/client";
-import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
-import { Button, ButtonGroup } from "@nextui-org/button";
-import { IconPlus, IconX } from "@tabler/icons-react";
 import { useWorkoutControls } from "@/contexts/WorkoutControlsContext";
 import { useWorkoutData } from "@/contexts/WorkoutDataContext";
+import { handleSaveWorkout } from "@/server-actions/WorkoutServerActions";
+import { Button, ButtonGroup } from "@nextui-org/button";
+import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
+import { TrackingType } from "@prisma/client";
+import { IconPlus, IconX } from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import ExerciseTable from "./ExerciseTable";
 import StatusBar from "./StatusBar";
-import { handleSaveWorkout } from "@/server-actions/WorkoutServerActions";
-import ExerciseOrderIndicator from "@/components/Generic/ExerciseOrderIndicator";
-import UploadForm from "@/app/form"; // Ensure correct import path
 
 interface Exercise {
   id: string;
@@ -394,11 +394,15 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
 
   return (
     <div className="pb-32">
-      {workout.notes && (
+      {/* {workout.notes && (
         <p className="mb-3 text-sm text-zinc-500">{workout.notes}</p>
-      )}
+      )} */}
 
-      {showUploadForm && <UploadForm onUploadComplete={handleUploadCompletion} />} 
+      {showUploadForm &&
+        <div className="mb-3">
+           <UploadForm onUploadComplete={handleUploadCompletion} />
+        </div>
+      } 
 
 
       <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-3">

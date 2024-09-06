@@ -13,18 +13,15 @@ interface NavItemProps {
 
 import {
   IconActivity,
-  IconBook,
+  IconAlarmAverage,
+  IconBarbell,
   IconClipboardList,
   IconLayoutDashboard,
-  IconAlarmAverage,
-  IconDashboard,
-  IconBarbell,
-  IconJumpRope,
   IconLayoutSidebarLeftCollapse,
   IconLayoutSidebarLeftExpand,
-  IconSettings,
-  IconUser,
   IconPhoto,
+  IconSettings,
+  IconUser
 } from "@tabler/icons-react";
 
 export default function SidebarNav() {
@@ -48,12 +45,12 @@ export default function SidebarNav() {
           active={pathname === "/profile"}
         />
 
-        <NavItem
+        {/* <NavItem
           icon={<IconPhoto size={22} className="shrink-0" />}
           label="Upload"
           href="/upload"
           active={pathname.startsWith("/upload")}
-        />
+        /> */}
 
         <NavItem
           icon={<IconPhoto size={22} className="shrink-0" />}

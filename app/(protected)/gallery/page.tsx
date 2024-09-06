@@ -1,5 +1,6 @@
-"use client"; // Ensure this is a client-side component
+"use client";
 
+import PageHeading from "@/components/PageHeading/PageHeading";
 import { useAuth } from "@clerk/nextjs";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -47,21 +48,25 @@ export default function Gallery() {
   }
 
   if (images.length === 0) {
-    return <div>No files</div>;
+    return <div className="page-container">
+    <PageHeading title="Gallery" />
+      You don't have any images yet. Upload one to get started.
+  </div>;
   }
 
   return (
-    <div>
-      <h1>Gallery</h1>
-      <ul>
+    <div className="page-container">
+      <PageHeading title="Gallery" />
+      <ul className="flex flex-row flex-wrap gap-[10px] mt-[30px]">
         {images.map((image: any) => (
-          <li key={image.id}>
+          <li key={image.id} className="gallery-item ">
             <a href={image.imageUrl} target="_blank" rel="noopener noreferrer">
               <Image
                 src={image.imageUrl}
                 alt="Workout Image"
-                width={100}
-                height={100}
+                width={250}
+                height={250}
+                className="rounded-lg gallery-image"
                 unoptimized
               />
             </a>

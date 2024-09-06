@@ -63,3 +63,31 @@ h1.page-headings {
   }
 }
 /* ===== End Pages Heading Styles ===== */
+
+/* ===== Gallery Page ====== */
+.gallery-item a {
+  display: flex;
+  aspect-ratio: 3/4;
+}
+img.gallery-image {
+  object-fit: cover;
+}
+@media screen and (max-width: 768px) {
+  
+}
+@media screen and (max-width: 410px) {
+  .gallery-item a,
+  img.gallery-image {
+      width: 100%;
+  }
+}
+/* ===== Gallery Page ====== */
+
+/* ===== Start Form Uploading ===== */
+.upload-form-button {
+  padding: 8px 15px;
+  background-color: #9c1a1b;
+  color: #ffffff;
+  border-radius: 7px;
+}
+/* ===== End Form Uploading ===== */

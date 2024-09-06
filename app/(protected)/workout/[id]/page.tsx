@@ -1,7 +1,6 @@
-import prisma from "@/prisma/prisma";
 import PageHeading from "@/components/PageHeading/PageHeading";
+import prisma from "@/prisma/prisma";
 import WorkoutManager from "./_components/WorkoutManager";
-import WorkoutManagerV2 from "./_components/WorkoutManagerV2";
 
 async function fetchRoutine(id: string) {
   return await prisma.workoutPlan.findUnique({
@@ -43,9 +42,9 @@ export default async function StartWorkout({
   }
 
   return (
-    <>
+    <div className="page-container">
       <PageHeading title={`Workout: ${workout.name}`} />
       <WorkoutManager workout={workout} />
-    </>
+    </div>
   );
 }
