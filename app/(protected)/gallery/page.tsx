@@ -16,7 +16,7 @@ export default function Gallery() {
 
     const fetchUserImages = async () => {
       try {
-        const response = await fetch('/api/retrieve?userId=${userId}');
+        const response = await fetch(`/api/retrieve?userId=${userId}`);
         console.log("Response status:", response.status); // Log status code
         if (!response.ok) {
           throw new Error("Failed to fetch images");
