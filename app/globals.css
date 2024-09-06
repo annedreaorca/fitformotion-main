@@ -55,4 +55,11 @@ h1.page-headings {
   line-height: 22px;
   border-left: 2px solid #9c1a1b;
 }
+
+@media screen and (max-width: 410px) {
+  h1.page-headings {
+    line-height: 22px;
+    font-size: 20px;
+  }
+}
 /* ===== End Pages Heading Styles ===== */

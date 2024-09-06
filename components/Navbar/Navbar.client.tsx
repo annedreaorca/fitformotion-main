@@ -4,9 +4,10 @@ import { Navbar, NavbarContent, NavbarItem } from "@nextui-org/navbar";
 
 import {
   IconActivity,
-  IconBook,
-  IconDashboard,
+  IconBarbell,
   IconJumpRope,
+  IconLayoutDashboard,
+  IconPhoto,
 } from "@tabler/icons-react";
 
 import Image from "next/image";
@@ -15,11 +16,11 @@ import { usePathname } from "next/navigation";
 import NavbarUser from "./NavbarUser";
 
 const NAV_CONTENT_ITEMS = [
-  { icon: <IconDashboard />, href: "/dashboard", label: "Dashboard" },
+  { icon: <IconLayoutDashboard />, href: "/dashboard", label: "Dashboard" },
   { icon: <IconActivity />, href: "/activity", label: "Activity Log" },
   { icon: <IconJumpRope />, href: "/workout", label: "Start Workout" },
-  { icon: <IconBook />, href: "/exercises", label: "Exercises" },
-  { icon: <IconBook />, href: "/gallery", label: "Gallery" },
+  { icon: <IconBarbell />, href: "/exercises", label: "Exercises" },
+  { icon: <IconPhoto />, href: "/gallery", label: "Gallery" },
 ];
 
 export default function MobileNavbarClient({

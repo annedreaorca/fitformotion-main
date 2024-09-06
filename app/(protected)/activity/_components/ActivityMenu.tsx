@@ -1,23 +1,22 @@
 "use client";
-import { useContext } from "react";
-import { useRouter } from "next/navigation";
 import { ActivityModalContext } from "@/contexts/ActivityModalContext";
 import { handleDeleteActivity } from "@/server-actions/ActivityServerActions";
-import { TrackingType } from "@prisma/client";
 import {
   Dropdown,
-  DropdownTrigger,
+  DropdownItem,
   DropdownMenu,
   DropdownSection,
-  DropdownItem,
+  DropdownTrigger,
 } from "@nextui-org/dropdown";
+import { TrackingType } from "@prisma/client";
 import {
-  IconEdit,
   IconInfoCircle,
   IconMenu2,
   IconShare,
-  IconTrash,
+  IconTrash
 } from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
+import { useContext } from "react";
 import { toast } from "sonner";
 
 interface Set {
@@ -108,12 +107,12 @@ export default function ActivityMenu({ activity }: { activity: Activity }) {
           >
             View Details
           </DropdownItem>
-          <DropdownItem startContent={<IconEdit size={20} />} key="edit">
+          {/* <DropdownItem startContent={<IconEdit size={20} />} key="edit">
             Edit
-          </DropdownItem>
-          {/* <DropdownItem startContent={<IconShare size={20} />} key="share">
-            Share (Coming Soon)
           </DropdownItem> */}
+          <DropdownItem startContent={<IconShare size={20} />} key="share">
+            Share (Coming Soon)
+          </DropdownItem>
         </DropdownSection>
         <DropdownItem
           startContent={<IconTrash size={20} />}

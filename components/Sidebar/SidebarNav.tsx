@@ -49,6 +49,13 @@ export default function SidebarNav() {
         />
 
         <NavItem
+          icon={<IconPhoto size={22} className="shrink-0" />}
+          label="Gallery"
+          href="/gallery"
+          active={pathname.startsWith("/gallery")}
+        />
+
+        <NavItem
           icon={<IconActivity size={22} className="shrink-0" />}
           label="Activity Log"
           href="/activity"
@@ -74,13 +81,6 @@ export default function SidebarNav() {
           label="Routine Planner"
           href="/edit-routine/step-1"
           active={pathname.startsWith("/edit-routine/")}
-        />
-
-        <NavItem
-          icon={<IconPhoto size={22} className="shrink-0" />}
-          label="Gallery"
-          href="/gallery"
-          active={pathname.startsWith("/gallery")}
         />
 
         <NavItem
