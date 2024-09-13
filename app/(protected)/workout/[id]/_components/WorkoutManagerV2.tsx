@@ -37,18 +37,6 @@ export default function WorkoutManagerV2({ workout }: { workout: Workout }) {
       {},
     ),
   );
-
-  const [weightUnit, setWeightUnit] = useState<Record<string, string>>(
-    workout.WorkoutPlanExercise.reduce(
-      (acc: Record<string, string>, exercise) => {
-        acc[exercise.Exercise.id] = "kg"; // default to kg
-        return acc;
-      },
-      {},
-    ),
-  );
-  
-
   const [completedSets, setCompletedSets] = useState<Record<string, boolean>>(
     {},
   );
@@ -117,30 +105,21 @@ export default function WorkoutManagerV2({ workout }: { workout: Workout }) {
       }
     };
 
-    const handleInputChange = (setIndex: number, exerciseId: string) => {
-      const weightInput = weightRefs.current[`${exerciseId}-${setIndex}`];
-      const trackingInput = trackingRefs.current[`${exerciseId}-${setIndex}`];
-      const unit = weightUnit[exerciseId];
-    
-      if (weightInput && trackingInput) {
-        let weightValue = parseFloat(weightInput.value);
-    
-        // If unit is pounds, convert to kilograms
-        if (unit === "lbs" && !isNaN(weightValue)) {
-          weightValue = weightValue * 0.453592;
-          weightInput.value = weightValue.toFixed(2); // Update input field with converted value
-        }
-    
-        const trackingValue = parseFloat(trackingInput.value);
-    
-        setCheckboxDisabled((prevState) => ({
-          ...prevState,
-          [`${exerciseId}-${setIndex}`]:
-            isNaN(weightValue) || isNaN(trackingValue),
-        }));
-      }
-    };
-    
+  const handleInputChange = (setIndex: number, exerciseId: string) => {
+    const weightInput = weightRefs.current[`${exerciseId}-${setIndex}`];
+    const trackingInput = trackingRefs.current[`${exerciseId}-${setIndex}`];
+
+    if (weightInput && trackingInput) {
+      const weightValue = parseFloat(weightInput.value);
+      const trackingValue = parseFloat(trackingInput.value);
+
+      setCheckboxDisabled((prevState) => ({
+        ...prevState,
+        [`${exerciseId}-${setIndex}`]:
+          isNaN(weightValue) || isNaN(trackingValue),
+      }));
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -248,7 +227,7 @@ export default function WorkoutManagerV2({ workout }: { workout: Workout }) {
                 <Table removeWrapper aria-label="Table">
                   <TableHeader>
                     <TableColumn>SET</TableColumn>
-                    <TableColumn>WEIGHT</TableColumn>
+                    <TableColumn>KG</TableColumn>
                     <TableColumn>
                       {exercise.trackingType === "reps" ? "REPS" : "DURATION"}
                     </TableColumn>
@@ -263,39 +242,33 @@ export default function WorkoutManagerV2({ workout }: { workout: Workout }) {
                       <TableRow key={setIndex}>
                         <TableCell>{setIndex + 1}</TableCell>
                         <TableCell>
-                          <div className="flex items-center">
-                            <Input
-                              label="Weight"
-                              placeholder="20"
-                              size="sm"
-                              isDisabled={
-                                completedSets[`${exercise.Exercise.id}-${setIndex}`]
-                              }
-                              name={`exercises.${exercise.Exercise.id}.sets.${setIndex}.weight`}
-                              ref={(el) =>
-                                (weightRefs.current[`${exercise.Exercise.id}-${setIndex}`] = el)
-                              }
-                              onChange={() =>
-                                handleInputChange(setIndex, exercise.Exercise.id)
-                              }
-                            />
-                            <select
-                              value={weightUnit[exercise.Exercise.id]}
-                              onChange={(e) =>
-                                setWeightUnit((prevState) => ({
-                                  ...prevState,
-                                  [exercise.Exercise.id]: e.target.value,
-                                }))
-                              }
-                              className="ml-2"
-                            >
-                              <option value="kg">kg</option>
-                              <option value="lbs">lbs</option>
-                            </select>
-                          </div>
+                          <Input
+                            label="Weight"
+                            placeholder="20"
+                            size="sm"
+                            endContent={
+                              <div className="pointer-events-none flex items-center">
+                                <span className="text-default-400 text-small">
+                                  kg
+                                </span>
+                              </div>
+                            }
+                            isDisabled={
+                              completedSets[
+                                `${exercise.Exercise.id}-${setIndex}`
+                              ]
+                            }
+                            name={`exercises.${exercise.Exercise.id}.sets.${setIndex}.weight`}
+                            ref={(el) =>
+                              (weightRefs.current[
+                                `${exercise.Exercise.id}-${setIndex}`
+                              ] = el)
+                            }
+                            onChange={() =>
+                              handleInputChange(setIndex, exercise.Exercise.id)
+                            }
+                          />
                         </TableCell>
-                    
-
                         <TableCell>
                           <Input
                             label={
