@@ -38,6 +38,14 @@ span.cl-badge.🔒️.cl-internal-qosp7d {
 [data-sonner-toast][data-styled="true"] {
   background: #991b1b !important;
 }
+svg.tabler-icon.tabler-icon-star-filled.text-primary,
+.hover\:text-primary:hover {
+  color: #991b1b !important;
+}
+.ring-primary {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: #991b1b;
+}
 /* ===== End Custom Style Toast ===== */
 
 /* ===== Pages Styles ===== */
@@ -73,12 +81,11 @@ img.gallery-image {
   object-fit: cover;
 }
 @media screen and (max-width: 768px) {
-  
 }
 @media screen and (max-width: 410px) {
   .gallery-item a,
   img.gallery-image {
-      width: 100%;
+    width: 100%;
   }
 }
 /* ===== Gallery Page ====== */
@@ -91,3 +98,7 @@ img.gallery-image {
   border-radius: 7px;
 }
 /* ===== End Form Uploading ===== */
+
+/* left: 50%;
+top: 20%;
+transform: translate(-50%, -50%); */

@@ -11,7 +11,8 @@ const tailwindConfig: Config = {
   theme: {
     extend: {
       backgroundImage: {
-        "hero-pattern": "url('./app/images/Landing page background - Fitformotion.jpg')",
+        "hero-pattern":
+          "url('./app/images/Landing page background - Fitformotion.jpg')",
       },
     },
   },
@@ -24,17 +25,17 @@ const tailwindConfig: Config = {
             background: "#FFFFFF",
             foreground: "#000000",
             primary: {
-              100: "#F4FFCC",
-              200: "#E6FF99",
-              300: "#D4FF66",
-              400: "#C3FF3F",
-              500: "#A6FF00",
-              600: "#86DB00",
-              700: "#6AB700",
-              800: "#509300",
-              900: "#3E7A00",
-              foreground: "#000000",
-              DEFAULT: "#A6FF00",
+              100: "#991b1b",
+              200: "#991b1b",
+              300: "#991b1b",
+              400: "#991b1b",
+              500: "#991b1b",
+              600: "#991b1b",
+              700: "#991b1b",
+              800: "#991b1b",
+              900: "#991b1b",
+              foreground: "#ffffff",
+              DEFAULT: "#991b1b",
             },
             secondary: {
               100: "#D0F9FE",
