@@ -1,4 +1,3 @@
-"use client";
 import {
   Table,
   TableHeader,
@@ -10,6 +9,7 @@ import {
 import { Input } from "@nextui-org/input";
 import { IconSquareCheck } from "@tabler/icons-react";
 import { Checkbox } from "@nextui-org/checkbox";
+import { useState } from "react";
 
 interface Set {
   weight: number | "" | null;
@@ -53,11 +53,15 @@ interface ExerciseTableProps {
 export default function ExerciseTable({
   exerciseDetail,
   index,
-  handleCompleteSet,
   handleWeightChange,
+  handleCompleteSet,
   handleRepChange,
   handleDurationChange,
 }: ExerciseTableProps) {
+  // Initialize state with kilograms as the default unit
+  const [weightInputs, setWeightInputs] = useState<{ [key: number]: string }>({});
+  const [weightUnit, setWeightUnit] = useState<{ [key: number]: string }>({});
+
   return (
     <Table
       removeWrapper
@@ -67,7 +71,7 @@ export default function ExerciseTable({
     >
       <TableHeader>
         <TableColumn>SET</TableColumn>
-        <TableColumn>KG</TableColumn>
+        <TableColumn>WEIGHT</TableColumn>
         {exerciseDetail.trackingType === "duration" ? (
           <TableColumn>DURATION</TableColumn>
         ) : (
@@ -82,26 +86,71 @@ export default function ExerciseTable({
           <TableRow key={setIndex}>
             <TableCell>{setIndex + 1}</TableCell>
             <TableCell>
-              <Input
-                size="sm"
-                type="number"
-                label="Weight"
-                placeholder="0"
-                defaultValue={set.weight !== null ? String(set.weight) : ""}
-                endContent={
-                  <span className="text-zinc-600 dark:text-zinc-400">kg</span>
-                }
-                onInput={(e) => {
-                  const value = e.currentTarget.value;
-                  if (!/^(\d*\.?\d{0,2}|\.\d{0,2})$/.test(value)) {
-                    e.currentTarget.value = value.slice(0, -1);
+              <div className="flex items-center">
+                <Input
+                  size="sm"
+                  type="number"
+                  label={
+                    weightUnit[setIndex] === "lbs"
+                      ? "Pounds"
+                      : "Kilograms"
                   }
-                }}
-                onChange={(e) =>
-                  handleWeightChange(index, setIndex, Number(e.target.value))
-                }
-                isDisabled={set.completed}
-              />
+                  placeholder="0"
+                  value={
+                    weightInputs[setIndex] !== undefined
+                      ? weightInputs[setIndex]
+                      : weightUnit[setIndex] === "kg"
+                      ? set.weight !== null ? String(set.weight) : ""
+                      : set.weight
+                      ? String((set.weight * 2.20462).toFixed(2)) // Show converted value for lbs
+                      : ""
+                  }
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setWeightInputs((prev) => ({
+                      ...prev,
+                      [setIndex]: value, // Update raw input value
+                    }));
+                  }}
+                  onBlur={() => {
+                    const rawValue = parseFloat(weightInputs[setIndex] || "0");
+                    const newWeight =
+                      weightUnit[setIndex] === "kg"
+                        ? rawValue
+                        : parseFloat((rawValue / 2.20462).toFixed(2)); // Convert lbs to kg on blur
+                    handleWeightChange(index, setIndex, newWeight);
+                  }}
+                  isDisabled={set.completed}
+                />
+                <select
+                  value={weightUnit[setIndex] || "kg"} // Default to kg
+                  onChange={(e) => {
+                    const newUnit = e.target.value;
+                    const rawValue = parseFloat(weightInputs[setIndex] || "0");
+
+                    // Convert when unit changes
+                    const convertedWeight =
+                      newUnit === "kg"
+                        ? parseFloat((rawValue / 2.20462).toFixed(2)) // Convert lbs to kg
+                        : parseFloat((rawValue * 2.20462).toFixed(2)); // Convert kg to lbs
+
+                    setWeightUnit((prev) => ({
+                      ...prev,
+                      [setIndex]: newUnit,
+                    }));
+
+                    // Update the input to reflect the converted value
+                    setWeightInputs((prev) => ({
+                      ...prev,
+                      [setIndex]: String(convertedWeight),
+                    }));
+                  }}
+                  className="ml-2"
+                >
+                  <option value="kg">kg</option>
+                  <option value="lbs">lbs</option>
+                </select>
+              </div>
             </TableCell>
             {exerciseDetail.trackingType === "duration" ? (
               <TableCell>
@@ -116,12 +165,6 @@ export default function ExerciseTable({
                   endContent={
                     <span className="text-zinc-600 dark:text-zinc-400">s</span>
                   }
-                  onInput={(e) => {
-                    const value = e.currentTarget.value;
-                    if (!/^\d*$/.test(value)) {
-                      e.currentTarget.value = value.slice(0, -1);
-                    }
-                  }}
                   onChange={(e) =>
                     handleDurationChange(
                       index,
@@ -136,16 +179,10 @@ export default function ExerciseTable({
               <TableCell>
                 <Input
                   size="sm"
-                  label="Reps"
+                  label="Rep Count"
                   type="number"
                   placeholder="0"
                   defaultValue={set.reps !== null ? String(set.reps) : ""}
-                  onInput={(e) => {
-                    const value = e.currentTarget.value;
-                    if (!/^\d*$/.test(value)) {
-                      e.currentTarget.value = value.slice(0, -1);
-                    }
-                  }}
                   onChange={(e) =>
                     handleRepChange(
                       index,
