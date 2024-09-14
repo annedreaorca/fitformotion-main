@@ -46,6 +46,16 @@ svg.tabler-icon.tabler-icon-star-filled.text-primary,
   --tw-ring-opacity: 1;
   --tw-ring-color: #991b1b;
 }
+
+@media screen and (max-width: 768px) {
+  .count-pages {
+      left: 50%;
+      top: 30%;
+      display: flex;
+      transform: translate(-50%, -50%);
+      justify-content: center;
+  }
+}
 /* ===== End Custom Style Toast ===== */
 
 /* ===== Pages Styles ===== */

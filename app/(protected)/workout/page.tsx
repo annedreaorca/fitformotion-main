@@ -84,11 +84,20 @@ export default async function WorkoutPage() {
           <IconPlus size={16} /> New Routine
         </Button>
       </div>
-
       <h2 className="font-semibold text-xl md:text-[22px] mb-5 mt-5">
         Your Routines
       </h2>
-      <RoutineCards routines={userRoutines} isSystem={false} />
+      {userRoutines.length > 0 ? (
+        <RoutineCards routines={userRoutines} isSystem={false} />
+      ) : (
+        <p>
+          No routines have been created.{" "}
+        <Link className="text-danger dark:text-danger" href="/edit-routine/step-1">
+          Click here to create one
+        </Link>
+        .</p>
+      )}
+      
 
       <h3 className="font-semibold text-xl md:text-[22px] mb-5 mt-10">
         Suggested Routines

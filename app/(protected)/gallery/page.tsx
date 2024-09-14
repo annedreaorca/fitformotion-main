@@ -51,7 +51,7 @@ export default function Gallery() {
     return (
       <div className="page-container">
         <PageHeading title="Gallery" />
-        <p>You don&apos;t have any images yet. Upload one to get started.</p>
+        <p>Please complete a workout to upload a picture of your progress.</p>
       </div>
     );
   }

@@ -3,6 +3,8 @@ import { useSidebarToggleContext } from "@/contexts/SidebarToggleContext";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ThemeSwitcher } from "@/components/ThemeSwitcher/ThemeSwitcher";
+
 
 interface NavItemProps {
   icon: JSX.Element;
@@ -93,9 +95,13 @@ export default function SidebarNav() {
           href="/profile/advanced"
           active={pathname.startsWith("/profile/advanced")}
         />
+        
+        <SidebarToggle />
 
-        <div className="absolute bottom-0 left-0 right-0 py-5 px-5 flex flex-col items-start">
-          <SidebarToggle />
+        <div className="absolute bottom-0 left-0 right-0 py-5 px-5 flex flex-col items-start gap-[20px]">
+          <div className="flex flex-col items-center w-[100%]">
+            <ThemeSwitcher />
+          </div>
         </div>
       </ul>
     </div>

@@ -86,7 +86,7 @@ export default function RoutineCard({
             .map((exerciseDetail) => (
               <li
                 key={exerciseDetail.Exercise.id}
-                className="truncate text-zinc-300"
+                className="truncate text-zinc-500"
               >
                 {exerciseDetail.sets && exerciseDetail.sets} x{" "}
                 {exerciseDetail.Exercise.name}
