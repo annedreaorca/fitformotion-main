@@ -77,7 +77,7 @@ export default async function ActivityList() {
                   <div className="flex justify-between gap-2 w-full items-center">
                     <div className="tracking-tight grow">
                       <time>
-                        {format(new Date(activity.date), "dd/MM/yyyy")}
+                        {format(new Date(activity.date), "MM/dd/yyyy")}
                       </time>
                       <span className="text-zinc-500"> | </span>
                       <span>
