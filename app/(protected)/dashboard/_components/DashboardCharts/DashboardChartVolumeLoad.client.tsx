@@ -24,7 +24,7 @@ function CustomTooltip({
       <div className="bg-zinc-800 text-white px-4 py-2 rounded-xl shadow-xl text-xs">
         <p className="font-semibold">
           Volume Load: <span className="text-primary">{payload[0].value}</span>{" "}
-          Kg
+          lbs
         </p>
         <p>Period: {label}</p>
       </div>

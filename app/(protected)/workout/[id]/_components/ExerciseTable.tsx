@@ -67,11 +67,11 @@ export default function ExerciseTable({
     >
       <TableHeader>
         <TableColumn>SET</TableColumn>
-        <TableColumn>KG</TableColumn>
+        <TableColumn>WEIGHT</TableColumn>
         {exerciseDetail.trackingType === "duration" ? (
           <TableColumn>DURATION</TableColumn>
         ) : (
-          <TableColumn>REPS</TableColumn>
+          <TableColumn>REPETITIONS</TableColumn>
         )}
         <TableColumn className="flex justify-center items-center">
           <IconSquareCheck />
@@ -85,11 +85,10 @@ export default function ExerciseTable({
               <Input
                 size="sm"
                 type="number"
-                label="Weight"
                 placeholder="0"
                 defaultValue={set.weight !== null ? String(set.weight) : ""}
                 endContent={
-                  <span className="text-zinc-600 dark:text-zinc-400">kg</span>
+                  <span className="text-zinc-600 dark:text-zinc-400">lbs</span>
                 }
                 onInput={(e) => {
                   const value = e.currentTarget.value;
@@ -136,7 +135,13 @@ export default function ExerciseTable({
               <TableCell>
                 <Input
                   size="sm"
-                  label="Reps"
+                  endContent={
+                    <div className="pointer-events-none flex items-center">
+                      <span className="text-default-400 text-small">
+                        reps
+                      </span>
+                    </div>
+                  }
                   type="number"
                   placeholder="0"
                   defaultValue={set.reps !== null ? String(set.reps) : ""}
