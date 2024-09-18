@@ -421,7 +421,6 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
                 handleCompleteSet={handleCompleteSet}
                 handleWeightChange={handleWeightChange}
                 handleRepChange={handleRepChange}
-                handleDurationChange={handleDurationChange}
               />
             </CardBody>
             <CardFooter className="gap-2 px-5 bg-default-100">

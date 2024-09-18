@@ -28,8 +28,6 @@ export default function RoutineBuilder({ routine }: { routine: Routine }) {
 
     if (field === "trackingType") {
       if (value === "reps") {
-        updatedExercises[index]["exerciseDuration"] = null;
-      } else if (value === "duration") {
         updatedExercises[index]["reps"] = null;
       }
     }
@@ -86,16 +84,6 @@ export default function RoutineBuilder({ routine }: { routine: Routine }) {
         toast.error(`${exercise.Exercise.name} should have at least 1 rep.`);
         return false;
       }
-
-      if (
-        exercise.trackingType === "duration" &&
-        (exercise.exerciseDuration ?? 0) <= 0
-      ) {
-        toast.error(
-          `${exercise.Exercise.name} should have a duration greater than zero.`,
-        );
-        return false;
-      }
     }
 
     return true;
@@ -111,7 +99,6 @@ export default function RoutineBuilder({ routine }: { routine: Routine }) {
         Exercise: { id: exerciseId },
         sets,
         reps,
-        exerciseDuration,
         trackingType,
       } = exercise;
 
@@ -119,7 +106,6 @@ export default function RoutineBuilder({ routine }: { routine: Routine }) {
         exerciseId,
         sets,
         reps,
-        exerciseDuration,
         trackingType,
         order: index + 1,
       };
