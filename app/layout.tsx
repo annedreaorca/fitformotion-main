@@ -5,8 +5,6 @@ import { Alexandria } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 import { Providers } from "./providers";
-import Header from "./_components/Header/Header";
-import Footer from "./_components/Footer/Footer";
 
 export function generateViewport() {
   return {
@@ -49,9 +47,7 @@ export default async function RootLayout({
               },
             }}
           />
-          <Header/>
           {children}
-          <Footer/>
         </Providers>
         <SpeedInsights />
         <Analytics />

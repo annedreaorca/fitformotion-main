@@ -1,14 +1,11 @@
-import Image from "next/image";
-import { HeaderLinks } from "./HeaderLinks";
-import Link from 'next/link';
 import { Button } from "@nextui-org/button";
-import {
-    IconPlayerPlayFilled,
-  } from "@tabler/icons-react";
+import Image from "next/image";
+import Link from 'next/link';
+import { HeaderLinks } from "./HeaderLinks";
 
 export default async function Header() {
     return (
-        <header className="mb-[-100px] py-[12px] z-40 page-width">
+        <header className="mb-[-100px] py-[12px] relative z-[999999] page-width">
             <div className="flex gap-[20px]">
                 <div className="flex justify-start w-[20%] items-center">
                     <a href="/">

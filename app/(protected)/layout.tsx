@@ -22,7 +22,7 @@ export default function RootLayout({
         variant="danger"
         visible={false}
       />
-      <div className="flex grow">
+      <div className="flex grow z-50">
         <Sidebar />
         <main className="flex flex-col grow w-full">
           <Navbar />
