@@ -1,18 +1,13 @@
 import { Button } from "@nextui-org/button";
 import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import {
-  IconBarbell,
-  IconChartHistogram,
-  IconClipboardData,
-  IconPlayerPlayFilled,
-  IconUserScan,
-  IconExclamationMark,
+  IconPlayerPlayFilled
 } from "@tabler/icons-react";
 
-import Image from "next/image";
 import Link from "next/link";
 
-import { MockupFitformotion } from "./index";
+import Footer from "./_components/Footer/Footer";
+import Header from "./_components/Header/Header";
 
 export default function Home() {
   const cardData = [
@@ -41,6 +36,7 @@ export default function Home() {
 
   return (
     <main>
+      <Header/>
       <section className="relative py-10 px-3 h-screen max-md:px-[30px] max-md:mt-[-30px] mx-auto flex justify-center hero-section">
         {/* Video Background */}
         <video 
@@ -226,6 +222,7 @@ export default function Home() {
           </div>
         </div>
       </section> */}
+      <Footer/>
     </main>
   );
 }
