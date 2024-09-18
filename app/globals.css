@@ -36,18 +36,9 @@ span.cl-badge.🔒️.cl-internal-qosp7d {
 /* Button Global */
 a.z-0.group.relative.inline-flex.items-center.justify-center.box-border.appearance-none.select-none.whitespace-nowrap.font-normal.subpixel-antialiased.overflow-hidden.tap-highlight-transparent.outline-none {
   border-radius: 100px !important;
-  padding: 10px 30px;
+  padding: 10px 25px;
 }
 
-
-.nav-link {
-  color: #818181;
-  font-size: 16px;
-}
-.nav-link a.link.active {
-  color: #818181;
-  font-size: 16px;
-}
 
 /* ===== End Global Custom Styles ===== */
 
@@ -128,6 +119,9 @@ h4.section-headline {
 .section-headline {
   color: #ffffff;
 }
+.section-headline {
+  line-height: 1.2;
+}
 .section-label {
   background-color: #991b1b46;
   padding: 7px 20px;
@@ -145,7 +139,7 @@ h1.page-headings {
   color: #818181;
   padding-left: 15px;
   line-height: 22px;
-  border-left: 2px solid #9c1a1b;
+  border-left: 2px solid #991b1b;
 }
 
 @media screen and (max-width: 410px) {
@@ -157,28 +151,105 @@ h1.page-headings {
 /* ===== End Pages Heading Styles ===== */
 
 /* ===== Gallery Page ====== */
-.gallery-item a {
-  display: flex;
-  aspect-ratio: 3/4;
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjusts to screen size */
+  gap: 16px; /* Adds space between items */
 }
+
+.gallery-item a {
+  display: block; /* Change flex to block for grid items */
+  aspect-ratio: 3 / 4;
+}
+
 img.gallery-image {
   object-fit: cover;
+  width: 100%; /* Ensures images fill the container */
+  height: 100%; /* Ensures images fill the container */
 }
-@media screen and (max-width: 768px) {
+
+/* @media screen and (max-width: 768px) {
 }
 @media screen and (max-width: 410px) {
   .gallery-item a,
   img.gallery-image {
     width: 100%;
   }
-}
+} */
 /* ===== Gallery Page ====== */
 
 /* ===== Start Form Uploading ===== */
 .upload-form-button {
   padding: 8px 15px;
-  background-color: #9c1a1b;
+  background-color: #991b1b;
   color: #ffffff;
   border-radius: 7px;
 }
 /* ===== End Form Uploading ===== */
+
+/* ===== Start Header and Footer ===== */
+
+.nav-link {
+  color: #818181;
+  font-size: 16px;
+  transition: all 0.3s;
+}
+.nav-link a:hover {
+  color: #cccccc;
+  text-shadow: 0 0 5px #ffffff26, 0 0 10px rgba(255, 255, 255, 0.5);
+  font-weight: 400;
+}
+.nav-link {
+	position: relative;
+	display: flex;
+}
+
+.nav-link a:before, .nav-link a:after {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 52px;
+	height: 52px;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 50%;
+	content: '';
+	opacity: 0;
+	-webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
+	-moz-transition: -moz-transform 0.3s, opacity 0.3s;
+	transition: transform 0.3s, opacity 0.3s;
+	-webkit-transform: translateX(-50%) translateY(-50%) scale(0.2);
+	-moz-transform: translateX(-50%) translateY(-50%) scale(0.2);
+	transform: translateX(-50%) translateY(-50%) scale(0.2);
+}
+
+.nav-link a:after {
+	width: 40px;
+	height: 40px;
+	border-width: 5px;
+	-webkit-transform: translateX(-50%) translateY(-50%) scale(0.8);
+	-moz-transform: translateX(-50%) translateY(-50%) scale(0.8);
+	transform: translateX(-50%) translateY(-50%) scale(0.8);
+}
+
+.nav-link a:hover:before, .nav-link a:hover:after, .nav-link a:focus:before, .nav-link a:focus:after {
+	opacity: 1;
+	-webkit-transform: translateX(-50%) translateY(-50%) scale(1);
+	-moz-transform: translateX(-50%) translateY(-50%) scale(1);
+	transform: translateX(-50%) translateY(-50%) scale(1);
+}
+
+.footer-label {
+  text-transform: uppercase;
+  color: #ffffff;
+  font-size: 15px;
+}
+.footer-link a {
+  font-size: 14px;
+  font-weight: 400;
+  transition: all 0.3s;
+}
+.footer-link a:hover {
+  color: #ffffffa4;
+  font-weight: 400;
+}
+/* ===== End Header and Footer ===== */
