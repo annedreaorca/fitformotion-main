@@ -79,7 +79,7 @@ export default function ActivityModal() {
                               "N/A"
                             )}
                           </TableCell>
-                          <TableCell>{set.weight} kg</TableCell>
+                          <TableCell>{set.weight} lbs</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>

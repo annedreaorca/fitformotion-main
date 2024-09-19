@@ -8,7 +8,6 @@ type Exercise = {
 export type WorkoutPlanExercise = {
   sets: number;
   reps: number | null;
-  exerciseDuration: number | null;
   order: number | null;
   trackingType: string;
   Exercise: Exercise;

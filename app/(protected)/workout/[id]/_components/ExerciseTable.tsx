@@ -13,7 +13,6 @@ import { Checkbox } from "@nextui-org/checkbox";
 
 interface Set {
   weight: number | "" | null;
-  duration?: number | "" | null;
   reps?: number | "" | null;
   completed: boolean;
 }
@@ -21,7 +20,6 @@ interface Set {
 interface ExerciseDetail {
   exerciseName: string;
   sets: Set[];
-  trackingType: string;
 }
 
 interface ExerciseTableProps {
@@ -43,11 +41,6 @@ interface ExerciseTableProps {
     setIndex: number,
     newValue: number | null,
   ) => void;
-  handleDurationChange: (
-    exerciseIndex: number,
-    setIndex: number,
-    newValue: number | null,
-  ) => void;
 }
 
 export default function ExerciseTable({
@@ -56,7 +49,6 @@ export default function ExerciseTable({
   handleCompleteSet,
   handleWeightChange,
   handleRepChange,
-  handleDurationChange,
 }: ExerciseTableProps) {
   return (
     <Table
@@ -67,12 +59,8 @@ export default function ExerciseTable({
     >
       <TableHeader>
         <TableColumn>SET</TableColumn>
-        <TableColumn>KG</TableColumn>
-        {exerciseDetail.trackingType === "duration" ? (
-          <TableColumn>DURATION</TableColumn>
-        ) : (
-          <TableColumn>REPS</TableColumn>
-        )}
+        <TableColumn>WEIGHT</TableColumn>
+        <TableColumn>REPETITIONS</TableColumn>
         <TableColumn className="flex justify-center items-center">
           <IconSquareCheck />
         </TableColumn>
@@ -85,11 +73,10 @@ export default function ExerciseTable({
               <Input
                 size="sm"
                 type="number"
-                label="Weight"
                 placeholder="0"
                 defaultValue={set.weight !== null ? String(set.weight) : ""}
                 endContent={
-                  <span className="text-zinc-600 dark:text-zinc-400">kg</span>
+                  <span className="text-zinc-600 dark:text-zinc-400">lbs</span>
                 }
                 onInput={(e) => {
                   const value = e.currentTarget.value;
@@ -103,40 +90,17 @@ export default function ExerciseTable({
                 isDisabled={set.completed}
               />
             </TableCell>
-            {exerciseDetail.trackingType === "duration" ? (
               <TableCell>
                 <Input
                   size="sm"
-                  type="number"
-                  label="Duration"
-                  defaultValue={
-                    set.duration !== null ? String(set.duration) : ""
-                  }
-                  placeholder="0"
+                  
                   endContent={
-                    <span className="text-zinc-600 dark:text-zinc-400">s</span>
+                    <div className="pointer-events-none flex items-center">
+                      <span className="text-default-400 text-small">
+                        reps
+                      </span>
+                    </div>
                   }
-                  onInput={(e) => {
-                    const value = e.currentTarget.value;
-                    if (!/^\d*$/.test(value)) {
-                      e.currentTarget.value = value.slice(0, -1);
-                    }
-                  }}
-                  onChange={(e) =>
-                    handleDurationChange(
-                      index,
-                      setIndex,
-                      Number(e.currentTarget.value),
-                    )
-                  }
-                  isDisabled={set.completed}
-                />
-              </TableCell>
-            ) : (
-              <TableCell>
-                <Input
-                  size="sm"
-                  label="Reps"
                   type="number"
                   placeholder="0"
                   defaultValue={set.reps !== null ? String(set.reps) : ""}
@@ -156,8 +120,6 @@ export default function ExerciseTable({
                   isDisabled={set.completed}
                 />
               </TableCell>
-            )}
-
             <TableCell className="text-center">
               <Checkbox
                 size="lg"

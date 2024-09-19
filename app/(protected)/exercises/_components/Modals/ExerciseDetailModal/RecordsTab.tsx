@@ -86,17 +86,17 @@ export default function RecordsTab({
       <ul className="space-y-3">
         <li className="flex justify-between">
           <span>1RM</span>
-          <span>{max1RM.toFixed(2)}KG</span>
+          <span>{max1RM.toFixed(2)} LBS</span>
         </li>
         <li className="flex justify-between">
           <span>Weight</span>
           <span>
-            {maxVolume.weight}KG (x{maxVolume.reps})
+            {maxVolume.weight} LBS (x{maxVolume.reps})
           </span>
         </li>
         <li className="flex justify-between">
           <span>Max Volume</span>
-          <span>{maxVolume.volume}KG</span>
+          <span>{maxVolume.volume} LBS</span>
         </li>
       </ul>
 
@@ -118,7 +118,7 @@ export default function RecordsTab({
               <td>
                 {bestByReps[reps - 1]?.weight > 0 ? (
                   <>
-                    <div>{`${bestByReps[reps - 1].weight} kg`}</div>
+                    <div>{`${bestByReps[reps - 1].weight} lbs`}</div>
                     <div className="text-xs">
                       {new Date(bestByReps[reps - 1].date).toLocaleDateString()}
                     </div>
@@ -127,7 +127,7 @@ export default function RecordsTab({
                   <div>-</div>
                 )}
               </td>
-              <td>{predictWeightForReps(max1RM, reps).toFixed(2)} KG</td>
+              <td>{predictWeightForReps(max1RM, reps).toFixed(2)} LBS</td>
             </tr>
           ))}
         </tbody>

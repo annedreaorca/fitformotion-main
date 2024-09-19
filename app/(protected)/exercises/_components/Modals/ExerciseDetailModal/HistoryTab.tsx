@@ -55,10 +55,10 @@ export default function HistoryTab({
                       key={set.id}
                       className="text-zinc-500 flex justify-between"
                     >
-                      <span>{`${index + 1}: ${set.weight || "-"}kg x ${set.reps || "-"}`}</span>
+                      <span>{`${index + 1}: ${set.weight || "-"}lbs x ${set.reps || "-"}`}</span>
                       <span>
                         {set.weight && set.reps
-                          ? `1RM: ${calculateOneRM(set.weight, set.reps)}kg`
+                          ? `1RM: ${calculateOneRM(set.weight, set.reps)}lbs`
                           : "N/A"}
                       </span>
                     </li>

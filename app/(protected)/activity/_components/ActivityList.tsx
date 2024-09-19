@@ -84,7 +84,7 @@ export default async function ActivityList() {
                         <FormatDuration seconds={activity.duration} />
                       </span>
                       <span className="text-zinc-500"> | </span>
-                      <span>{totalWeight} Kg</span>
+                      <span>{totalWeight} lbs</span>
                     </div>
                     <ActivityMenu activity={activity} />
                   </div>

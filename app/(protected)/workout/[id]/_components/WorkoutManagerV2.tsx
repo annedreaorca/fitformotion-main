@@ -227,7 +227,7 @@ export default function WorkoutManagerV2({ workout }: { workout: Workout }) {
                 <Table removeWrapper aria-label="Table">
                   <TableHeader>
                     <TableColumn>SET</TableColumn>
-                    <TableColumn>KG</TableColumn>
+                    <TableColumn>WEIGHT</TableColumn>
                     <TableColumn>
                       {exercise.trackingType === "reps" ? "REPS" : "DURATION"}
                     </TableColumn>
@@ -249,7 +249,7 @@ export default function WorkoutManagerV2({ workout }: { workout: Workout }) {
                             endContent={
                               <div className="pointer-events-none flex items-center">
                                 <span className="text-default-400 text-small">
-                                  kg
+                                  lbs
                                 </span>
                               </div>
                             }

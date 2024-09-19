@@ -34,7 +34,7 @@ export default function RoutineExerciseCard({
 }: RoutineExerciseCardProps) {
   const router = useRouter();
 
-  const updateTrackingType = (index: number, type: "reps" | "duration") => {
+  const updateTrackingType = (index: number, type: "reps") => {
     updateExercise(index, "trackingType", type);
   };
 
@@ -45,21 +45,6 @@ export default function RoutineExerciseCard({
           <ExerciseOrderIndicator position={index} />
           <p className="text-lg">{exercise.Exercise.name}</p>
         </div>
-
-        <RadioGroup
-          key={`radio-${exercise.Exercise.id}`}
-          orientation="horizontal"
-          color="primary"
-          className="mb-3"
-          size="sm"
-          value={exercise.trackingType}
-          onValueChange={(value) => {
-            updateTrackingType(index, value as "reps" | "duration");
-          }}
-        >
-          <Radio value="reps">Reps</Radio>
-          <Radio value="duration">Duration (seconds)</Radio>
-        </RadioGroup>
 
         <div className="grid grid-cols-2 gap-x-5 mb-3">
           <Input
@@ -78,43 +63,21 @@ export default function RoutineExerciseCard({
             }}
           />
 
-          {exercise.trackingType === "reps" ? (
-            <Input
-              size="sm"
-              label="Reps"
-              type="number"
-              value={exercise.reps !== null ? exercise.reps.toString() : ""}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                const value = e.target.value;
-                const intValue = parseInt(value, 10);
-                if (!isNaN(intValue)) {
-                  updateExercise(index, "reps", intValue);
-                } else if (value === "") {
-                  updateExercise(index, "reps", null);
-                }
-              }}
-            />
-          ) : (
-            <Input
-              size="sm"
-              label="Duration"
-              type="number"
-              value={
-                exercise.exerciseDuration !== null
-                  ? exercise.exerciseDuration.toString()
-                  : ""
+          <Input
+            size="sm"
+            label="Reps"
+            type="number"
+            value={exercise.reps !== null ? exercise.reps.toString() : ""}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              const value = e.target.value;
+              const intValue = parseInt(value, 10);
+              if (!isNaN(intValue)) {
+                updateExercise(index, "reps", intValue);
+              } else if (value === "") {
+                updateExercise(index, "reps", null);
               }
-              onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                const value = e.target.value;
-                const intValue = parseInt(value, 10);
-                if (!isNaN(intValue)) {
-                  updateExercise(index, "exerciseDuration", intValue);
-                } else if (value === "") {
-                  updateExercise(index, "exerciseDuration", null);
-                }
-              }}
-            />
-          )}
+            }}
+          />
         </div>
 
         <div className="flex justify-between">
