@@ -1,15 +1,15 @@
-import Image from "next/image";
-import { HeaderLinks } from "./HeaderLinks";
-import Link from 'next/link';
+"use client";  // Ensure this component is treated as a Client Component
+
 import { Button } from "@nextui-org/button";
-import {
-    IconPlayerPlayFilled,
-  } from "@tabler/icons-react";
+import Image from "next/image";
+import Link from 'next/link';
+import { HeaderLinks } from "./HeaderLinks";
+import { HeaderMobile } from "./HeaderMobile";
 
 export default async function Header() {
     return (
-        <header className="mb-[-100px] py-[12px] z-40 page-width">
-            <div className="flex gap-[20px]">
+        <header className="mb-[-100px] py-[12px] relative z-[999999] page-width">
+            <div className="flex gap-[20px] max-[768px]:hidden desktop-menu">
                 <div className="flex justify-start w-[20%] items-center">
                     <a href="/">
                         <Image
@@ -36,6 +36,7 @@ export default async function Header() {
                     </Button>
                 </div>
             </div>
+            <HeaderMobile />
         </header>
     );
 }

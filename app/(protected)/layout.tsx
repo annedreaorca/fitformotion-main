@@ -1,10 +1,10 @@
-import { ClerkProvider } from "@clerk/nextjs";
-import Sidebar from "@/components/Sidebar/Sidebar";
 import Navbar from "@/components/Navbar/Navbar";
 import ActiveWorkoutWarning from "@/components/Notices/ActiveWorkoutWarning";
+import Sidebar from "@/components/Sidebar/Sidebar";
+import { ClerkProvider } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 import LayoutWrapper from "./LayoutWrapper.client";
 import SiteNotice from "./SiteNotice";
-import { dark } from "@clerk/themes";
 
 export default function RootLayout({
   children,
@@ -22,7 +22,7 @@ export default function RootLayout({
         variant="danger"
         visible={false}
       />
-      <div className="flex grow">
+      <div className="flex grow z-50">
         <Sidebar />
         <main className="flex flex-col grow w-full">
           <Navbar />

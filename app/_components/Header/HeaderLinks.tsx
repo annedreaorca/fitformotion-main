@@ -1,55 +1,69 @@
-'use client'
+"use client";
 
-import { usePathname } from 'next/navigation';
-import Link from 'next/link';
+import clsx from "clsx";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export function HeaderLinks() {
-  const pathname = usePathname()
+  const pathname = usePathname();
+
+  const navItems = [
+    {
+        label: "Home",
+        href: "/",
+        active: pathname === "/" },
+    {
+        label: "Features",
+        href: "/features",
+        active: pathname === "/features" },
+    {
+        label: "About",
+        href: "/about-us",
+        active: pathname === "/about-us" },
+    {
+        label: "Contact",
+        href: "/contact-us",
+        active: pathname === "/contact-us" },
+    {
+        label: "FAQ",
+        href: "/faq",
+        active: pathname === "/faq" },
+  ];
 
   return (
-    <nav className='flex gap-[20px] items-center'>
-        <ul className='flex gap-[20px] nav-links'>
-            <li className='nav-link'>
-                <Link
-                    className={`link ${pathname === '/' ? 'active' : ''}`} 
-                    href="/"
-                >
-                    Home
-                </Link>
-            </li>
-            <li className='nav-link'>
-                <Link
-                    className={`link ${pathname === '/' ? 'active' : ''}`} 
-                    href="../../Features"
-                >
-                    Features
-                </Link>
-            </li>
-            <li className='nav-link'>
-                <Link
-                    className={`link ${pathname === '/about-us' ? 'active' : ''}`} 
-                    href="../../AboutUs"
-                >
-                    About
-                </Link>
-            </li>
-            <li className='nav-link'>
-                <Link
-                    className={`link ${pathname === '/contact-us' ? 'active' : ''}`} 
-                    href="../../ContactUs"
-                >
-                    Contact
-                </Link>
-            </li>
-            <li className='nav-link'>
-                <Link
-                    className={`link ${pathname === '/website/faq' ? 'active' : ''}`} 
-                    href="../../Faq"
-                >
-                    FAQ
-                </Link>
-            </li>
-        </ul>
+    <nav className="flex gap-5 items-center">
+      <ul className="flex gap-5 nav-links z-[100px] max-[768px]:flex-col">
+        {navItems.map((item) => (
+          <NavItem
+            key={item.href}
+            label={item.label}
+            href={item.href}
+            active={item.active}
+          />
+        ))}
+      </ul>
     </nav>
-  )
+  );
+}
+
+interface NavItemProps {
+  label: string;
+  href: string;
+  active: boolean;
+}
+
+function NavItem({ label, href, active }: NavItemProps) {
+  return (
+    <li className="nav-link max-[580px]:text-[20px]">
+      <Link
+        href={href}
+        className={clsx(
+          "link transition-colors duration-200 ease-in-out",
+          active ? "text-white " : "text-zinc-600 "
+        )}
+      >
+        {label}
+      </Link>
+    </li>
+  );
 }

@@ -59,7 +59,7 @@ export default function Gallery() {
   return (
     <div className="page-container">
       <PageHeading title="Gallery" />
-      <ul className="flex flex-row flex-wrap gap-[10px] mt-[30px]">
+      <ul className="flex flex-row flex-wrap gap-[10px] mt-[30px] gallery">
         {images.map((image: any) => (
           <li key={image.id} className="gallery-item">
             <a href={image.imageUrl} target="_blank" rel="noopener noreferrer">
