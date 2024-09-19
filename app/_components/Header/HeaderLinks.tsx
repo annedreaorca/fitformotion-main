@@ -14,8 +14,8 @@ export function HeaderLinks() {
         active: pathname === "/" },
     {
         label: "Features",
-        href: "/features",
-        active: pathname === "/features" },
+        href: "/feature",
+        active: pathname === "/feature" },
     {
         label: "About",
         href: "/about-us",
@@ -26,8 +26,8 @@ export function HeaderLinks() {
         active: pathname === "/contact-us" },
     {
         label: "FAQ",
-        href: "/faq",
-        active: pathname === "/faq" },
+        href: "/faqs",
+        active: pathname === "/faqs" },
   ];
 
   return (
