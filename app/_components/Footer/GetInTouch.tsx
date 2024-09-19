@@ -17,7 +17,7 @@ export function GetInTouch() {
         ];
     
     return (
-        <div className="flex flex-col max-[580px]:gap-[20px] gap-[15px]">
+        <div className="flex flex-col max-[580px]:gap-[20px] gap-[20px]">
             <span className="footer-label text-center">Get In Touch</span>
             <ul className="flex max-[580px]:flex-col max-[580px]:gap-[20px] gap-[30px] footer-links">
             {footerLinks.map((item) => (
@@ -46,7 +46,7 @@ function NavItem({ label, href, icon}: FooterProps) {
             href={href}
             className={clsx(
                 "link transition-colors duration-200 ease-in-out",
-                "text-zinc-600 dark:text-zinc-400 flex justify-center text-center gap-[5px]"
+                "text-zinc-600  flex justify-center text-center gap-[5px]"
             )}
             >
                 {icon}

@@ -345,16 +345,16 @@ img.gallery-image {
 .footer-label {
   text-transform: uppercase;
   color: #ffffff;
-  font-size: 16px;
+  font-size: 17px;
 }
 .footer-link a {
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 300 !important;
   transition: all 0.3s;
+  color: #747474;
 }
 .footer-link a:hover {
   color: #ffffffa4;
-  font-weight: 400;
 }
 /* ===== End Header and Footer ===== */
 
