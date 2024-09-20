@@ -21,13 +21,20 @@ export function ThemeSwitcher() {
   if (!mounted) return null;
 
   const setThemes = [
-    { name: "light", icon: <IconSunHigh size={20} />, label: "Light theme" },
-    { name: "dark", icon: <IconMoonStars size={20} />, label: "Dark theme" },
+    { name: "light",
+      icon: <IconSunHigh size={20} />,
+      label: "Light theme",
+      title: "Light Mode", },
+    { 
+      name: "dark",
+      icon: <IconMoonStars size={20} />,
+      label: "Dark theme",
+      title: "Dark Mode", },
     {
       name: "system",
       icon: <IconDeviceDesktop size={20} />,
       label: "System theme",
-    },
+      title: "System Default", },
   ];
 
   const styles = {
@@ -40,22 +47,23 @@ export function ThemeSwitcher() {
     <>
       {!sidebarCollapse && (
         <div className="flex gap-1">
-          {setThemes.map(({ name, icon, label }) => (
+          {setThemes.map(({ name, icon, label, title }) => (
             <button
               key={name}
               aria-label={label}
               onClick={() => setTheme(name)}
               className={clsx(
-                "dark:hover:bg-zinc-800 hover:bg-zinc-200 p-2 rounded-full",
+                "dark:hover:bg-zinc-800 hover:bg-zinc-200 p-2 rounded-full relative group",
                 {
-                  "text-black dark:text-primary text-white bg-primary":
-                    theme === name,
+                  "text-black dark:text-primary text-white bg-primary": theme === name,
                   button_bg_primary_800: theme === name,
-                },
+                }
               )}
               style={theme === name ? styles.button_bg_primary_800 : {}}
             >
               {icon}
+              {/* Custom tooltip */}
+              <span className="tooltip-text">{title}</span>
             </button>
           ))}
         </div>

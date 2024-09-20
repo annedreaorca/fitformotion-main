@@ -59,7 +59,6 @@ model WorkoutPlan {
   systemRoutineCategory String?
   logs            WorkoutLog[]
   WorkoutPlanExercise WorkoutPlanExercise[]
-  images          WorkoutImage[]      @relation("WorkoutPlanImages")
 }
 
 model WorkoutPlanExercise {
@@ -76,27 +75,26 @@ model WorkoutPlanExercise {
 }
 
 model WorkoutImage {
-  id           String     @id @default(uuid())
+  id           String       @id @default(uuid())
   imageUrl     String
-  uploadedAt   DateTime   @default(now())
+  uploadedAt   DateTime     @default(now())
   userId       String?
-  workoutPlanId String?
-  WorkoutPlan  WorkoutPlan? @relation("WorkoutPlanImages", fields: [workoutPlanId], references: [id])
 }
 
 model WorkoutLog {
   id              String              @id @default(uuid())
-  userId     String
+  userId          String
   workoutPlanId   String
   date            DateTime
   duration        Int
   inProgress      Boolean             @default(true)
   createdAt       DateTime            @default(now())
-  date_updated    DateTime?           @default(now())
-  WorkoutPlan     WorkoutPlan        @relation(fields: [workoutPlanId], references: [id], onDelete: Cascade)
+  date_updated     DateTime?          @default(now())
+  WorkoutPlan     WorkoutPlan         @relation(fields: [workoutPlanId], references: [id], onDelete: Cascade)
   exercises       WorkoutLogExercise[]
   UserExercisePB  UserExercisePB[]    @relation("WorkoutLogToUserExercisePB")
 }
+
 
 model WorkoutLogExercise {
   id            String @id @default(uuid())

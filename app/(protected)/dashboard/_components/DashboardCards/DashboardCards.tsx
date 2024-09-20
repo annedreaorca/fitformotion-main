@@ -1,21 +1,20 @@
-import { Suspense } from "react";
-import DashboardCardTemplate from "./DashboardCardTemplate";
-import DashboardCardAverageWorkoutDuration from "./DashboardCardAverageWorkoutDuration";
-import DashboardCardDailyStreak from "./DashboardCardDailyStreak";
-import DashboardCardWeeklyPbs from "./DashboardCardWeeklyPbs";
-import DashboardCardWeeklyWorkouts from "./DashboardCardWeeklyWorkouts";
 import { Spinner } from "@nextui-org/spinner";
 import {
   IconCalendarWeek,
   IconFlame,
   IconHourglass,
-  IconTarget,
-  IconTrophy,
+  IconTrophy
 } from "@tabler/icons-react";
+import { Suspense } from "react";
+import DashboardCardAverageWorkoutDuration from "./DashboardCardAverageWorkoutDuration";
+import DashboardCardDailyStreak from "./DashboardCardDailyStreak";
+import DashboardCardTemplate from "./DashboardCardTemplate";
+import DashboardCardWeeklyPbs from "./DashboardCardWeeklyPbs";
+import DashboardCardWeeklyWorkouts from "./DashboardCardWeeklyWorkouts";
 
 export default function DashboardCards() {
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-3 mb-3">
+    <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 max-[510px]:grid-cols-1 gap-3 mb-3">
       <Suspense
         fallback={
           <DashboardCardTemplate

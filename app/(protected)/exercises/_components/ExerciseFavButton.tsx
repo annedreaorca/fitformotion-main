@@ -1,7 +1,7 @@
 'use client';
 import { handleToggleFavouriteExercise } from "@/server-actions/ExerciseServerActions";
-import { IconStar, IconStarFilled } from "@tabler/icons-react";
 import { Button } from "@nextui-org/button";
+import { IconStar, IconStarFilled } from "@tabler/icons-react";
 import { useState } from "react";
 import { toast } from "sonner";
 type FavouriteButtonProps = {
