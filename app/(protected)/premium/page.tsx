@@ -36,12 +36,10 @@ export default function Premium() {
     <>
       <PageHeading title="Premium Plan" />
       <p className="dark:text-zinc-400 text-zinc-600 mb-5">
-        We&apos;re here to help! You can find answers to common questions about
-        FitForge below. If you can&apos;t find what you&apos;re looking for,
-        you can contact our support team.
+        Upgrade your plan to access more exercises and routines.
       </p>
 
-      {supportData.map((section, index) => (
+      {/* {supportData.map((section, index) => (
         <div key={index}>
           <SectionTitle title={section.title} />
           <SectionSubtitle title={section.subtitle} />
@@ -53,7 +51,7 @@ export default function Premium() {
             ))}
           </CustomGrid>
         </div>
-      ))}
+      ))} */}
     </>
   );
 }
