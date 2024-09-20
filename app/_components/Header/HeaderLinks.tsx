@@ -32,7 +32,7 @@ export function HeaderLinks() {
 
   return (
     <nav className="flex gap-5 items-center">
-      <ul className="flex gap-5 nav-links z-[100px]">
+      <ul className="flex gap-5 nav-links z-[100px] max-[768px]:flex-col">
         {navItems.map((item) => (
           <NavItem
             key={item.href}
@@ -54,12 +54,12 @@ interface NavItemProps {
 
 function NavItem({ label, href, active }: NavItemProps) {
   return (
-    <li className="nav-link">
+    <li className="nav-link max-[580px]:text-[20px]">
       <Link
         href={href}
         className={clsx(
           "link transition-colors duration-200 ease-in-out",
-          active ? "text-white " : "text-zinc-600 dark:text-zinc-400"
+          active ? "text-white " : "text-zinc-600 "
         )}
       >
         {label}

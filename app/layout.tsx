@@ -18,9 +18,9 @@ export function generateViewport() {
 const alexandria = Alexandria({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Fitformotion: Log, Analyze, and Optimize Your Workouts",
+  title: "Fitformotion: Every Rep Smarter, Every Goal Closer",
   description:
-    "Take Control of Your Fitness Goals with Fitformotion. The intuitive workout tracking web app designed to optimize your gym sessions and improve your results.",
+    "Fitformotion provides gym beginners with personalized workout plans, real-time tracking, and smart progress insights ensuring every rep leads to faster, smarter gains.",
 };
 
 export default async function RootLayout({

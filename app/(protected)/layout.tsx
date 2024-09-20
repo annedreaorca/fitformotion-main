@@ -1,10 +1,10 @@
-import { ClerkProvider } from "@clerk/nextjs";
-import Sidebar from "@/components/Sidebar/Sidebar";
 import Navbar from "@/components/Navbar/Navbar";
 import ActiveWorkoutWarning from "@/components/Notices/ActiveWorkoutWarning";
+import Sidebar from "@/components/Sidebar/Sidebar";
+import { ClerkProvider } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 import LayoutWrapper from "./LayoutWrapper.client";
 import SiteNotice from "./SiteNotice";
-import { dark } from "@clerk/themes";
 
 export default function RootLayout({
   children,
