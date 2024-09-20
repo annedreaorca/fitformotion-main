@@ -1,15 +1,13 @@
-"use client";
-import { useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import ExerciseSearch from "./ExerciseSearch";
-import ExerciseFilterCategory from "./ExerciseFilterCategory";
-import ExerciseFilterLevel from "./ExerciseFilterDifficulty";
-import ExerciseFilterForce from "./ExerciseFilterForce";
-import ExerciseFilterMuscle from "./ExerciseFilterMuscle";
-import ExerciseUserFilters from "./ExerciseUserFilters";
+"use client"; // Add this line to mark the component as a Client Component
 import { Button } from "@nextui-org/button";
 import { IconFilter, IconFilterOff } from "@tabler/icons-react";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
+import ExerciseFilterLevel from "./ExerciseFilterDifficulty";
+import ExerciseFilterMuscle from "./ExerciseFilterMuscle";
 import ExerciseFilterPerPage from "./ExerciseFilterPerPage";
+import ExerciseSearch from "./ExerciseSearch";
+import ExerciseUserFilters from "./ExerciseUserFilters";
 
 export default function ExerciseFilters({
   searchParams,
@@ -50,31 +48,34 @@ export default function ExerciseFilters({
   };
 
   return (
-    <>
+    <div className="mb-3">
       <div className="flex gap-3 mb-3">
         <ExerciseSearch />
         <ExerciseFilterPerPage />
-        <Button
-          isIconOnly
-          size="lg"
-          variant="flat"
-          onClick={toggleFilters}
-          aria-label="Toggle Filters"
-        >
-          {showFilters ? <IconFilterOff /> : <IconFilter />}
-        </Button>
+        <div className="relative group"> {/* Add relative positioning for the tooltip */}
+          <Button
+            isIconOnly
+            size="lg"
+            variant="flat"
+            onClick={toggleFilters}
+            aria-label="Toggle Filters"
+          >
+            {showFilters ? <IconFilterOff /> : <IconFilter />}
+          </Button>
+          <div className="tooltip-text">Toggle Filters</div> {/* Tooltip text */}
+        </div>
       </div>
       {showFilters && (
         <div className="grid grid-cols-2 mb-3 gap-[10px]">
           {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
             <ExerciseFilterCategory />
-            <ExerciseFilterLevel />
             <ExerciseFilterForce />
           </div> */}
           <ExerciseFilterMuscle />
-          <ExerciseUserFilters />
+          <ExerciseFilterLevel />
         </div>
       )}
-    </>
+      <ExerciseUserFilters />
+    </div>
   );
 }

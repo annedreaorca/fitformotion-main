@@ -45,6 +45,65 @@ a.z-0.group.relative.inline-flex.items-center.justify-center.box-border.appearan
   border-radius: 100px !important;
   padding: 10px 25px;
 }
+button {
+  position: relative;
+}
+button[title]:hover::after {
+  position: absolute;
+  top: -100%;
+  left: 0;
+}
+/* Add your tooltip CSS here */
+.tooltip-text {
+  visibility: hidden;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  text-align: center;
+  border-radius: 4px;
+  padding: 5px 10px;
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  font-size: 12px;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+/* Tooltip arrow */
+.tooltip-text::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.7) transparent transparent transparent;
+}
+
+/* Show tooltip on hover */
+.group:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+/* Make sure the table cell allows overflow */
+.table-cell {
+  position: relative;
+  overflow: visible; /* Allows tooltip to be visible outside the cell */
+}
+/* Show tooltip on hover */
+button:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+.group:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
 
 /* ===== End Global Custom Styles ===== */
 
@@ -88,8 +147,11 @@ svg.tabler-icon.tabler-icon-star-filled.text-primary,
   .page-width {
     width: min(100% - 60px, 100%);
   }
+  .page-container {
+    padding: 10px;
+  }
 }
-@media screen and (max-width: 410px) {
+@media screen and (max-width: 580px) {
   .page-width {
     width: min(100% - 50px, 100%);
   }
@@ -151,13 +213,17 @@ h4.section-headline {
   }
 }
 @media screen and (max-width: 580px) {
-  
+  .card-description {
+    font-size: 18px;
+    line-height: 24px;
+    margin-top: 2px;
+  }
 }
 /* ===== End Pages Styles ===== */
 
 /* ===== Start Pages Heading Styles ===== */
 h1.page-headings {
-  font-size: 30px;
+  font-size: 26px;
   font-weight: 600;
   color: #818181;
   padding-left: 15px;
@@ -168,7 +234,7 @@ h1.page-headings {
 @media screen and (max-width: 410px) {
   h1.page-headings {
     line-height: 22px;
-    font-size: 20px;
+    font-size: 22px;
   }
 }
 /* ===== End Pages Heading Styles ===== */
@@ -176,7 +242,7 @@ h1.page-headings {
 /* ===== Gallery Page ====== */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 16px;
 }
 

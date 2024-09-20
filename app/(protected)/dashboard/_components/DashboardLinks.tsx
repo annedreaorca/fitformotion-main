@@ -53,21 +53,21 @@ export default function DashboardLinks() {
             <CardHeader className="absolute z-10 top-1 flex-col !items-start">
               <p
                 className={clsx(
-                  "text-xs uppercase font-bold",
+                  "text-xs uppercase font-normal",
                   link.titleColour,
                 )}
               >
                 {link.title}
               </p>
               <p
-                className={clsx("font-medium text-xl text-white", link.descriptionColour)}
+                className={clsx("font-medium text-xl text-white text-left card-description", link.descriptionColour)}
               >
                 {link.description}
               </p>
             </CardHeader>
             <Image
               alt="Card background"
-              className="z-0 w-full h-full object-cover dark:brightness-20 grayscale"
+              className="z-0 w-full h-full object-cover dark:brightness-20 grayscale dark:opacity-65"
               src={`/card-images/${link.image}`}
               width={640}
               height={640}
