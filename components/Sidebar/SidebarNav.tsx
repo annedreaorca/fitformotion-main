@@ -23,7 +23,8 @@ import {
   IconLayoutSidebarLeftExpand,
   IconPhoto,
   IconSettings,
-  IconUser
+  IconUser,
+  IconCrown,
 } from "@tabler/icons-react";
 
 export default function SidebarNav() {
@@ -87,6 +88,13 @@ export default function SidebarNav() {
           label="Settings"
           href="/profile/advanced"
           active={pathname.startsWith("/profile/advanced")}
+        />
+
+        <NavItem
+          icon={<IconCrown size={22} className="shrink-0" />}
+          label="Premium Plan"
+          href="/premium"
+          active={pathname.startsWith("/premium")}
         />
         
         <SidebarToggle />
