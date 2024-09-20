@@ -51,8 +51,14 @@ export default function ProfileMeasurements({
   };
 
   const heightInMeters = Number(height) / 100;
-  const bmi = Number(weight) / heightInMeters ** 2;
+  const bmi = Number(weight) / (heightInMeters ** 2 || 1); // Avoid division by zero
   const bmiClassification = getBMIClassification(bmi);
+
+  // Placeholder for BMI when inputs are missing or invalid
+  const bmiDisplay =
+    !weight || !height
+      ? "Input your height & weight to calculate your BMI"
+      : `${bmi.toFixed(2)} (${bmiClassification})`;
 
   return (
     <Card shadow="none" className="shadow-md">
@@ -83,7 +89,8 @@ export default function ProfileMeasurements({
           type="text"
           label="BMI"
           size="sm"
-          value={`${bmi.toFixed(2)} (${bmiClassification})`}
+          placeholder="BMI will be calculated here"
+          value={bmiDisplay}
           isDisabled
         />
 
