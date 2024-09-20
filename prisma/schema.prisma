@@ -51,7 +51,7 @@ model FavouriteExercise {
 model WorkoutPlan {
   id              String              @id @default(uuid())
   name            String
-  userId     String?
+  userId          String?
   createdAt       DateTime            @default(now())
   updatedAt       DateTime            @updatedAt
   notes           String?
@@ -59,6 +59,7 @@ model WorkoutPlan {
   systemRoutineCategory String?
   logs            WorkoutLog[]
   WorkoutPlanExercise WorkoutPlanExercise[]
+  images          WorkoutImage[]      @relation("WorkoutPlanImages")
 }
 
 model WorkoutPlanExercise {
@@ -79,6 +80,8 @@ model WorkoutImage {
   imageUrl     String
   uploadedAt   DateTime   @default(now())
   userId       String?
+  workoutPlanId String?
+  WorkoutPlan  WorkoutPlan? @relation("WorkoutPlanImages", fields: [workoutPlanId], references: [id])
 }
 
 model WorkoutLog {
