@@ -424,7 +424,10 @@ img.gallery-image {
 }
 /* ===== End Header and Footer ===== */
 
-/* Start Falling Lines Background */
+
+/* ===== Start Animation ===== */
+
+/* Line Moving Background */
 @keyframes fall {
   0% {
     transform: translateY(-100%);
@@ -493,4 +496,32 @@ img.gallery-image {
   left: 90%;
   animation-delay: 4s;
 }
-/* End Falling Lines Background */
+
+/* Popup Animation */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes scaleIn {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.3s ease-in-out;
+}
+
+/* ===== End Animation ===== */

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { GetInTouch } from "./GetInTouch";
+import { PoweredBy } from "./PoweredBy";
 import { QuickLinks } from "./QuickLinks";
 
 export default async function Footer() {
@@ -22,12 +23,15 @@ export default async function Footer() {
             <p className="text-[#747474] text-center">AI Fitness Progressive Web App (PWA) for Gym Beginners with Real-Time Progress Insights</p>
           </div>
         </div>
-        <div className="flex flex-col items-center gap-[40px] footer-body py-[50px]">
+        <div className="flex flex-col items-center gap-[50px] footer-body py-[50px]">
           <div className="flex">
             <QuickLinks />
           </div>
           <div className="flex">
             <GetInTouch />
+          </div>
+          <div className="flex">
+            <PoweredBy />
           </div>
         </div>
         <div className="footer-bottom border-t-1 border-[#222222]">

@@ -399,10 +399,13 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
       )} */}
 
       {showUploadForm &&
-        <div className="mb-3">
-           <UploadForm onUploadComplete={handleUploadCompletion} />
+        <div className="fixed inset-0 z-[9999] flex justify-center items-center bg-black bg-opacity-50 animate-fadeIn">
+          <div className="wrapper bg-[#18181a] p-6 rounded-lg shadow-lg relative animate-scaleIn">
+            {/* Upload form component */}
+            <UploadForm onUploadComplete={handleUploadCompletion} />
+          </div>
         </div>
-      } 
+      }
 
 
       <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-3">

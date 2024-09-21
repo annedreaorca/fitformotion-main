@@ -6,6 +6,7 @@ import {
 
 import Link from "next/link";
 
+// import { Hacker, Hipster, Hustler } from ".";
 import Footer from "./_components/Footer/Footer";
 import Header from "./_components/Header/Header";
 
@@ -114,113 +115,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* <section className="mb-10 py-[50px] px-3 pb-50 max-md:px-[30px]   max-w-screen-2xl mx-auto flex justify-center">
-        <div className="flex flex-row max-md:flex-col gap-x-10 w-4/5 max-md:w-full">
-          <div className="w-2/5 max-md:w-full">
-            <Image
-              src={partnersLogo}
-              alt="3k Muscle Fitness Logo"
-              className="rounded-lg"
-            />
-          </div>
-          <div className="w-3/5 flex gap-y-5 flex-col justify-center max-md:w-full max-md:py-5">
-            <p className="text-1xl uppercase font-bold" style={styles.text_red}>
-              Beneficiary
-            </p>
-            <h2 className="text-5xl font-bold">3k Muscle Fitness</h2>
-            <p className="text-zinc-500">
-              For over a decade, 3K&apos;s Muscle Fitness Center has been a
-              pillar in the fitness community, dedicated to helping individuals
-              exceed their limits. Located at the 2nd floor of Victory Central
-              Station Building in Olongapo City, Philippines, our center offers
-              a diverse range of services including{" "}
-              <span className="text-zinc-400 font-semibold">Kickboxing</span>,{" "}
-              <span className="text-zinc-400 font-semibold">
-                Personal Training
-              </span>
-              , <span className="text-zinc-400 font-semibold">Metapwr</span>,{" "}
-              <span className=" text-zinc-400 font-semibold">Metafit</span>, and{" "}
-              <span className="text-zinc-400 font-semibold">
-                Shotokan Karate
-              </span>
-              . With experienced trainers and a commitment to holistic fitness,
-              we strive to empower our members to achieve their health and
-              wellness goals. Contact us at +63 919 230 5598 or +63 921 555 9069
-              to embark on your fitness journey today.
-            </p>
-            <div className="flex gap-3 mt-6 max-md:flex-col">
-              <Button
-                style={styles.button_bg_primary_800}
-                className="text-white"
-                as={Link}
-                prefetch={false}
-                href="tel:+639215559069"
-                size="lg"
-              >
-                <IconPhoneFilled size={18} />
-                Call at +63 921 555 9069
-              </Button>
-              <Button
-                style={styles.button_bg_primary_800}
-                className="text-white"
-                as={Link}
-                prefetch={false}
-                href="tel:+639192305598"
-                size="lg"
-              >
-                <IconPhoneFilled size={18} />
-                Call at +63 919 230 5598
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section> */}
-
-      {/* <section className="mb-10 py-[50px] px-3 pb-50 max-md:px-[30px] max-w-screen-2xl mx-auto flex justify-center">
-        <div className="flex flex-col items-center justify-center gap-[50px]">
-          <div className="flex flex-col max-md:flex-col gap-y-[10px] w-4/5 max-md:w-full">
-            <p
-              className="text-1xl uppercase font-bold text-center"
-              style={styles.text_red}
-            >
-              Our Team
-            </p>
-            <h2 className="text-5xl font-bold text-center">
-              Meet Trifecta Proximity
-            </h2>
-          </div>
-          <div className="flex flew-row w-4/5 gap-[40px] max-md:flex-col max-md:w-full">
-            <div className="flex flex-col items-center w-2/6 max-md:w-full">
-              <Image
-                src={Hustler}
-                alt="Trifecta Proximity Team Member 1"
-                className="rounded-[25px]"
-              />
-              <h3 className="text-2xl font-bold mt-5">Mahasiah Bautista</h3>
-              <p className="text-zinc-500 ">Hustler</p>
-            </div>
-            <div className="flex flex-col items-center w-2/6 max-md:w-full">
-              <Image
-                src={Hipster}
-                alt="Trifecta Proximity Team Member 2"
-                className="rounded-[25px]"
-              />
-              <h3 className="text-2xl font-bold mt-5">Christian Jay Cuya</h3>
-              <p className="text-zinc-500 ">Hipster</p>
-            </div>
-            <div className="flex flex-col items-center w-2/6 max-md:w-full">
-              <Image
-                src={Hacker}
-                alt="Trifecta Proximity Team Member 3"
-                className="rounded-[25px]"
-              />
-              <h3 className="text-2xl font-bold mt-5">Andrea Anne Orca</h3>
-              <p className="text-zinc-500 ">Hacker</p>
-            </div>
-          </div>
-        </div>
-      </section> */}
       <Footer/>
     </main>
   );

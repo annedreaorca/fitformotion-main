@@ -116,7 +116,7 @@ export default function ExerciseTable({
               </TableCell>
               <TableCell
                 className={clsx(
-                  "flex h-full justify-end items-center h-[61px]",
+                  "flex h-full justify-end items-center",
                   {
                     "bg-zinc-300/20 dark:bg-zinc-700/20": isHighlighted,
                     "rounded-tr-lg": isHighlighted && index === 0,
