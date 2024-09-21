@@ -13,6 +13,7 @@ model UserInfo {
   age    Int?
   height Float?
   weight Float?
+  subscriptionType String   @default("free")
 }
 
 model Exercise {
@@ -37,6 +38,7 @@ model Exercise {
   userPBs UserExercisePB[]
   favouritedBy FavouriteExercise[]
   userGoals           UserGoal[]
+   isPremium           Boolean               @default(false)
 }
 
 model FavouriteExercise {
