@@ -47,9 +47,6 @@ export default function WorkoutManagerV2({ workout }: { workout: Workout }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const weightRefs = useRef<Record<string, HTMLInputElement | null>>({});
-  const trackingRefs = useRef<Record<string, HTMLInputElement | null>>({});
-
-  const duration = 60;
 
   const handleAddSet = (exerciseId: string) => {
     setSetsCount((prevState) => ({
@@ -73,7 +70,7 @@ export default function WorkoutManagerV2({ workout }: { workout: Workout }) {
   };
 
   const handleCompleteSet =
-    (setIndex: number, exerciseId: string, trackingType: string) =>
+    (setIndex: number, exerciseId: string) =>
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = event.target.checked;
       setCompletedSets((prevState) => ({
@@ -82,24 +79,24 @@ export default function WorkoutManagerV2({ workout }: { workout: Workout }) {
       }));
 
       const weightKey = `exercises.${exerciseId}.sets.${setIndex}.weight`;
-      const trackingKey = `exercises.${exerciseId}.sets.${setIndex}.${trackingType === "duration" ? "exerciseDuration" : trackingType}`;
+      const repsKey = `exercises.${exerciseId}.sets.${setIndex}.reps`;
 
       if (newValue) {
         const weightInput = weightRefs.current[`${exerciseId}-${setIndex}`];
-        const trackingInput = trackingRefs.current[`${exerciseId}-${setIndex}`];
+        const repsInput = document.getElementsByName(repsKey)[0] as HTMLInputElement;
 
-        if (weightInput && trackingInput) {
+        if (weightInput && repsInput) {
           setFormData((prevState) => ({
             ...prevState,
             [weightKey]: weightInput.value,
-            [trackingKey]: trackingInput.value,
+            [repsKey]: repsInput.value,
           }));
         }
       } else {
         setFormData((prevState) => {
           const newState = { ...prevState };
           delete newState[weightKey];
-          delete newState[trackingKey];
+          delete newState[repsKey];
           return newState;
         });
       }
@@ -107,16 +104,16 @@ export default function WorkoutManagerV2({ workout }: { workout: Workout }) {
 
   const handleInputChange = (setIndex: number, exerciseId: string) => {
     const weightInput = weightRefs.current[`${exerciseId}-${setIndex}`];
-    const trackingInput = trackingRefs.current[`${exerciseId}-${setIndex}`];
+    const repsInput = document.getElementsByName(`exercises.${exerciseId}.sets.${setIndex}.reps`)[0] as HTMLInputElement;
 
-    if (weightInput && trackingInput) {
+    if (weightInput && repsInput) {
       const weightValue = parseFloat(weightInput.value);
-      const trackingValue = parseFloat(trackingInput.value);
+      const repsValue = parseFloat(repsInput.value);
 
       setCheckboxDisabled((prevState) => ({
         ...prevState,
         [`${exerciseId}-${setIndex}`]:
-          isNaN(weightValue) || isNaN(trackingValue),
+          isNaN(weightValue) || isNaN(repsValue),
       }));
     }
   };
@@ -129,7 +126,7 @@ export default function WorkoutManagerV2({ workout }: { workout: Workout }) {
     const structuredData: Record<
       string,
       {
-        sets: Array<{ weight: string; reps: string; exerciseDuration: string }>;
+        sets: Array<{ weight: string; reps: string }>;
       }
     > = {};
 
@@ -154,22 +151,20 @@ export default function WorkoutManagerV2({ workout }: { workout: Workout }) {
           structuredData[exerciseId].sets[setIndex] = {
             weight: "",
             reps: "",
-            exerciseDuration: "",
           };
         }
 
         structuredData[exerciseId].sets[setIndex][
-          property as "weight" | "reps" | "exerciseDuration"
+          property as "weight" | "reps"
         ] = formData[key];
       });
 
     const dataToSend = {
-      duration,
       workoutPlanId: workout.id,
       exercises: structuredData,
     };
 
-    //const response = await handleSaveWorkoutV2(dataToSend);
+    // const response = await handleSaveWorkoutV2(dataToSend);
     const response = { success: true, message: "Workout saved successfully." }; // Placeholder response
     if (response.success) {
       router.push("/dashboard");
@@ -189,28 +184,6 @@ export default function WorkoutManagerV2({ workout }: { workout: Workout }) {
         </p>
       )}
 
-      {/* <Card shadow="none" className="shadow-md mb-3"><CardBody>
-        <div className="flex justify-between items-center">
-          <div className="flex gap-5">
-
-            <Button color="primary">
-              <IconPlayerPlayFilled />
-              Start Workout
-            </Button>
-
-            <ButtonGroup variant="flat">
-              <Button isIconOnly><IconPlayerPlayFilled className="text-primary" /></Button>
-              <Button isIconOnly><IconPlayerPauseFilled className="text-warning" /></Button>
-              <Button isIconOnly><IconDeviceFloppy className="text-danger" /></Button>
-            </ButtonGroup>
-
-          </div>
-          <div>
-            <p className="text-2xl">00:12:23</p>
-          </div>
-        </div>
-      </CardBody></Card> */}
-
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-5 mb-5">
           {workout.WorkoutPlanExercise.map((exercise, index) => (
@@ -228,9 +201,7 @@ export default function WorkoutManagerV2({ workout }: { workout: Workout }) {
                   <TableHeader>
                     <TableColumn>SET</TableColumn>
                     <TableColumn>WEIGHT</TableColumn>
-                    <TableColumn>
-                      {exercise.trackingType === "reps" ? "REPS" : "DURATION"}
-                    </TableColumn>
+                    <TableColumn>REPS</TableColumn>
                     <TableColumn className="flex justify-center items-center">
                       <IconSquareCheck />
                     </TableColumn>
@@ -271,26 +242,15 @@ export default function WorkoutManagerV2({ workout }: { workout: Workout }) {
                         </TableCell>
                         <TableCell>
                           <Input
-                            label={
-                              exercise.trackingType === "reps"
-                                ? "Reps"
-                                : "Duration"
-                            }
-                            placeholder={
-                              exercise.trackingType === "reps" ? "8" : "60"
-                            }
+                            label="Reps"
+                            placeholder="8"
                             size="sm"
                             isDisabled={
                               completedSets[
                                 `${exercise.Exercise.id}-${setIndex}`
                               ]
                             }
-                            name={`exercises.${exercise.Exercise.id}.sets.${setIndex}.${exercise.trackingType}`}
-                            ref={(el) =>
-                              (trackingRefs.current[
-                                `${exercise.Exercise.id}-${setIndex}`
-                              ] = el)
-                            }
+                            name={`exercises.${exercise.Exercise.id}.sets.${setIndex}.reps`}
                             onChange={() =>
                               handleInputChange(setIndex, exercise.Exercise.id)
                             }
@@ -302,7 +262,6 @@ export default function WorkoutManagerV2({ workout }: { workout: Workout }) {
                             onChange={handleCompleteSet(
                               setIndex,
                               exercise.Exercise.id,
-                              exercise.trackingType,
                             )}
                             isDisabled={
                               checkboxDisabled[

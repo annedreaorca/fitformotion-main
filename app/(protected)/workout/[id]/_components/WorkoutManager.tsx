@@ -42,8 +42,8 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [pausedTime, setPausedTime] = useState(0); 
   const [pauseStartTime, setPauseStartTime] = useState<number | null>(null); 
-  const [showUploadForm, setShowUploadForm] = useState(false); // State for showing UploadForm
-  const [isUploading, setIsUploading] = useState(false); // State to track upload status
+  const [showUploadForm, setShowUploadForm] = useState(false); 
+  const [isUploading, setIsUploading] = useState(false); 
 
   const { startConfetti } = useConfetti();
   const { workoutExercises, setWorkoutExercises } = useWorkoutData();
@@ -361,6 +361,52 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
     }
   };
 
+  const skipUpload = async () => {
+    const exercisesData = workoutExercises.map((exercise) => ({
+      exerciseId: exercise.exerciseId,
+      trackingType:
+        TrackingType[exercise.trackingType as keyof typeof TrackingType],
+      sets: exercise.sets.map((set) => ({
+        reps: set.reps,
+        weight: set.weight,
+        duration: set.duration,
+        completed: set.completed,
+      })),
+    }));
+
+    const data = {
+      name: workout.name,
+      date: new Date().toISOString(),
+      duration: workoutDuration,
+      workoutPlanId: workout.id,
+      exercises: exercisesData,
+    };
+
+    try {
+      const response = await handleSaveWorkout(data);
+      if (response.success) {
+        startConfetti();
+        router.push("/dashboard");
+        toast.success("Workout saved successfully without image");
+      } else {
+        toast.error("Failed to save workout");
+      }
+    } catch (error) {
+      toast.error("An error occurred while saving the workout");
+    } finally {
+      setShowUploadForm(false);
+      setWorkoutExercises([]);
+      setWorkoutDuration(0);
+      setWorkoutStartTime(null);
+      setActiveWorkoutRoutine(null);
+      
+      // Resume the workout timer if it was paused
+      if (isPaused) {
+        resumeWorkout();
+      }
+    }
+  };
+
   const pauseWorkout = () => {
     togglePause();
     setPauseStartTime(Date.now());
@@ -379,34 +425,35 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
   const workoutName = workout.name;
 
   const totalSets = workoutExercises
-  ? workoutExercises.reduce((acc, curr) => acc + curr.sets.length, 0)
-  : 0;
+    ? workoutExercises.reduce((acc, curr) => acc + curr.sets.length, 0)
+    : 0;
 
   const completedSets = workoutExercises
-  ? workoutExercises.reduce(
-      (acc, curr) => acc + curr.sets.filter((set) => set.completed).length,
-      0
-    )
-  : 0;
+    ? workoutExercises.reduce(
+        (acc, curr) => acc + curr.sets.filter((set) => set.completed).length,
+        0
+      )
+    : 0;
 
   const progressPercentage =
     totalSets > 0 ? Math.round((completedSets / totalSets) * 100) : 0;
 
   return (
     <div className="pb-32">
-      {/* {workout.notes && (
-        <p className="mb-3 text-sm text-zinc-500">{workout.notes}</p>
-      )} */}
-
-      {showUploadForm &&
+      {showUploadForm && (
         <div className="fixed inset-0 z-[9999] flex justify-center items-center bg-black bg-opacity-50 animate-fadeIn">
           <div className="wrapper bg-[#18181a] p-6 rounded-lg shadow-lg relative animate-scaleIn">
-            {/* Upload form component */}
             <UploadForm onUploadComplete={handleUploadCompletion} />
+            <Button
+              onPress={skipUpload}
+              className="mt-4"
+              color="primary"
+            >
+              Skip Image Upload
+            </Button>
           </div>
         </div>
-      }
-
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-3">
         {workoutExercises?.map((exercise, index) => (

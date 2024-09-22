@@ -2,7 +2,6 @@
 import { ChangeEvent } from "react";
 import { Card, CardBody } from "@nextui-org/card";
 import { Input } from "@nextui-org/input";
-import { RadioGroup, Radio } from "@nextui-org/radio";
 import { Button, ButtonGroup } from "@nextui-org/button";
 import { IconArrowUp, IconArrowDown, IconTrash } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
@@ -37,7 +36,7 @@ export default function RoutineExerciseCard({
   const updateTrackingType = (index: number, type: "reps") => {
     updateExercise(index, "trackingType", type);
   };
-
+  
   return (
     <Card key={index} shadow="none" className="touch-none shadow-md">
       <CardBody className="p-3">
@@ -51,6 +50,7 @@ export default function RoutineExerciseCard({
             size="sm"
             type="number"
             label="Sets"
+            min="0"
             value={exercise.sets !== null ? exercise.sets.toString() : ""}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               const value = e.target.value;
@@ -67,6 +67,7 @@ export default function RoutineExerciseCard({
             size="sm"
             label="Reps"
             type="number"
+            min="0"
             value={exercise.reps !== null ? exercise.reps.toString() : ""}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               const value = e.target.value;

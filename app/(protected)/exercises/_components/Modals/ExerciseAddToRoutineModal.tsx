@@ -19,7 +19,6 @@ import { IconPlus } from "@tabler/icons-react";
 import { Input } from "@nextui-org/input";
 import { Divider } from "@nextui-org/divider";
 import { toast } from "sonner";
-import { RadioGroup, Radio } from "@nextui-org/radio";
 
 export default function ExerciseAddToRoutineModal() {
   const { exercise, isOpen, onOpenChange, userRoutines } = useContext(
@@ -30,11 +29,9 @@ export default function ExerciseAddToRoutineModal() {
   const [trackingType, setTrackingType] = useState("reps");
   const [sets, setSets] = useState("");
   const [reps, setReps] = useState("");
-  const [duration, setDuration] = useState("");
   const [routineName, setRoutineName] = useState("");
   const [setsInvalid, setSetsInvalid] = useState(false);
   const [repsInvalid, setRepsInvalid] = useState(false);
-  const [durationInvalid, setDurationInvalid] = useState(false);
   const [routineNameInvalid, setRoutineNameInvalid] = useState(false);
 
   if (!exercise) {
@@ -57,8 +54,7 @@ export default function ExerciseAddToRoutineModal() {
         exerciseId: exercise.id,
         sets,
         reps,
-        duration,
-        trackingType: trackingType === "reps" ? "reps" : "duration",
+        trackingType: trackingType === "reps" ? "reps" : "reps", 
       });
 
       if (response.success) {
@@ -67,7 +63,6 @@ export default function ExerciseAddToRoutineModal() {
         setTrackingType("reps");
         setSets("");
         setReps("");
-        setDuration("");
         setRoutineName("");
         setPage(1);
       } else {
@@ -85,8 +80,7 @@ export default function ExerciseAddToRoutineModal() {
         exerciseId: exercise.id,
         sets,
         reps,
-        duration,
-        trackingType: trackingType === "reps" ? "reps" : "duration",
+        trackingType: trackingType === "reps" ? "reps" : "reps",
       });
 
       if (response.success) {
@@ -95,7 +89,6 @@ export default function ExerciseAddToRoutineModal() {
         setTrackingType("reps");
         setSets("");
         setReps("");
-        setDuration("");
         setRoutineName("");
         setPage(1);
       } else {
@@ -121,13 +114,6 @@ export default function ExerciseAddToRoutineModal() {
       isValid = false;
     } else {
       setRepsInvalid(false);
-    }
-
-    if (trackingType === "duration" && duration === "") {
-      setDurationInvalid(true);
-      isValid = false;
-    } else {
-      setDurationInvalid(false);
     }
 
     if (isValid) {
@@ -163,6 +149,7 @@ export default function ExerciseAddToRoutineModal() {
                     label="Sets"
                     placeholder="Sets..."
                     value={sets}
+                    min="0"
                     onChange={(e) => {
                       setSets(e.target.value);
                       if (e.target.value !== "") {
@@ -178,16 +165,7 @@ export default function ExerciseAddToRoutineModal() {
                     }
                   />
 
-                  <RadioGroup
-                    orientation="horizontal"
-                    defaultValue="reps"
-                    onValueChange={setTrackingType}
-                  >
-                    <Radio value="reps">Reps</Radio>
-                    <Radio value="duration">Duration</Radio>
-                  </RadioGroup>
-
-                  {trackingType === "reps" ? (
+                  {trackingType === "reps" && (
                     <Input
                       type="number"
                       size="sm"
@@ -196,6 +174,7 @@ export default function ExerciseAddToRoutineModal() {
                       label="Reps"
                       placeholder="Reps..."
                       value={reps}
+                      min="0"
                       onChange={(e) => {
                         setReps(e.target.value);
                         if (e.target.value !== "") {
@@ -207,29 +186,6 @@ export default function ExerciseAddToRoutineModal() {
                       errorMessage={
                         repsInvalid
                           ? "Please enter a valid number of reps"
-                          : undefined
-                      }
-                    />
-                  ) : (
-                    <Input
-                      type="number"
-                      size="sm"
-                      name="duration"
-                      variant="bordered"
-                      label="Duration"
-                      placeholder="Duration..."
-                      value={duration}
-                      onChange={(e) => {
-                        setDuration(e.target.value);
-                        if (e.target.value !== "") {
-                          setDurationInvalid(false);
-                        }
-                      }}
-                      isRequired
-                      isInvalid={durationInvalid}
-                      errorMessage={
-                        durationInvalid
-                          ? "Please enter a valid duration"
                           : undefined
                       }
                     />
