@@ -1,6 +1,9 @@
 "use client";  // Ensure this component is treated as a Client Component
 
 import { Button } from "@nextui-org/button";
+import {
+    IconUser
+} from "@tabler/icons-react";
 import Image from "next/image";
 import Link from 'next/link';
 import { HeaderLinks } from "./HeaderLinks";
@@ -32,6 +35,7 @@ export default async function Header() {
                         href="/dashboard"
                         size="md"
                         >
+                        <IconUser size={18} />
                         Login
                     </Button>
                 </div>

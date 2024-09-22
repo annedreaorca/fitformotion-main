@@ -1,6 +1,6 @@
-import ComingSoon from "../_components/ComingSoon/ComingSoon";
 import Footer from "../_components/Footer/Footer";
 import Header from "../_components/Header/Header";
+import ComingSoon from "../_components/UnderMaintenance/UnderMaintenance";
 
 export default function ContactUs() {
     return (

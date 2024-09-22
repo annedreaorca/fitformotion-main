@@ -1,9 +1,9 @@
 "use client";
+import { ThemeSwitcher } from "@/components/ThemeSwitcher/ThemeSwitcher";
 import { useSidebarToggleContext } from "@/contexts/SidebarToggleContext";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ThemeSwitcher } from "@/components/ThemeSwitcher/ThemeSwitcher";
 
 
 interface NavItemProps {
@@ -18,13 +18,11 @@ import {
   IconAlarmAverage,
   IconBarbell,
   IconClipboardList,
+  IconCrown,
   IconLayoutDashboard,
   IconLayoutSidebarLeftCollapse,
   IconLayoutSidebarLeftExpand,
-  IconPhoto,
-  IconSettings,
-  IconUser,
-  IconCrown,
+  IconPhoto
 } from "@tabler/icons-react";
 
 export default function SidebarNav() {
@@ -41,19 +39,12 @@ export default function SidebarNav() {
           active={pathname === "/dashboard"}
         />
 
-        <NavItem
+        {/* <NavItem
           icon={<IconUser size={22} className="shrink-0" />}
           label="Profile"
           href="/profile"
           active={pathname === "/profile"}
-        />
-
-        <NavItem
-          icon={<IconPhoto size={22} className="shrink-0" />}
-          label="Gallery"
-          href="/gallery"
-          active={pathname.startsWith("/gallery")}
-        />
+        /> */}
 
         <NavItem
           icon={<IconActivity size={22} className="shrink-0" />}
@@ -83,11 +74,18 @@ export default function SidebarNav() {
           active={pathname.startsWith("/edit-routine/")}
         />
 
-        <NavItem
+        {/* <NavItem
           icon={<IconSettings size={22} className="shrink-0" />}
           label="Settings"
           href="/profile/advanced"
           active={pathname.startsWith("/profile/advanced")}
+        /> */}
+
+        <NavItem
+          icon={<IconPhoto size={22} className="shrink-0" />}
+          label="Gallery"
+          href="/gallery"
+          active={pathname.startsWith("/gallery")}
         />
 
         <NavItem

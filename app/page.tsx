@@ -64,7 +64,7 @@ export default function Home() {
                 className="bg-primary-800 text-white"
                 as={Link}
                 prefetch={false}
-                href="/dashboard"
+                href="#get-started"
                 size="md"
               >
                 <IconPlayerPlayFilled size={18} />

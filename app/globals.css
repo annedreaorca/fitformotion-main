@@ -277,7 +277,6 @@ img.gallery-image {
 /* ===== End Form Uploading ===== */
 
 /* ===== Start Header and Footer ===== */
-
 /* Header */
 .nav-link {
   color: #818181;
@@ -424,6 +423,19 @@ img.gallery-image {
 }
 /* ===== End Header and Footer ===== */
 
+/* ===== Start Kebab Menu ===== */
+.kebab-menu {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.kebab-menu.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== End Kebab Menu ===== */
 
 /* ===== Start Animation ===== */
 
