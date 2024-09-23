@@ -11,8 +11,9 @@ export function generateViewport() {
   return {
     width: "device-width",
     initialScale: 1,
-    maximumScale: 1, // Prevent zooming
-    userScalable: "no", // Disable user scaling
+    maximumScale: 1,
+    minimumScale: 1, // Ensure no zoom allowed on iOS
+    userScalable: "no", // Proper attribute for disabling scaling
   };
 }
 
@@ -35,6 +36,12 @@ export default async function RootLayout({
       className="min-h-dvh flex flex-col"
       suppressHydrationWarning
     >
+      <head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
+        />
+      </head>
       <body
         className={`${alexandria.className} flex flex-col grow overflow-x-hidden`}
       >
