@@ -6,12 +6,13 @@ import { Toaster } from "sonner";
 import "./globals.css";
 import { Providers } from "./providers";
 
+// Viewport settings with zooming disabled
 export function generateViewport() {
   return {
     width: "device-width",
     initialScale: 1,
-    maximumScale: 5,
-    //themeColor: "#18181b",
+    maximumScale: 1, // Prevent zooming
+    userScalable: "no", // Disable user scaling
   };
 }
 
