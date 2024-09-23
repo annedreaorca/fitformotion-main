@@ -7,7 +7,7 @@ import { IconFilter } from "@tabler/icons-react";
 const muscles = [
   { label: "Abdominals", value: "abdominals" },
   { label: "Hamstrings", value: "hamstrings" },
-  { label: "Adductors", value: "adductors" },
+  // { label: "Adductors", value: "adductors" },
   { label: "Quadriceps", value: "quadriceps" },
   { label: "Biceps", value: "biceps" },
   { label: "Shoulders", value: "shoulders" },
@@ -20,8 +20,8 @@ const muscles = [
   { label: "Triceps", value: "triceps" },
   { label: "Traps", value: "traps" },
   { label: "Forearms", value: "forearms" },
-  { label: "Neck", value: "neck" },
-  { label: "Abductors", value: "abductors" },
+  // { label: "Neck", value: "neck" },
+  // { label: "Abductors", value: "abductors" },
 ];
 
 export default function ExerciseFilterMuscle() {
