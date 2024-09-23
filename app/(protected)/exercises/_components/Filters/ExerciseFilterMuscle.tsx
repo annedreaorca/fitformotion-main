@@ -56,7 +56,7 @@ export default function ExerciseFilterMuscle() {
       onSelectionChange={handleFilterMuscle}
       selectedKeys={selectedKeys}
       startContent={<IconFilter size={18} />}
-      selectionMode="multiple"
+      selectionMode="single"
     >
       {(muscle) => <SelectItem key={muscle.value}>{muscle.label}</SelectItem>}
     </Select>
