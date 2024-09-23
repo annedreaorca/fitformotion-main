@@ -102,12 +102,12 @@ export default function ExerciseTable({
                 })}
               >
                 <div className="flex flex-col">
-                  <p className="font-[500] text-white text-small">
+                  <p className="font-[500] text-zinc-800 dark:text-white text-small">
                     {exercise.primary_muscles
                       .map((muscle) => formatDisplayName(muscle))
                       .join(", ")}
                   </p>
-                  <p className="text-bold font-[100] text-tiny text-zinc-600 dark:text-zinc-400">
+                  <p className="text-bold font-[300] text-tiny text-zinc-600 dark:text-zinc-400">
                     {exercise.secondary_muscles
                       .map((muscle) => formatDisplayName(muscle))
                       .join(", ")}

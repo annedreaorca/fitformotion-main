@@ -449,7 +449,7 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
               className="mt-4"
               color="primary"
             >
-              Skip Image Upload
+              Skip
             </Button>
           </div>
         </div>
@@ -461,7 +461,7 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
             <CardHeader className="text-lg px-5">
               <div className="flex gap-2 items-center mb-3">
                 <ExerciseOrderIndicator position={index} />
-                <p className="text-lg">{exercise.exerciseName}</p>
+                <p className="text-lg font-[600] text-zinc-800 dark:text-white">{exercise.exerciseName}</p>
               </div>
             </CardHeader>
             <CardBody className="pb-1 pt-0">

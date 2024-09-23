@@ -29,19 +29,26 @@ p.description {
   stroke: #b91037;
 }
 span.cl-internal-9ci4h9 {
-  color: #9c1a1b !important;
+  color: #991b1b !important;
 }
 span.cl-internal-rscu79 {
   color: #b1b1b1 !important;
 }
 span.cl-badge.🔒️.cl-internal-1kacczc,
 span.cl-badge.🔒️.cl-internal-qosp7d {
-  color: #c33838 !important;
+  color: #991b1b !important;
   background-color: #272727 !important;
 }
 
 .lbs-cont div div div div input {
   padding-inline-end: 0 !important;
+}
+
+@media screen and (max-width:410px) {
+  .rep-input div div div,
+  .lbs-input div div div {
+    display: block !important;
+  }
 }
 
 /* Button Global */

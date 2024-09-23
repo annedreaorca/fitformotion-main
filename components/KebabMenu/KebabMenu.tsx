@@ -89,7 +89,6 @@ export default function KebabMenu() {
                     <div className="flex justify-start border-t border-t-zinc-800 p-[10px]">
                         <ProfileActions/>
                     </div>
-
                 </ul>
             )}
         </div>

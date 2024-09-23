@@ -68,10 +68,10 @@ export default function RoutineCard({
   return (
     <Card key={routine.id} shadow="none" className="shadow-md">
       <CardHeader className="flex gap-3 px-5 pt-4">
-        <div className="flex flex-col flex-grow gap-[5px]">
-          <p className="text-md leading-5">{routine.name}</p>
+        <div className="flex flex-col flex-grow gap-[1px]">
+          <p className="text-md font-[600] text-zinc-900 dark:text-white leading-5">{routine.name}</p>
           {!isSystem && (
-            <p className="text-xs text-zinc-600 dark:text-zinc-400">
+            <p className="text-[13px] text-zinc-600 dark:text-zinc-400">
               Updated: {format(new Date(routine.updatedAt), "MM/dd/yyyy")}
             </p>
           )}
