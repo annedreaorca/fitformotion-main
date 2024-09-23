@@ -39,15 +39,16 @@ export default function Home() {
     <main>
       <Header/>
       <section className="relative py-10 px-3 h-screen max-md:px-[30px] max-md:mt-[-30px] mx-auto flex justify-center hero-section max-[767px]:items-center">
-        <video
-          className="absolute top-0 left-0 w-full h-full object-cover z-[-1]"
-          autoPlay
-          muted
-          loop
-        >
-          <source src="/videos/video-hero-background.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+      <video
+        className="absolute top-0 left-0 w-full h-full object-cover z-[-1]"
+        autoPlay
+        muted
+        loop
+        playsInline // Add this attribute
+      >
+        <source src="/videos/video-hero-background.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
 
         <div className="flex items-center max-[767px]:flex-col gap-5 py-20 page-width">
           <div className="flex flex-col justify-start text-left w-[50%] max-[1080px]:w-[60%]  max-[900px]:w-[80%] max-[767px]:w-[100%] max-[767px]:items-center max-[767px]:pt-[100px] max-[580px]:pt-[50px]">
