@@ -4,6 +4,7 @@ import DashboardLinks from "./_components/DashboardLinks";
 import DashboardCards from "./_components/DashboardCards/DashboardCards";
 import DashboardCharts from "./_components/DashboardCharts/DashboardCharts";
 import DashboardGoals from "./_components/DashboardGoals/DashboardGoals";
+import KebabMenu from "@/components/KebabMenu/KebabMenu";
 
 export default function DashboardPage({
   searchParams,
@@ -22,7 +23,10 @@ export default function DashboardPage({
 
   return (
     <div className="page-container">
-      <PageHeading title="Dashboard Overview" />
+      <div className="flex justify-between">
+        <PageHeading title="Dashboard Overview" />
+        <KebabMenu/>
+      </div>
       <DashboardCards />
       <DashboardCharts
         chart1DateRange={chart1DateRange}

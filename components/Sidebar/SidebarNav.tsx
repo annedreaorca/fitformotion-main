@@ -14,15 +14,15 @@ interface NavItemProps {
 }
 
 import {
-  IconActivity,
-  IconAlarmAverage,
+  IconHistory,
+  IconListSearch,
   IconBarbell,
   IconClipboardList,
   IconCrown,
   IconLayoutDashboard,
   IconLayoutSidebarLeftCollapse,
   IconLayoutSidebarLeftExpand,
-  IconPhoto
+  IconBodyScan
 } from "@tabler/icons-react";
 
 export default function SidebarNav() {
@@ -47,32 +47,32 @@ export default function SidebarNav() {
         /> */}
 
         <NavItem
-          icon={<IconActivity size={22} className="shrink-0" />}
-          label="Activity Log"
-          href="/activity"
-          active={pathname === "/activity"}
-        />
-
-        <NavItem
-          icon={<IconBarbell size={22} className="shrink-0" />}
+          icon={<IconListSearch size={22} className="shrink-0" />}
           label="Browse Exercises"
           href="/exercises"
           active={pathname === "/exercises"}
         />
 
         <NavItem
-          icon={<IconAlarmAverage size={22} className="shrink-0" />}
-          label="Workout Routine"
+          icon={<IconBarbell size={22} className="shrink-0" />}
+          label="Start Workout"
           href="/workout"
           active={pathname.startsWith("/workout")}
         />
 
         <NavItem
+          icon={<IconHistory size={22} className="shrink-0" />}
+          label="Workout History"
+          href="/activity"
+          active={pathname === "/activity"}
+        />
+
+        {/* <NavItem
           icon={<IconClipboardList size={22} className="shrink-0" />}
           label="Routine Planner"
           href="/edit-routine/step-1"
           active={pathname.startsWith("/edit-routine/")}
-        />
+        /> */}
 
         {/* <NavItem
           icon={<IconSettings size={22} className="shrink-0" />}
@@ -80,17 +80,17 @@ export default function SidebarNav() {
           href="/profile/advanced"
           active={pathname.startsWith("/profile/advanced")}
         /> */}
-
+ 
         <NavItem
-          icon={<IconPhoto size={22} className="shrink-0" />}
-          label="Gallery"
+          icon={<IconBodyScan size={22} className="shrink-0" />}
+          label="My Physique"
           href="/gallery"
           active={pathname.startsWith("/gallery")}
         />
 
         <NavItem
           icon={<IconCrown size={22} className="shrink-0" />}
-          label="Premium Plan"
+          label="Get Premium"
           href="/premium"
           active={pathname.startsWith("/premium")}
         />

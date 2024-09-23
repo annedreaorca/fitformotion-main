@@ -20,7 +20,7 @@ export default function SidebarUser({
           {!sidebarCollapse && (
             <User
               name={username || "Unknown"}
-              description="Free"
+              description="Free Plan"
               avatarProps={{
                 src: userImage || "default-image-url",
               }}

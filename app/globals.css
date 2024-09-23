@@ -325,7 +325,7 @@ img.gallery-image {
 	-moz-transform: translateX(-50%) translateY(-50%) scale(1);
 	transform: translateX(-50%) translateY(-50%) scale(1);
 }
-/* Sidebar styles */
+/* Mobile Sidebar styles */
 .sidebar {
   position: fixed;
   top: 0;
@@ -441,7 +441,7 @@ img.gallery-image {
 
 /* ===== End Kebab Menu ===== */
 
-/* ===== Start Animation ===== */
+/* ===== Start Animations ===== */
 
 /* Line Moving Background */
 @keyframes fall {
@@ -540,4 +540,18 @@ img.gallery-image {
   animation: scaleIn 0.3s ease-in-out;
 }
 
-/* ===== End Animation ===== */
+/* ===== End Animations ===== */
+
+/* ===== Start Modals Styles ===== */
+
+/* Exercises Modal */
+@media screen and (max-width: 639px) {
+  .addRoutineFromExercises {
+    margin-top: -24vh !important;
+  }
+  .flex.w-screen.h-\[100dvh\].fixed.inset-0.z-50.overflow-x-auto.justify-center.\[--scale-enter\:100\%\].\[--scale-exit\:100\%\].\[--slide-enter\:0px\].\[--slide-exit\:80px\].sm\:\[--scale-enter\:100\%\].sm\:\[--scale-exit\:103\%\].sm\:\[--slide-enter\:0px\].sm\:\[--slide-exit\:0px\].items-end.sm\:items-center {
+    align-items: center !important;
+  }
+}
+/* ===== End Modals Styles ===== */
+

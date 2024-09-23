@@ -50,7 +50,7 @@ export default function Gallery() {
   if (images.length === 0) {
     return (
       <div className="page-container">
-        <PageHeading title="Gallery" />
+        <PageHeading title="My Physique" />
         <p>Please complete a workout to upload a picture of your progress.</p>
       </div>
     );
@@ -58,7 +58,7 @@ export default function Gallery() {
 
   return (
     <div className="page-container">
-      <PageHeading title="Gallery" />
+      <PageHeading title="My Physique" />
       <ul className="flex flex-row flex-wrap gap-[10px] mt-[30px] gallery">
         {images.map((image: any) => (
           <li key={image.id} className="gallery-item">

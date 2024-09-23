@@ -9,10 +9,8 @@ export default function ProfileActions() {
   const router = useRouter();
 
   return (
-    <div className="flex justify-end">
       <Button variant="flat" onClick={() => signOut(() => router.push("/"))}>
         <IconLogout /> Sign out
       </Button>
-    </div>
   );
 }

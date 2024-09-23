@@ -128,6 +128,7 @@ export default function ExerciseAddToRoutineModal() {
       onOpenChange={onOpenChange}
       isKeyboardDismissDisabled
       scrollBehavior="inside"
+      className="addRoutineFromExercises"
     >
       <ModalContent>
         {(onClose) => (
