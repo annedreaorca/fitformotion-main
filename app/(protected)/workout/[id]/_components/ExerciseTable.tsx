@@ -1,15 +1,15 @@
 "use client";
+import { Checkbox } from "@nextui-org/checkbox";
+import { Input } from "@nextui-org/input";
 import {
   Table,
-  TableHeader,
   TableBody,
-  TableColumn,
-  TableRow,
   TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
 } from "@nextui-org/table";
-import { Input } from "@nextui-org/input";
 import { IconSquareCheck } from "@tabler/icons-react";
-import { Checkbox } from "@nextui-org/checkbox";
 
 interface Set {
   weight: number | "" | null;
@@ -69,14 +69,14 @@ export default function ExerciseTable({
         {exerciseDetail.sets.map((set, setIndex) => (
           <TableRow key={setIndex}>
             <TableCell>{setIndex + 1}</TableCell>
-            <TableCell>
+            <TableCell className="lbs-cont">
               <Input
                 size="sm"
                 type="number"
                 placeholder="0"
                 defaultValue={set.weight !== null ? String(set.weight) : ""}
                 endContent={
-                  <span className="text-zinc-600 dark:text-zinc-400">lbs</span>
+                  <span className="text-zinc-600 dark:text-zinc-400 max-[480px]:!px-[1px]">lbs</span>
                 }
                 onInput={(e) => {
                   const value = e.currentTarget.value;

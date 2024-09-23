@@ -40,6 +40,10 @@ span.cl-badge.🔒️.cl-internal-qosp7d {
   background-color: #272727 !important;
 }
 
+.lbs-cont div div div div input {
+  padding-inline-end: 0 !important;
+}
+
 /* Button Global */
 a.z-0.group.relative.inline-flex.items-center.justify-center.box-border.appearance-none.select-none.whitespace-nowrap.font-normal.subpixel-antialiased.overflow-hidden.tap-highlight-transparent.outline-none {
   border-radius: 100px !important;
