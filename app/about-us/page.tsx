@@ -27,8 +27,8 @@ export default async function AboutUs() {
             secondaryTitle: "Team Leader",
             name: "Mahasiah Bautista",
             description: "His leadership and relentless work ethic keep the team motivated and focused on success.",
-            facebook: "https://facebook.com/mahasiahbautista",
-            instagram: "https://instagram.com/mahasiahbautista"
+            facebook: "https://www.facebook.com/siahbautista",
+            instagram: "https://www.instagram.com/haisaham"
         },
         {
             imageSrc: Hipster,
@@ -37,8 +37,8 @@ export default async function AboutUs() {
             secondaryTitle: "Lead Designer",
             name: "Christian Jay Cuya",
             description: "His innovative approach ensures that our platform is both aesthetically pleasing and highly usable.",
-            facebook: "https://facebook.com/christianjaycuya",
-            instagram: "https://instagram.com/christianjaycuya"
+            facebook: "https://www.facebook.com/christianjay.cuya.90/",
+            instagram: "https://www.instagram.com/cjaycuya/"
         },
         {
             imageSrc: Hacker,
@@ -47,8 +47,8 @@ export default async function AboutUs() {
             secondaryTitle: "Lead Developer",
             name: "Andrea Anne Orca",
             description: "Her technical expertise and problem-solving skills are crucial in building and maintaining the platform's core functionalities.",
-            facebook: "https://facebook.com/andreaanneorca",
-            instagram: "https://instagram.com/andreaanneorca"
+            facebook: "https://www.facebook.com/aa.orca",
+            instagram: "https://www.instagram.com/aa.orcs/"
         }
     ];
 
