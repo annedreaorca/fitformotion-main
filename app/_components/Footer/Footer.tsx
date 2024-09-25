@@ -6,9 +6,9 @@ import { QuickLinks } from "./QuickLinks";
 export default async function Footer() {
   const currentYear = new Date().getFullYear();
   return (
-    <footer className="py-[12px] z-40 bg-[#070707] border-t-1 border-[#0c0c0c] footer-section">
+    <footer className="pt-[75px] z-40 bg-[#070707] border-t-1 border-[#0c0c0c] footer-section">
       <div className=" page-width flex flex-col gap-[10px]">
-        <div className="footer-top pt-[45px]">
+        <div className="footer-top">
           <div className="flex flex-col items-center gap-[20px]">
             <a href="/" className="flex items-center gap-[20px]">
               <Image
@@ -35,7 +35,7 @@ export default async function Footer() {
           </div>
         </div>
         <div className="footer-bottom border-t-1 border-[#222222]">
-          <p className="text-center text-stone-300 pt-[20px] pb-[10px]">
+          <p className="text-center text-stone-300 py-[20px]">
             © {currentYear} Trifecta Proximity. All Rights Reserved.
           </p>
         </div>

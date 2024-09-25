@@ -36,7 +36,7 @@ export function HeaderLinks() {
 
   return (
     <nav className="flex gap-5 items-center">
-      <ul className="flex gap-5 nav-links z-[100px] max-[768px]:flex-col">
+      <ul className="flex gap-[35px] nav-links z-[100px] max-[768px]:flex-col">
         {navItems.map((item) => (
           <NavItem
             key={item.href}

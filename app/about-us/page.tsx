@@ -1,15 +1,60 @@
 "use-client"
 
 import { Hacker, Hipster, Hustler } from "@/app/index";
-import Image from "next/image";
+import { IconBrandFacebook, IconBrandInstagram, IconPhoto } from '@tabler/icons-react';
+import Image, { StaticImageData } from "next/image";
 import Footer from "../_components/Footer/Footer";
 import Header from "../_components/Header/Header";
-import ComingSoon from "../_components/UnderMaintenance/UnderMaintenance";
+
+// Define props type for ProfileCard component
+interface ProfileCardProps {
+    imageSrc: StaticImageData;
+    altText: string;
+    title: string;
+    secondaryTitle: string;
+    name: string;
+    description: string;
+    facebook?: string; // Optional Facebook link
+    instagram?: string; // Optional Instagram link
+}
 
 export default async function AboutUs() {
+    const team = [
+        {
+            imageSrc: Hustler,
+            altText: "Mahasiah Bautista - Hustler",
+            title: "Hustler",
+            secondaryTitle: "Team Leader",
+            name: "Mahasiah Bautista",
+            description: "His leadership and relentless work ethic keep the team motivated and focused on success.",
+            facebook: "https://facebook.com/mahasiahbautista",
+            instagram: "https://instagram.com/mahasiahbautista"
+        },
+        {
+            imageSrc: Hipster,
+            altText: "Christian Jay Cuya - Hipster",
+            title: "Hipster",
+            secondaryTitle: "Lead Designer",
+            name: "Christian Jay Cuya",
+            description: "His innovative approach ensures that our platform is both aesthetically pleasing and highly usable.",
+            facebook: "https://facebook.com/christianjaycuya",
+            instagram: "https://instagram.com/christianjaycuya"
+        },
+        {
+            imageSrc: Hacker,
+            altText: "Andrea Anne Orca - Hacker",
+            title: "Hacker",
+            secondaryTitle: "Lead Developer",
+            name: "Andrea Anne Orca",
+            description: "Her technical expertise and problem-solving skills are crucial in building and maintaining the platform's core functionalities.",
+            facebook: "https://facebook.com/andreaanneorca",
+            instagram: "https://instagram.com/andreaanneorca"
+        }
+    ];
+
     return (
         <main>
-            <Header/>
+            <Header />
             <section className="page-heading bg-image">
                 <div className="pt-[200px] pb-[75px] page-width">
                     <div className="page-heading-wrapper uppercase">
@@ -17,83 +62,126 @@ export default async function AboutUs() {
                     </div>
                 </div>
             </section>
-            <section className="bg-black">
-                <div className="flex flex-col gap-[40px] py-[75px] page-width">
+            <section className="bg-black pt-[100px] pb-[50px]">
+                <div className="flex flex-col gap-[40px] page-width">
                     <div className="flex flex-col items-center gap-[20px]">
                         <div className="flex justify-center">
                             <span className="section-label text-center">Our Team</span>
                         </div>
                         <h2 className="section-headline text-center">Meet Trifecta Proximity</h2>
-                        <p className="text-zinc-500 description text-center">Meet the passionate team behind the app, dedicated to helping you achieve your fitness goals through personalized workouts and insightful progress tracking</p>
+                        <p className="text-zinc-500 description text-center">Meet the passionate team behind the app, dedicated to helping you achieve your fitness goals through personalized workouts and insightful progress tracking.</p>
                     </div>
                     <div className="profiles-wrapper">
                         <div className="flex gap-[20px] max-[580px]:flex-col profiles-container">
-                            <div className="h-[450px] rounded-[10px] bg-[#080808] border-1 border-zinc-900 relative overflow-hidden profile-item">
-                                <Image
-                                    src={Hustler}
-                                    alt="Mahasiah Bautista - Hustler"
-                                    className="grayscale hover:grayscale-0 transition-all duration-300 profile-image object-cover h-[450px] w-full"
+                            {team.map((member, index) => (
+                                <ProfileCard
+                                    key={index}
+                                    imageSrc={member.imageSrc}
+                                    altText={member.altText}
+                                    title={member.title}
+                                    secondaryTitle={member.secondaryTitle}
+                                    name={member.name}
+                                    description={member.description}
+                                    facebook={member.facebook}
+                                    instagram={member.instagram}
                                 />
-                                <div className="p-[10px] z-[2] profile-info">
-                                    <div className="flex flex-col gap-[10px] p-[10px] rounded-[10px] profile-content">
-                                        <div className="flex justify-start">
-                                            <span className="profile-title">Hustler</span>
-                                        </div>
-                                        <div>
-                                            <h3>Mahasiah Bautista</h3>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* Gradient overlay */}
-                                <div className="absolute z-[1] inset-0 bg-gradient-to-t from-[#000000fb] via-[#00000042] to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 gradient-overlay"></div>
-                            </div>
-
-                            <div className="h-[450px] relative overflow-hidden rounded-[10px] bg-[#080808] border-1 border-zinc-900 profile-item">
-                                <Image
-                                    src={Hipster}
-                                    alt="Christian Jay Cuya - Hipster"
-                                    className="grayscale hover:grayscale-0 transition-all duration-300 profile-image object-cover h-[450px] w-full"
-                                />
-                                <div className="p-[10px] z-[2] profile-info">
-                                    <div className="flex flex-col gap-[10px] p-[10px] rounded-[10px] profile-content">
-                                        <div className="flex justify-start">
-                                            <span className="profile-title">Hipster</span>
-                                        </div>
-                                        <div>
-                                            <h3>Christian Jay Cuya</h3>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="absolute z-[1] inset-0 bg-gradient-to-t from-[#000000fb] via-[#00000042] to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 gradient-overlay"></div>
-                            </div>
-
-                            <div className="h-[450px] relative overflow-hidden rounded-[10px] bg-[#080808] border-1 border-zinc-900 profile-item">
-                                <Image
-                                    src={Hacker}
-                                    alt="Andrea Anne Orca - Hacker"
-                                    className="grayscale hover:grayscale-0 transition-all duration-300 profile-image object-cover h-[450px] w-full"
-                                />
-                                <div className="p-[10px] z-[2] profile-info">
-                                    <div className="flex flex-col gap-[10px] p-[10px] rounded-[10px] profile-content">
-                                        <div className="flex justify-start">
-                                            <span className="profile-title">Hacker</span>
-                                        </div>
-                                        <div>
-                                            <h3>Andrea Anne Orca</h3>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="absolute z-[1] inset-0 bg-gradient-to-t from-[#000000fb] via-[#00000042] to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 gradient-overlay"></div>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </div>
             </section>
-            <ComingSoon/>
-            <Footer/>
+            <section className="pt-[50px] pb-[50px] mx-auto flex justify-center bg-black">
+                <div className="flex items center gap-[50px] max-[580px]:flex-col items-center section-container page-width">
+                    <div className="flex items-center justify-center gap-[15px] w-[40%] max-[580px]:w-[100%] bg-zinc-800 h-[100%] rounded-lg">
+                        <p><IconPhoto /></p>
+                    </div>
+                    <div className="flex flex-col py-[30px] gap-[20px] w-[60%] max-[580px]:w-[100%]">
+                        <div className="flex justify-start">
+                            <span className="section-label">Project Adviser</span>
+                        </div>
+                        <div>
+                            <h2 className="section-headline">Mr. Arvin Shelby De Leon</h2>
+                            <span className="text-[24px] font-medium text-zinc-400">Solutions Architect</span>
+                        </div>
+                        <p className="text-zinc-500 description">
+                            As a Solutions Architect at Revdojo, Mr. De Leon excels in providing recommendations and roadmaps for technical solutions, offering strategic guidance, and overseeing project lifecycles. In his role as Project Adviser, he brings this expertise to our project, ensuring robust technical strategies and effective implementation throughout the development process.
+                        </p>
+                        {/* <div className="flex gap-3 mt-6 justify-start">
+                            // For Button
+                        </div> */}
+                    </div>
+                </div>
+            </section>
+            <section className="pt-[50px] pb-[100px] mx-auto flex justify-center bg-black">
+                <div className="flex items center flex-row-reverse gap-[50px] max-[580px]:flex-col items-center section-container page-width">
+                    <div className="flex items-center justify-center gap-[15px] w-[40%] max-[580px]:w-[100%] bg-zinc-800 h-[100%] rounded-lg">
+                        <p><IconPhoto /></p>
+                    </div>
+                    <div className="flex flex-col py-[30px] gap-[20px] w-[60%] max-[580px]:w-[100%]">
+                        <div className="flex justify-start">
+                            <span className="section-label">Project Beneficiary </span>
+                        </div>
+                        <div>
+                            <h2 className="section-headline">Mr. Matthew John Barcelon</h2>
+                            <span className="text-[24px] font-medium text-zinc-400">Fitness Coach</span>
+                        </div>
+                        <p className="text-zinc-500 description">
+                            As the Project Beneficiary, Mr. Barcelon offers valuable insights and feedback from a fitness coach’s perspective. His expertise helps shape the project to better meet the needs of fitness enthusiasts and beginners.
+                        </p>
+                        {/* <div className="flex gap-3 mt-6 justify-start">
+                            // For Button
+                        </div> */}
+                    </div>
+                </div>
+            </section>
+            <Footer />
         </main>
+    );
+}
+
+function ProfileCard({ imageSrc, altText, title, name, description, secondaryTitle, facebook, instagram }: ProfileCardProps) {
+    return (
+        <div className="h-[520px] relative overflow-hidden rounded-[10px] bg-[#080808] border border-zinc-900 profile-item">
+            <Image
+                src={imageSrc}
+                alt={altText}
+                className="grayscale hover:grayscale-0 transition-all duration-300 profile-image object-cover h-full w-full"
+            />
+            <div className="absolute inset-0 bg-custom-gradient opacity-0 hover:opacity-100 transition-opacity duration-300 gradient-overlay"></div>
+            <div className="p-[10px] z-[2] profile-info">
+                <div className="flex flex-col gap-[10px] px-[20px] rounded-[10px] profile-content">
+                    <div className="flex justify-start">
+                        <span className="profile-title">{title}</span>
+                    </div>
+                    <div className="pt-[10px] profile-details">
+                        <div className="pl-[10px] border-l border-l-zinc-500">
+                            <div className="flex flex-col pl-[10px] gap-[2px]">
+                                <div className="flex flex-col gap-[8px]">
+                                    <h3 className="text-[20px] leading-[15px]">{name}</h3>
+                                    <span className="text-[14px] text-zinc-500">{secondaryTitle}</span>
+                                </div>
+                                <p className="text-[12px] mt-[10px] mb-[-5px] leading-[20px] text-zinc-400">{description}</p>
+                            </div>
+                        </div>
+                        <div className="mt-[20px] flex gap-[10px]">
+                            {facebook && (
+                                <div className="p-[5px] rounded bg-zinc-800 duration-300 hover:bg-zinc-700">
+                                    <a href={facebook} target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white transition-colors duration-300">
+                                        <IconBrandFacebook size={20} className="transition-transform duration-300 transform hover:scale-110" />
+                                    </a>
+                                </div>
+                            )}
+                            {instagram && (
+                                <div className="p-[5px] rounded bg-zinc-800 duration-300 hover:bg-zinc-700">
+                                    <a href={instagram} target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white transition-colors duration-300">
+                                        <IconBrandInstagram size={20} className="transition-transform duration-300 transform hover:scale-110" />
+                                    </a>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }

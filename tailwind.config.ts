@@ -11,8 +11,7 @@ const tailwindConfig: Config = {
   theme: {
     extend: {
       backgroundImage: {
-        "hero-pattern":
-          "url('./app/images/Landing page background - Fitformotion.jpg')",
+        'custom-gradient': 'linear-gradient(to top, #000000ff, #000000ec, #0000007b, transparent)'
       },
     },
   },
