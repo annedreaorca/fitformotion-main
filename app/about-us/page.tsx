@@ -21,16 +21,6 @@ interface ProfileCardProps {
 export default async function AboutUs() {
     const team = [
         {
-            imageSrc: Hustler,
-            altText: "Mahasiah Bautista - Hustler",
-            title: "Hustler",
-            secondaryTitle: "Team Leader",
-            name: "Mahasiah Bautista",
-            description: "His leadership and relentless work ethic keep the team motivated and focused on success.",
-            facebook: "https://www.facebook.com/siahbautista",
-            instagram: "https://www.instagram.com/haisaham"
-        },
-        {
             imageSrc: Hipster,
             altText: "Christian Jay Cuya - Hipster",
             title: "Hipster",
@@ -39,6 +29,16 @@ export default async function AboutUs() {
             description: "His innovative approach ensures that our platform is both aesthetically pleasing and highly usable.",
             facebook: "https://www.facebook.com/christianjay.cuya.90/",
             instagram: "https://www.instagram.com/cjaycuya/"
+        },
+        {
+            imageSrc: Hustler,
+            altText: "Mahasiah Bautista - Hustler",
+            title: "Hustler",
+            secondaryTitle: "Team Leader",
+            name: "Mahasiah Bautista",
+            description: "His leadership and relentless work ethic keep the team motivated and focused on success.",
+            facebook: "https://www.facebook.com/siahbautista",
+            instagram: "https://www.instagram.com/haisaham"
         },
         {
             imageSrc: Hacker,
@@ -104,7 +104,12 @@ export default async function AboutUs() {
                             <span className="text-[24px] font-medium text-zinc-400">Solutions Architect</span>
                         </div>
                         <p className="text-zinc-500 description">
-                            As a Solutions Architect at Revdojo, Mr. De Leon excels in providing recommendations and roadmaps for technical solutions, offering strategic guidance, and overseeing project lifecycles. In his role as Project Adviser, he brings this expertise to our project, ensuring robust technical strategies and effective implementation throughout the development process.
+                        Mr. Arvin Shelby De Leon earned his Bachelor's degree in Computer Science in 2016, receiving the Best Thesis award and being named Programmer of the Year. 
+                        In 2020, he completed his Master's degree in Computer Science at Ramon Magsaysay Technological University, now known as President Ramon Magsaysay 
+                        State University (PRMSU). With over 8 years of industry experience, Mr. De Leon currently serves as a Solutions Architect at Revdojo, where he
+                        provides recommendations and roadmaps for technical solutions, offers strategic guidance, and oversees project lifecycles. 
+                        As the Project Adviser, his extensive expertise ensures that the technical strategies and implementation throughout the project are 
+                        efficient and well-structured, guiding us toward success.
                         </p>
                         {/* <div className="flex gap-3 mt-6 justify-start">
                             // For Button
@@ -123,10 +128,15 @@ export default async function AboutUs() {
                         </div>
                         <div>
                             <h2 className="section-headline">Mr. Matthew John Barcelon</h2>
-                            <span className="text-[24px] font-medium text-zinc-400">Fitness Coach</span>
+                            <span className="text-[24px] font-medium text-zinc-400">Amateur Fitness Instructor</span>
                         </div>
                         <p className="text-zinc-500 description">
-                            As the Project Beneficiary, Mr. Barcelon offers valuable insights and feedback from a fitness coach’s perspective. His expertise helps shape the project to better meet the needs of fitness enthusiasts and beginners.
+                        As the Project Beneficiary, Mr. Barcelon offers valuable insights and feedback from a fitness coach’s perspective. 
+                        Known as "Coach Bars" by his students, Mr. Barcelon has been teaching swimming classes for about five years with the New Wave Swim Team.
+                         A lifelong fitness enthusiast, he is also an amateur fitness instructor actively pursuing certification. His goal is to share his knowledge 
+                         of overall physical fitness through scientifically proven methods, while promoting the joy, positivity, and sense of fulfillment that come 
+                         with leading a fit and healthy lifestyle. His hands-on experience and passion for fitness help shape the project to better meet the needs 
+                         of both fitness enthusiasts and beginners alike.
                         </p>
                         {/* <div className="flex gap-3 mt-6 justify-start">
                             // For Button
