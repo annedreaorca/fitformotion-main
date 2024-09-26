@@ -148,7 +148,7 @@ svg.tabler-icon.tabler-icon-star-filled.text-primary,
   padding: 20px;
 }
 .page-width {
-  width: min(100% - 100px, 1024px);
+  width: min(100% - 100px, 1224px);
   margin-inline: auto;
 }
 @media screen and (max-width: 768px) {

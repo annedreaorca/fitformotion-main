@@ -6,6 +6,7 @@ import Image, { StaticImageData } from "next/image";
 import Footer from "../_components/Footer/Footer";
 import Header from "../_components/Header/Header";
 
+
 // Define props type for ProfileCard component
 interface ProfileCardProps {
     imageSrc: StaticImageData;
