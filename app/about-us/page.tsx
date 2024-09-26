@@ -46,7 +46,7 @@ export default async function AboutUs() {
             title: "Hacker",
             secondaryTitle: "Lead Developer",
             name: "Andrea Anne Orca",
-            description: "Her technical expertise and problem-solving skills are crucial in building and maintaining the platform's core functionalities.",
+            description: "Her technical expertise and problem-solving skills are crucial in building and maintaining the platforms core functionalities.",
             facebook: "https://www.facebook.com/aa.orca",
             instagram: "https://www.instagram.com/aa.orcs/"
         }
@@ -104,8 +104,8 @@ export default async function AboutUs() {
                             <span className="text-[24px] font-medium text-zinc-400">Solutions Architect</span>
                         </div>
                         <p className="text-zinc-500 description">
-                        Mr. Arvin Shelby De Leon earned his Bachelor's degree in Computer Science in 2016, receiving the Best Thesis award and being named Programmer of the Year. 
-                        In 2020, he completed his Master's degree in Computer Science at Ramon Magsaysay Technological University, now known as President Ramon Magsaysay 
+                        Mr. Arvin Shelby De Leon earned his Bachelor&apos;s degree in Computer Science in 2016, receiving the Best Thesis award and being named Programmer of the Year. 
+                        In 2020, he completed his Master&apos;s degree in Computer Science at Ramon Magsaysay Technological University, now known as President Ramon Magsaysay 
                         State University (PRMSU). With over 8 years of industry experience, Mr. De Leon currently serves as a Solutions Architect at Revdojo, where he
                         provides recommendations and roadmaps for technical solutions, offers strategic guidance, and oversees project lifecycles. 
                         As the Project Adviser, his extensive expertise ensures that the technical strategies and implementation throughout the project are 
@@ -131,8 +131,8 @@ export default async function AboutUs() {
                             <span className="text-[24px] font-medium text-zinc-400">Amateur Fitness Instructor</span>
                         </div>
                         <p className="text-zinc-500 description">
-                        As the Project Beneficiary, Mr. Barcelon offers valuable insights and feedback from a fitness coach’s perspective. 
-                        Known as "Coach Bars" by his students, Mr. Barcelon has been teaching swimming classes for about five years with the New Wave Swim Team.
+                        As the Project Beneficiary, Mr. Barcelon offers valuable insights and feedback from a fitness coach&apos;s perspective. 
+                        Known as &quot;Coach Bars&quot; by his students, Mr. Barcelon has been teaching swimming classes for about five years with the New Wave Swim Team.
                          A lifelong fitness enthusiast, he is also an amateur fitness instructor actively pursuing certification. His goal is to share his knowledge 
                          of overall physical fitness through scientifically proven methods, while promoting the joy, positivity, and sense of fulfillment that come 
                          with leading a fit and healthy lifestyle. His hands-on experience and passion for fitness help shape the project to better meet the needs 
