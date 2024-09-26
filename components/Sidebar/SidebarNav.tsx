@@ -14,15 +14,15 @@ interface NavItemProps {
 }
 
 import {
-  IconHistory,
-  IconListSearch,
   IconBarbell,
-  IconClipboardList,
+  IconBodyScan,
   IconCrown,
+  IconHistory,
   IconLayoutDashboard,
   IconLayoutSidebarLeftCollapse,
   IconLayoutSidebarLeftExpand,
-  IconBodyScan
+  IconListSearch,
+  IconMessageChatbot
 } from "@tabler/icons-react";
 
 export default function SidebarNav() {
@@ -86,6 +86,13 @@ export default function SidebarNav() {
           label="My Physique"
           href="/gallery"
           active={pathname.startsWith("/gallery")}
+        />
+
+        <NavItem
+          icon={<IconMessageChatbot size={22} className="shrink-0" />}
+          label="ChatBot"
+          href="/chatbot"
+          active={pathname === "/chatbot"}
         />
 
         <NavItem
