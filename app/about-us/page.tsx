@@ -1,7 +1,7 @@
 "use-client"
 
-import { Hacker, Hipster, Hustler } from "@/app/index";
-import { IconBrandFacebook, IconBrandInstagram, IconPhoto } from '@tabler/icons-react';
+import { Hacker, Hipster, Hustler, ProjectAdviser, ProjectBeneficiary } from "@/app/index";
+import { IconBrandFacebook, IconBrandInstagram } from '@tabler/icons-react';
 import Image, { StaticImageData } from "next/image";
 import Footer from "../_components/Footer/Footer";
 import Header from "../_components/Header/Header";
@@ -14,22 +14,12 @@ interface ProfileCardProps {
     secondaryTitle: string;
     name: string;
     description: string;
-    facebook?: string; // Optional Facebook link
-    instagram?: string; // Optional Instagram link
+    facebook?: string;
+    instagram?: string;
 }
 
 export default async function AboutUs() {
     const team = [
-        {
-            imageSrc: Hipster,
-            altText: "Christian Jay Cuya - Hipster",
-            title: "Hipster",
-            secondaryTitle: "Lead Designer",
-            name: "Christian Jay Cuya",
-            description: "His innovative approach ensures that our platform is both aesthetically pleasing and highly usable.",
-            facebook: "https://www.facebook.com/christianjay.cuya.90/",
-            instagram: "https://www.instagram.com/cjaycuya/"
-        },
         {
             imageSrc: Hustler,
             altText: "Mahasiah Bautista - Hustler",
@@ -49,6 +39,16 @@ export default async function AboutUs() {
             description: "Her technical expertise and problem-solving skills are crucial in building and maintaining the platforms core functionalities.",
             facebook: "https://www.facebook.com/aa.orca",
             instagram: "https://www.instagram.com/aa.orcs/"
+        },
+        {
+            imageSrc: Hipster,
+            altText: "Christian Jay Cuya - Hipster",
+            title: "Hipster",
+            secondaryTitle: "Lead Designer",
+            name: "Christian Jay Cuya",
+            description: "His innovative approach ensures that our platform is both aesthetically pleasing and highly usable.",
+            facebook: "https://www.facebook.com/christianjay.cuya.90/",
+            instagram: "https://www.instagram.com/cjaycuya/"
         }
     ];
 
@@ -92,10 +92,13 @@ export default async function AboutUs() {
             </section>
             <section className="pt-[50px] pb-[50px] mx-auto flex justify-center bg-black">
                 <div className="flex items center gap-[50px] max-[580px]:flex-col items-center section-container page-width">
-                    <div className="flex items-center justify-center gap-[15px] w-[40%] max-[580px]:w-[100%] bg-zinc-800 h-[100%] rounded-lg">
-                        <p><IconPhoto /></p>
+                    <div className="flex items-center justify-center gap-[15px] w-[40%] max-[580px]:w-[100%]">
+                        <Image
+                            src={ProjectAdviser}
+                            alt="Mr. Arvin Shelby De Leon - Project Adviser"
+                        />
                     </div>
-                    <div className="flex flex-col py-[30px] gap-[20px] w-[60%] max-[580px]:w-[100%]">
+                    <div className="flex flex-col py-[30px] max-[580px]:py-[0px] gap-[20px] w-[60%] max-[580px]:w-[100%]">
                         <div className="flex justify-start">
                             <span className="section-label">Project Adviser</span>
                         </div>
@@ -104,12 +107,7 @@ export default async function AboutUs() {
                             <span className="text-[24px] font-medium text-zinc-400">Solutions Architect</span>
                         </div>
                         <p className="text-zinc-500 description">
-                        Mr. Arvin Shelby De Leon earned his Bachelor&apos;s degree in Computer Science in 2016, receiving the Best Thesis award and being named Programmer of the Year. 
-                        In 2020, he completed his Master&apos;s degree in Computer Science at Ramon Magsaysay Technological University, now known as President Ramon Magsaysay 
-                        State University (PRMSU). With over 8 years of industry experience, Mr. De Leon currently serves as a Solutions Architect at Revdojo, where he
-                        provides recommendations and roadmaps for technical solutions, offers strategic guidance, and oversees project lifecycles. 
-                        As the Project Adviser, his extensive expertise ensures that the technical strategies and implementation throughout the project are 
-                        efficient and well-structured, guiding us toward success.
+                            Mr. Arvin Shelby De Leon earned his Bachelor&apos;s degree in Computer Science in 2016, receiving the Best Thesis award and being named Programmer of the Year. In 2020, he completed his Master&apos;s degree in Computer Science at Ramon Magsaysay Technological University, now known as President Ramon Magsaysay State University (PRMSU). With over 8 years of industry experience, Mr. De Leon currently serves as a Solutions Architect at Revdojo, where he provides recommendations and roadmaps for technical solutions, offers strategic guidance, and oversees project lifecycles. As the Project Adviser, his extensive expertise ensures that the technical strategies and implementation throughout the project are efficient and well-structured, guiding us toward success.
                         </p>
                         {/* <div className="flex gap-3 mt-6 justify-start">
                             // For Button
@@ -119,10 +117,13 @@ export default async function AboutUs() {
             </section>
             <section className="pt-[50px] pb-[100px] mx-auto flex justify-center bg-black">
                 <div className="flex items center flex-row-reverse gap-[50px] max-[580px]:flex-col items-center section-container page-width">
-                    <div className="flex items-center justify-center gap-[15px] w-[40%] max-[580px]:w-[100%] bg-zinc-800 h-[100%] rounded-lg">
-                        <p><IconPhoto /></p>
+                    <div className="flex items-center justify-center gap-[15px] w-[40%] max-[580px]:w-[100%]">
+                        <Image
+                            src={ProjectBeneficiary}
+                            alt="Mr. Arvin Shelby De Leon - Project Adviser"
+                        />
                     </div>
-                    <div className="flex flex-col py-[30px] gap-[20px] w-[60%] max-[580px]:w-[100%]">
+                    <div className="flex flex-col py-[30px] gap-[20px] w-[60%] max-[580px]:w-[100%] max-[580px]:py-[0px]">
                         <div className="flex justify-start">
                             <span className="section-label">Project Beneficiary </span>
                         </div>
@@ -131,12 +132,7 @@ export default async function AboutUs() {
                             <span className="text-[24px] font-medium text-zinc-400">Amateur Fitness Instructor</span>
                         </div>
                         <p className="text-zinc-500 description">
-                        As the Project Beneficiary, Mr. Barcelon offers valuable insights and feedback from a fitness coach&apos;s perspective. 
-                        Known as &quot;Coach Bars&quot; by his students, Mr. Barcelon has been teaching swimming classes for about five years with the New Wave Swim Team.
-                         A lifelong fitness enthusiast, he is also an amateur fitness instructor actively pursuing certification. His goal is to share his knowledge 
-                         of overall physical fitness through scientifically proven methods, while promoting the joy, positivity, and sense of fulfillment that come 
-                         with leading a fit and healthy lifestyle. His hands-on experience and passion for fitness help shape the project to better meet the needs 
-                         of both fitness enthusiasts and beginners alike.
+                            As the Project Beneficiary, Mr. Barcelon offers valuable insights and feedback from a fitness coach&apos;s perspective. Known as &quot;Coach Bars&quot; by his students, Mr. Barcelon has been teaching swimming classes for about five years with the New Wave Swim Team. A lifelong fitness enthusiast, he is also an amateur fitness instructor actively pursuing certification. His goal is to share his knowledge of overall physical fitness through scientifically proven methods, while promoting the joy, positivity, and sense of fulfillment that come with leading a fit and healthy lifestyle. His hands-on experience and passion for fitness help shape the project to better meet the needs of both fitness enthusiasts and beginners alike.
                         </p>
                         {/* <div className="flex gap-3 mt-6 justify-start">
                             // For Button
