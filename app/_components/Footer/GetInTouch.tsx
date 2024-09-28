@@ -1,6 +1,6 @@
 "use client";
 
-import { IconMailFilled, IconPhoneFilled } from "@tabler/icons-react"; // Import Tabler icons
+import { IconBrandFacebookFilled, IconMailFilled, IconPhoneFilled } from "@tabler/icons-react"; // Import Tabler icons
 import clsx from "clsx";
 import Link from "next/link";
 
@@ -14,12 +14,16 @@ export function GetInTouch() {
             label: "fitformotion.business@gmail.com",
             href: "mailto:fitformotion.business@gmail.com",
             icon: <IconMailFilled size={18} />,},
+        {
+            label: "facebook",
+            href: "https://www.facebook.com/fitformotionapp",
+            icon: <IconBrandFacebookFilled size={18} />,},
         ];
     
     return (
-        <div className="flex flex-col max-[580px]:gap-[20px] gap-[20px]">
-            <span className="footer-label text-center">Get In Touch</span>
-            <ul className="flex max-[580px]:flex-col max-[580px]:gap-[20px] gap-[30px] footer-links">
+        <div className="flex flex-col gap-[20px]">
+            <span className="footer-label max-[640px]:text-center">Get In Touch</span>
+            <ul className="flex flex-col gap-[18px] max-[640px]:gap-[20px] max-[640px]:items-center footer-links">
             {footerLinks.map((item) => (
                 <NavItem
                     key={item.href}
@@ -46,7 +50,7 @@ function NavItem({ label, href, icon}: FooterProps) {
             href={href}
             className={clsx(
                 "link transition-colors duration-200 ease-in-out",
-                "text-zinc-600  flex justify-center text-center gap-[5px]"
+                "text-zinc-600 flex max-[640px]:justify-center max-[640px]:text-center gap-[5px]"
             )}
             >
                 {icon}

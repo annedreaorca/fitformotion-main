@@ -63,7 +63,7 @@ export default async function AboutUs() {
                     </div>
                 </div>
             </section>
-            <section className="bg-black pt-[100px] pb-[50px]">
+            <section className="flex flex-col gap-[200px] bg-black py-[100px]">
                 <div className="flex flex-col gap-[40px] page-width">
                     <div className="flex flex-col items-center gap-[20px]">
                         <div className="flex justify-center">
@@ -90,54 +90,52 @@ export default async function AboutUs() {
                         </div>
                     </div>
                 </div>
-            </section>
-            <section className="pt-[50px] pb-[50px] mx-auto flex justify-center bg-black">
-                <div className="flex items center gap-[50px] max-[580px]:flex-col items-center section-container page-width">
-                    <div className="flex items-center justify-center gap-[15px] w-[40%] max-[580px]:w-[100%]">
-                        <Image
-                            src={ProjectAdviser}
-                            alt="Mr. Arvin Shelby De Leon - Project Adviser"
-                        />
+                <div className="flex flex-col gap-[200px]  section-container page-width">
+                    <div className="flex items center gap-[50px] max-[580px]:flex-col items-center">
+                        <div className="flex items-center justify-center gap-[15px] w-[40%] max-[580px]:w-[100%]">
+                            <Image
+                                src={ProjectAdviser}
+                                alt="Mr. Arvin Shelby De Leon - Project Adviser"
+                            />
+                        </div>
+                        <div className="flex flex-col py-[30px] max-[580px]:py-[0px] gap-[20px] w-[60%] max-[580px]:w-[100%]">
+                            <div className="flex justify-start">
+                                <span className="section-label">Project Adviser</span>
+                            </div>
+                            <div>
+                                <h2 className="section-headline">Mr. Arvin Shelby De Leon</h2>
+                                <span className="text-[24px] font-medium text-zinc-400">Solutions Architect</span>
+                            </div>
+                            <p className="text-zinc-500 description">
+                                Mr. Arvin Shelby De Leon earned his Bachelor&apos;s degree in Computer Science in 2016, receiving the Best Thesis award and being named Programmer of the Year. In 2020, he completed his Master&apos;s degree in Computer Science at Ramon Magsaysay Technological University, now known as President Ramon Magsaysay State University (PRMSU). With over 8 years of industry experience, Mr. De Leon currently serves as a Solutions Architect at Revdojo, where he provides recommendations and roadmaps for technical solutions, offers strategic guidance, and oversees project lifecycles. As the Project Adviser, his extensive expertise ensures that the technical strategies and implementation throughout the project are efficient and well-structured, guiding us toward success.
+                            </p>
+                            {/* <div className="flex gap-3 mt-6 justify-start">
+                                // For Button
+                            </div> */}
+                        </div>
                     </div>
-                    <div className="flex flex-col py-[30px] max-[580px]:py-[0px] gap-[20px] w-[60%] max-[580px]:w-[100%]">
-                        <div className="flex justify-start">
-                            <span className="section-label">Project Adviser</span>
+                    <div className="flex items center flex-row-reverse gap-[50px] max-[580px]:flex-col items-center">
+                        <div className="flex items-center justify-center gap-[15px] w-[40%] max-[580px]:w-[100%]">
+                            <Image
+                                src={ProjectBeneficiary}
+                                alt="Mr. Arvin Shelby De Leon - Project Adviser"
+                            />
                         </div>
-                        <div>
-                            <h2 className="section-headline">Mr. Arvin Shelby De Leon</h2>
-                            <span className="text-[24px] font-medium text-zinc-400">Solutions Architect</span>
+                        <div className="flex flex-col py-[30px] gap-[20px] w-[60%] max-[580px]:w-[100%] max-[580px]:py-[0px]">
+                            <div className="flex justify-start">
+                                <span className="section-label">Project Beneficiary </span>
+                            </div>
+                            <div>
+                                <h2 className="section-headline">Mr. Matthew John Barcelon</h2>
+                                <span className="text-[24px] font-medium text-zinc-400">Amateur Fitness Instructor</span>
+                            </div>
+                            <p className="text-zinc-500 description">
+                                As the Project Beneficiary, Mr. Barcelon offers valuable insights and feedback from a fitness coach&apos;s perspective. Known as &quot;Coach Bars&quot; by his students, Mr. Barcelon has been teaching swimming classes for about five years with the New Wave Swim Team. A lifelong fitness enthusiast, he is also an amateur fitness instructor actively pursuing certification. His goal is to share his knowledge of overall physical fitness through scientifically proven methods, while promoting the joy, positivity, and sense of fulfillment that come with leading a fit and healthy lifestyle. His hands-on experience and passion for fitness help shape the project to better meet the needs of both fitness enthusiasts and beginners alike.
+                            </p>
+                            {/* <div className="flex gap-3 mt-6 justify-start">
+                                // For Button
+                            </div> */}
                         </div>
-                        <p className="text-zinc-500 description">
-                            Mr. Arvin Shelby De Leon earned his Bachelor&apos;s degree in Computer Science in 2016, receiving the Best Thesis award and being named Programmer of the Year. In 2020, he completed his Master&apos;s degree in Computer Science at Ramon Magsaysay Technological University, now known as President Ramon Magsaysay State University (PRMSU). With over 8 years of industry experience, Mr. De Leon currently serves as a Solutions Architect at Revdojo, where he provides recommendations and roadmaps for technical solutions, offers strategic guidance, and oversees project lifecycles. As the Project Adviser, his extensive expertise ensures that the technical strategies and implementation throughout the project are efficient and well-structured, guiding us toward success.
-                        </p>
-                        {/* <div className="flex gap-3 mt-6 justify-start">
-                            // For Button
-                        </div> */}
-                    </div>
-                </div>
-            </section>
-            <section className="pt-[50px] pb-[100px] mx-auto flex justify-center bg-black">
-                <div className="flex items center flex-row-reverse gap-[50px] max-[580px]:flex-col items-center section-container page-width">
-                    <div className="flex items-center justify-center gap-[15px] w-[40%] max-[580px]:w-[100%]">
-                        <Image
-                            src={ProjectBeneficiary}
-                            alt="Mr. Arvin Shelby De Leon - Project Adviser"
-                        />
-                    </div>
-                    <div className="flex flex-col py-[30px] gap-[20px] w-[60%] max-[580px]:w-[100%] max-[580px]:py-[0px]">
-                        <div className="flex justify-start">
-                            <span className="section-label">Project Beneficiary </span>
-                        </div>
-                        <div>
-                            <h2 className="section-headline">Mr. Matthew John Barcelon</h2>
-                            <span className="text-[24px] font-medium text-zinc-400">Amateur Fitness Instructor</span>
-                        </div>
-                        <p className="text-zinc-500 description">
-                            As the Project Beneficiary, Mr. Barcelon offers valuable insights and feedback from a fitness coach&apos;s perspective. Known as &quot;Coach Bars&quot; by his students, Mr. Barcelon has been teaching swimming classes for about five years with the New Wave Swim Team. A lifelong fitness enthusiast, he is also an amateur fitness instructor actively pursuing certification. His goal is to share his knowledge of overall physical fitness through scientifically proven methods, while promoting the joy, positivity, and sense of fulfillment that come with leading a fit and healthy lifestyle. His hands-on experience and passion for fitness help shape the project to better meet the needs of both fitness enthusiasts and beginners alike.
-                        </p>
-                        {/* <div className="flex gap-3 mt-6 justify-start">
-                            // For Button
-                        </div> */}
                     </div>
                 </div>
             </section>

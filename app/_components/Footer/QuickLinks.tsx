@@ -30,8 +30,8 @@ export function QuickLinks() {
 
     return (
         <div className="flex flex-col gap-[19px] max-[580px]:gap-[20px]">
-            <span className="footer-label text-center">Quick Links</span>
-            <ul className="flex max-[580px]:flex-col max-[580px]:gap-[20px] gap-[30px] footer-links text-center ">
+            <span className="footer-label max-[640px]:text-center">Quick Links</span>
+            <ul className="flex flex-col max-[580px]:gap-[20px] gap-[18px] max-[640px]:text-center footer-links">
             {footerLinks.map((item) => (
                 <NavItem
                     key={item.href}
@@ -56,7 +56,7 @@ function NavItem({ label, href}: FooterProps) {
             href={href}
             className={clsx(
                 "link transition-colors duration-200 ease-in-out",
-                "text-zinc-600 text-center"
+                "text-zinc-600 max-[640px]:text-center"
             )}
             >
             {label}

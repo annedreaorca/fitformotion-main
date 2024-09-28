@@ -77,7 +77,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-[100px] mx-auto flex justify-center our-services">
+      <section className="py-[100px] mx-auto flex justify-center our-services" id="get-started">
         <div className="flex gap-[50px] max-[580px]:flex-col items-center section-container page-width">
           <div className="flex flex-col gap-[20px] w-[40%] max-[580px]:w-[100%]">
             <div className="flex justify-start">
@@ -90,7 +90,7 @@ export default function Home() {
                 className="bg-primary-800 text-white"
                 as={Link}
                 prefetch={false}
-                href="/dashboard"
+                href="/features"
                 size="md"
               >
                 <IconPlayerPlayFilled size={18} />
