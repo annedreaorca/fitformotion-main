@@ -1,57 +1,57 @@
-import { supportData } from "./supportData";
-import PageHeading from "@/components/PageHeading/PageHeading";
-import { Card, CardBody, CardHeader } from "@nextui-org/card";
+'use client';
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
-function CustomCard({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
+const PremiumPage = () => {
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const router = useRouter();
+
+  const handlePayment = async () => {
+    setLoading(true);
+    setErrorMessage('');
+    try {
+      // Call the payment-intent API to create a new Payment Intent
+      const paymentIntentResponse = await fetch('/api/paymongo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ amount: 10000, description: 'Fitformotion Premium' }), // Amount in PHP cents
+      });
+
+      if (!paymentIntentResponse.ok) {
+        const errorData = await paymentIntentResponse.json();
+        setErrorMessage(`Error: ${errorData.error || 'Failed to create Payment Intent'}`);
+        setLoading(false);
+        return;
+      }
+
+      const paymentIntent = await paymentIntentResponse.json();
+
+      // Display the payment link (checkout URL) for the user to complete the payment
+      const checkoutUrl = paymentIntent.data.attributes.checkout_url;
+
+      // Open the payment link in a new tab
+      window.open(checkoutUrl, '_blank');
+
+    } catch (error) {
+      setErrorMessage(`Error creating payment: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <Card shadow="none" className="shadow-md">
-      <CardHeader className="text-xl pb-0">{title}</CardHeader>
-      <CardBody className="text-zinc-600 dark:text-zinc-400 text-sm">{children}</CardBody>
-    </Card>
+    <div>
+      <h1>Upgrade to Premium</h1>
+      <p>Get access to premium features for PHP 100/month!</p>
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+      <button onClick={handlePayment} disabled={loading}>
+        {loading ? 'Processing...' : 'Get Premium'}
+      </button>
+    </div>
   );
-}
+};
 
-function CustomGrid({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">{children}</div>
-  );
-}
-
-function SectionTitle({ title }: { title: string }) {
-  return <h1 className="text-2xl mb-3 font-bold">{title}</h1>;
-}
-
-function SectionSubtitle({ title }: { title: string }) {
-  return <h2 className="text-zinc-600 dark:text-zinc-400 mb-3 text-sm">{title}</h2>;
-}
-
-export default function Premium() {
-  return (
-    <>
-      <PageHeading title="Premium Plan" />
-      <p className="dark:text-zinc-400 text-zinc-600 mb-5">
-        Upgrade your plan to access more exercises and routines.
-      </p>
-
-      {/* {supportData.map((section, index) => (
-        <div key={index}>
-          <SectionTitle title={section.title} />
-          <SectionSubtitle title={section.subtitle} />
-          <CustomGrid>
-            {section.cards.map((card, cardIndex) => (
-              <CustomCard key={cardIndex} title={card.title}>
-                {card.content}
-              </CustomCard>
-            ))}
-          </CustomGrid>
-        </div>
-      ))} */}
-    </>
-  );
-}
+export default PremiumPage;
