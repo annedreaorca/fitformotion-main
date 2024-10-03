@@ -88,7 +88,7 @@ export default function SidebarNav() {
           active={pathname.startsWith("/gallery")}
         />
 
-        {/* <NavItem
+        <NavItem
           icon={<IconMessageChatbot size={22} className="shrink-0" />}
           label="ChatBot"
           href="/chatbot"
@@ -101,7 +101,7 @@ export default function SidebarNav() {
           href="/premium"
           active={pathname.startsWith("/premium")}
         />
-         */}
+        
         <SidebarToggle />
 
         <div className="absolute bottom-0 left-0 right-0 py-5 px-5 flex flex-col items-start gap-[20px]">
