@@ -25,10 +25,6 @@ export function HeaderLinks() {
         href: "/about-us",
         active: pathname === "/about-us" },
     {
-        label: "Contact",
-        href: "/contact-us",
-        active: pathname === "/contact-us" },
-    {
         label: "FAQ",
         href: "/faq",
         active: pathname === "/faq" },

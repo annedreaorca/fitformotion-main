@@ -80,7 +80,7 @@ export default function SidebarNav() {
           href="/profile/advanced"
           active={pathname.startsWith("/profile/advanced")}
         /> */}
- 
+
         <NavItem
           icon={<IconBodyScan size={22} className="shrink-0" />}
           label="My Physique"

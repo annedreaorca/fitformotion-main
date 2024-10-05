@@ -18,9 +18,6 @@ export function QuickLinks() {
             label: "About",
             href: "/about-us", },
         {
-            label: "Contact",
-            href: "/contact-us", },
-        {
             label: "FAQ",
             href: "/faq",},
         {
