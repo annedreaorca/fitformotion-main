@@ -87,11 +87,11 @@ export default function ExerciseTable({
                     src: `/images/exercises/${formatExerciseNameForImage(exercise.name)}/images/1.jpg`,
                     className: "hidden md:block",
                   }}
-                  description={
-                    <span className="text-zinc-600 dark:text-zinc-400">
-                      {formatDisplayName(exercise.category)}
-                    </span>
-                  }
+                  // description={
+                  //   <span className="text-zinc-600 dark:text-zinc-400">
+                  //     {formatDisplayName(exercise.category)}
+                  //   </span>
+                  // }
                   name={exercise.name}
                 />
               </TableCell>
