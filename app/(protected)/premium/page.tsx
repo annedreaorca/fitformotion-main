@@ -47,7 +47,7 @@ const PremiumPage = () => {
   return (
     <div className="page-container">
       <PageHeading title="Upgrade to Premium" />
-      <p className="mb-[20px]">At Fitformotion, we believe in making fitness accessible to everyone. Our freemium model allows you to choose a plan that best suits your fitness journey. Whether you're just starting or are ready to take your training to the next level, we have you covered! </p>
+      <p className="mb-[20px]">At Fitformotion, we believe in making fitness accessible to everyone. Our freemium model allows you to choose a plan that best suits your fitness journey. Whether you&apos;re just starting or are ready to take your training to the next level, we have you covered! </p>
       <div className="flex gap-[40px] max-[768px]:flex-col">
         <div className="bg-zinc-200 dark:bg-[#070707] p-[35px] w-[50%] rounded-[15px] border-1 border-zinc-400 dark:border-zinc-900 max-[768px]:w-[100%]">
           <p className="font-[500] text-[16px] uppercase plan-type">Base Plan</p>

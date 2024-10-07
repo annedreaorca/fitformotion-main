@@ -20,7 +20,7 @@ export default async function Pricing() {
                             <span className="section-label">Choose Your Plan</span>
                         </div>
                         <h2 className="section-headline text-center">Pricing Plans for Fitformotion</h2>
-                        <p className="text-zinc-500 description text-center">At Fitformotion, we believe in making fitness accessible to everyone. Our freemium model allows you to choose a plan that best suits your fitness journey. Whether you're just starting or are ready to take your training to the next level, we have you covered!</p>
+                        <p className="text-zinc-500 description text-center">At Fitformotion, we believe in making fitness accessible to everyone. Our freemium model allows you to choose a plan that best suits your fitness journey. Whether you&apos;re just starting or are ready to take your training to the next level, we have you covered!</p>
                     </div>
                     <PricingCards/>
                 </div>
