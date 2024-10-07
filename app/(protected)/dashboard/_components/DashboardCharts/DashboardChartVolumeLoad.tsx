@@ -1,5 +1,5 @@
-import { auth } from "@clerk/nextjs";
 import prisma from "@/prisma/prisma";
+import { auth } from "@clerk/nextjs";
 import { format } from "date-fns";
 import DashboardChartVolumeLoadClient from "./DashboardChartVolumeLoad.client";
 import {
@@ -99,7 +99,7 @@ export default async function DashboardChartVolumeLoad({
       }
 
       return {
-        period: format(startOfInterval, "dd-MM-yyyy"),
+        period: format(startOfInterval, "MM-dd-yyyy"),
         totalVolumeLoad: volumeLoadInInterval,
       };
     },
