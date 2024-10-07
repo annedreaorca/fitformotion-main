@@ -1,11 +1,11 @@
-import { auth } from "@clerk/nextjs";
 import prisma from "@/prisma/prisma";
+import { auth } from "@clerk/nextjs";
 import { format } from "date-fns";
+import DashboardChartWorkoutFrequencyClient from "./DashboardChartWorkoutFrequency.client";
 import {
   calculateIntervals,
   getIntervalStartAndEndDates,
 } from "./utils/dateUtils";
-import DashboardChartWorkoutFrequencyClient from "./DashboardChartWorkoutFrequency.client";
 
 type WorkoutFrequencyData = {
   period: string;
@@ -72,7 +72,7 @@ export default async function DashboardChartWorkoutFrequency({
       });
 
       return {
-        period: format(startOfInterval, "dd-MM-yyyy"),
+        period: format(startOfInterval, "MM-dd-yyyy"),
         workouts: workoutsInInterval.length,
       };
     },

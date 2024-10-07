@@ -1,5 +1,5 @@
-import { auth } from "@clerk/nextjs";
 import prisma from "@/prisma/prisma";
+import { auth } from "@clerk/nextjs";
 import { format } from "date-fns";
 import DashboardChartProgressOverTimeClient from "./DashboardChartProgressOverTime.client";
 import {
@@ -100,7 +100,7 @@ export default async function DashboardChartProgressOverTime({
       interval,
       dateRange,
     );
-    const period = format(startOfInterval, "dd-MM-yyyy");
+    const period = format(startOfInterval, "MM-dd-yyyy");
 
     let cumulativeWeightsUpToInterval = cumulativeWeights.filter((item) => {
       const itemDate = new Date(item.period);
