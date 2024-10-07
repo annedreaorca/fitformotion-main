@@ -1,11 +1,21 @@
 "use client";
 
-import { IconBrandFacebookFilled, IconMailFilled, IconPhoneFilled } from "@tabler/icons-react"; // Import Tabler icons
+import {
+    IconBrandFacebookFilled,
+    IconMailFilled,
+    IconMapPinFilled,
+    IconPhoneFilled
+} from "@tabler/icons-react";
+
 import clsx from "clsx";
 import Link from "next/link";
 
 export function GetInTouch() {
     const footerLinks = [
+        {
+            label: "#9 Aguinaldo St. New Asinan, Olongapo City, Zambales, Philippines 2200",
+            href: "https://www.google.com/maps/search/%239+Aguinaldo+St.+New+Asinan,+Olongapo+City,+Zambales,+Philippines+2200/@14.8228253,120.279878,17z/data=!3m1!4b1?entry=ttu&g_ep=EgoyMDI0MTAwMi4xIKXMDSoASAFQAw%3D%3D",
+            icon: <IconMapPinFilled width={40} height={40} />,},
         {
             label: "+63 968-438-2598",
             href: "tel: +63 968-438-2598",

@@ -1,5 +1,4 @@
 "use client";
-import { useState, useEffect } from "react"; // Import useEffect
 import { Button } from "@nextui-org/button";
 import { Checkbox } from "@nextui-org/checkbox";
 import { Input } from "@nextui-org/input";
@@ -11,8 +10,9 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/table";
-import { IconSquareCheck, IconInfoCircle } from "@tabler/icons-react";
+import { IconInfoCircle, IconSquareCheck } from "@tabler/icons-react";
 import Image from "next/image";
+import { useEffect, useState } from "react"; // Import useEffect
 
 interface Set {
   weight: number | "" | null;
@@ -67,13 +67,13 @@ export default function ExerciseTable({
   }, [exerciseDetail.instructions]);
 
   return (
-    <>
-      <div className="flex items-center mb-4">
-        <h2 className="text-xl font-semibold">{exerciseDetail.exerciseName}</h2>
+    <div>
+      <div className="flex items-center mb-4 ">
+        {/* <h2 className="text-xl font-semibold">{exerciseDetail.exerciseName}</h2> */}
         <IconInfoCircle
           className="hover:text-primary ml-2 cursor-pointer"
           size={24}
-          onClick={() => setShowInstructions((prev) => !prev)} // Toggle instructions popup
+          onClick={() => setShowInstructions((prev) => !prev)}
         />
       </div>
 
@@ -203,6 +203,6 @@ export default function ExerciseTable({
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
