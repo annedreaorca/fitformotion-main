@@ -40,9 +40,9 @@ export default function DashboardPage({
 
       <DashboardGoals />
 
-      <Suspense fallback={<div>Loading Recent Activity...</div>}>
+      {/* <Suspense fallback={<div>Loading Recent Activity...</div>}>
         <DashboardRecentActivity />
-      </Suspense>
+      </Suspense> */}
     </div>
   );
 }

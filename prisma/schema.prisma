@@ -14,6 +14,15 @@ model UserInfo {
   height Float?
   weight Float?
   subscriptionType String   @default("free")
+  userWeights      UserWeight[] // Add this line to create the relation
+}
+
+model UserWeight {
+  id        String   @id @default(uuid())
+  userId    String   // Reference to the user
+  weight    Float    // The weight of the user
+  recordedAt DateTime @default(now()) // The date and time the weight was recorded
+  user      UserInfo @relation(fields: [userId], references: [userId])
 }
 
 model Exercise {
@@ -51,16 +60,16 @@ model FavouriteExercise {
 }
 
 model WorkoutPlan {
-  id              String              @id @default(uuid())
-  name            String
-  userId          String?
-  createdAt       DateTime            @default(now())
-  updatedAt       DateTime            @updatedAt
-  notes           String?
-  isSystemRoutine Boolean             @default(false)
-  systemRoutineCategory String?
-  logs            WorkoutLog[]
-  WorkoutPlanExercise WorkoutPlanExercise[]
+  id                    String                   @id @default(uuid())
+  name                  String
+  userId                String?
+  createdAt             DateTime                 @default(now())
+  updatedAt             DateTime                 @updatedAt
+  notes                 String?
+  isSystemRoutine       Boolean                  @default(false)
+  systemRoutineCategory  String?
+  logs                  WorkoutLog[]
+  WorkoutPlanExercise   WorkoutPlanExercise[]
 }
 
 model WorkoutPlanExercise {
@@ -77,26 +86,26 @@ model WorkoutPlanExercise {
 }
 
 model WorkoutImage {
-  id           String       @id @default(uuid())
-  imageUrl     String
-  uploadedAt   DateTime     @default(now())
-  userId       String?
+  id            String      @id @default(uuid())
+  imageUrl      String
+  uploadedAt    DateTime    @default(now())
+  userId        String?
+  workoutName   String?
 }
 
 model WorkoutLog {
-  id              String              @id @default(uuid())
-  userId          String
-  workoutPlanId   String
-  date            DateTime
-  duration        Int
-  inProgress      Boolean             @default(true)
-  createdAt       DateTime            @default(now())
-  date_updated     DateTime?          @default(now())
-  WorkoutPlan     WorkoutPlan         @relation(fields: [workoutPlanId], references: [id], onDelete: Cascade)
-  exercises       WorkoutLogExercise[]
-  UserExercisePB  UserExercisePB[]    @relation("WorkoutLogToUserExercisePB")
+  id                   String             @id @default(uuid())
+  userId               String
+  workoutPlanId        String
+  date                 DateTime
+  duration             Int
+  inProgress           Boolean            @default(true)
+  createdAt           DateTime            @default(now())
+  date_updated         DateTime?         @default(now())
+  WorkoutPlan          WorkoutPlan        @relation(fields: [workoutPlanId], references: [id], onDelete: Cascade)
+  exercises            WorkoutLogExercise[]
+  UserExercisePB       UserExercisePB[]   @relation("WorkoutLogToUserExercisePB")
 }
-
 
 model WorkoutLogExercise {
   id            String @id @default(uuid())
