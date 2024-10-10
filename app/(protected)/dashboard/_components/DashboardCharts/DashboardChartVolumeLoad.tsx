@@ -1,6 +1,6 @@
 import prisma from "@/prisma/prisma";
 import { auth } from "@clerk/nextjs";
-import { format } from "date-fns";
+import { format, subDays } from "date-fns"; // Import subDays to calculate previous dates
 import DashboardChartVolumeLoadClient from "./DashboardChartVolumeLoad.client";
 import {
   calculateIntervals,
@@ -12,18 +12,21 @@ type WorkoutVolumeLoadData = {
   totalVolumeLoad: number;
 };
 
-const mockData: WorkoutVolumeLoadData[] = [
-  { period: '01-01-2024', totalVolumeLoad: 100 },
-  { period: '02-01-2024', totalVolumeLoad: 140 },
-  { period: '03-01-2024', totalVolumeLoad: 120 },
-  { period: '04-01-2024', totalVolumeLoad: 160 },
-  { period: '05-01-2024', totalVolumeLoad: 150 },
-  { period: '06-01-2024', totalVolumeLoad: 170 },
-  { period: '07-01-2024', totalVolumeLoad: 160 },
-  { period: '08-01-2024', totalVolumeLoad: 180 },
-  { period: '09-01-2024', totalVolumeLoad: 170 },
-  { period: '10-01-2024', totalVolumeLoad: 200 },
-];
+// Generate mock data for the previous 7 days
+const generateMockData = (): WorkoutVolumeLoadData[] => {
+  const mockData: WorkoutVolumeLoadData[] = [];
+  const today = new Date();
+
+  for (let i = 6; i >= 0; i--) {
+    const date = subDays(today, i); // Get the date for the past week
+    mockData.push({
+      period: format(date, "MM-dd-yyyy"), // Format the date
+      totalVolumeLoad: 0, // Set totalVolumeLoad to 0
+    });
+  }
+
+  return mockData;
+};
 
 export default async function DashboardChartVolumeLoad({
   dateRange = "1W",
@@ -58,6 +61,8 @@ export default async function DashboardChartVolumeLoad({
   });
 
   if (workoutLogs.length === 0) {
+    // Use the generated mock data for the previous 7 days
+    const mockData = generateMockData();
     return <DashboardChartVolumeLoadClient data={mockData} isUsingMockData />;
   }
 

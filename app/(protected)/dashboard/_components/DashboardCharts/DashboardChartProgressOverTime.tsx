@@ -1,6 +1,6 @@
 import prisma from "@/prisma/prisma";
 import { auth } from "@clerk/nextjs";
-import { format } from "date-fns";
+import { format, subDays } from "date-fns"; // Import subDays to calculate previous dates
 import DashboardChartProgressOverTimeClient from "./DashboardChartProgressOverTime.client";
 import {
   calculateIntervals,
@@ -12,21 +12,21 @@ type WorkoutData = {
   totalWeight: number;
 };
 
-// Mock data
-const mockData: WorkoutData[] = [
-  { period: '01-01-2024', totalWeight: 100 },
-  { period: '02-01-2024', totalWeight: 140 },
-  { period: '03-01-2024', totalWeight: 120 },
-  { period: '04-01-2024', totalWeight: 160 },
-  { period: '05-01-2024', totalWeight: 150 },
-  { period: '06-01-2024', totalWeight: 170 },
-  { period: '07-01-2024', totalWeight: 160 },
-  { period: '08-01-2024', totalWeight: 180 },
-  { period: '09-01-2024', totalWeight: 170 },
-  { period: '10-01-2024', totalWeight: 190 },
+// Generate mock data for the previous 7 days
+const generateMockData = (): WorkoutData[] => {
+  const mockData: WorkoutData[] = [];
+  const today = new Date();
 
-  // Add more mock data as needed
-];
+  for (let i = 6; i >= 0; i--) {
+    const date = subDays(today, i); // Get the date for the past week
+    mockData.push({
+      period: format(date, "MM-dd-yyyy"), // Format the date
+      totalWeight: 0, // Set totalWeight to 0
+    });
+  }
+
+  return mockData;
+};
 
 export default async function DashboardChartProgressOverTime({
   dateRange = "1W",
@@ -73,6 +73,8 @@ export default async function DashboardChartProgressOverTime({
   });
 
   if (workoutLogs.length === 0) {
+    // Use the generated mock data for the previous 7 days
+    const mockData = generateMockData();
     return <DashboardChartProgressOverTimeClient data={mockData} isUsingMockData />;
   }
 
@@ -109,9 +111,7 @@ export default async function DashboardChartProgressOverTime({
 
     let lastCumulativeWeight =
       cumulativeWeightsUpToInterval.length > 0
-        ? cumulativeWeightsUpToInterval[
-            cumulativeWeightsUpToInterval.length - 1
-          ].totalWeight
+        ? cumulativeWeightsUpToInterval[cumulativeWeightsUpToInterval.length - 1].totalWeight
         : 0;
 
     return {
