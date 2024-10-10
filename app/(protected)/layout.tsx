@@ -1,3 +1,4 @@
+// import LegalNoticeModal from "@/components/LegalNoticeModal.client"; // Import the Client Component
 import Navbar from "@/components/Navbar/Navbar";
 import ActiveWorkoutWarning from "@/components/Notices/ActiveWorkoutWarning";
 import Sidebar from "@/components/Sidebar/Sidebar";
@@ -31,6 +32,7 @@ export default function RootLayout({
             {children}
           </LayoutWrapper>
         </main>
+        {/* <LegalNoticeModal /> */}
       </div>
     </ClerkProvider>
   );

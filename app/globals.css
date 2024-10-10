@@ -617,3 +617,18 @@ img.gallery-image {
 }
 
 /* ===== Start About Us Page Styles ===== */
+
+@keyframes entrance {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-entrance {
+  animation: entrance 0.5s ease-out forwards;
+}

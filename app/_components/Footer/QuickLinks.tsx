@@ -26,7 +26,7 @@ export function QuickLinks() {
     ];
 
     return (
-        <div className="flex flex-col gap-[19px] max-[580px]:gap-[20px]">
+        <div className="flex flex-col gap-[25px] max-[580px]:gap-[20px]">
             <span className="footer-label max-[640px]:text-center">Quick Links</span>
             <ul className="flex flex-col max-[580px]:gap-[20px] gap-[18px] max-[640px]:text-center footer-links">
             {footerLinks.map((item) => (

@@ -6,9 +6,9 @@ import { QuickLinks } from "./QuickLinks";
 export default async function Footer() {
   const currentYear = new Date().getFullYear();
   return (
-    <footer className="pt-[75px] z-40 bg-[#070707] border-t-1 border-[#0c0c0c] footer-section">
-      <div className="flex gap-[20px] max-[910px]:flex-col max-[640px]:justify-center footer-body pb-[75px] page-width">
-        <div className="flex flex-col items-start justify-between gap-[20px] pr-[100px] w-[40%] max-[910px]:w-[100%] max-[910px]:pr-[0px] max-[910px]:pb-[50px] max-[640px]:items-center">
+    <footer className="z-40 bg-[#070707] border-t-1 border-[#0c0c0c] footer-section">
+      <div className="flex gap-[20px] max-[910px]:flex-col max-[640px]:justify-center footer-body pt-[70px] pb-[80px] page-width">
+        <div className="flex flex-col items-start justify-between gap-[25px] pr-[100px] w-[40%] max-[910px]:w-[100%] max-[910px]:pr-[0px] max-[910px]:pb-[50px] max-[640px]:items-center">
           <div className="flex flex-col items-start max-[640px]:items-center gap-[20px]">
             <a href="/" className="flex items-center gap-[20px]">
               <Image

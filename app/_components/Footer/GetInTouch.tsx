@@ -31,7 +31,7 @@ export function GetInTouch() {
         ];
     
     return (
-        <div className="flex flex-col gap-[20px]">
+        <div className="flex flex-col gap-[25px]">
             <span className="footer-label max-[640px]:text-center">Get In Touch</span>
             <ul className="flex flex-col gap-[18px] max-[640px]:gap-[20px] max-[640px]:items-center footer-links">
             {footerLinks.map((item) => (
