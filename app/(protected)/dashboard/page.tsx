@@ -1,10 +1,11 @@
 import PageHeading from "@/components/PageHeading/PageHeading";
 import DashboardLinks from "./_components/DashboardLinks";
-// import DashboardRecentActivity from "./_components/DashboardRecentActivity";
+import DashboardRecentActivity from "./_components/DashboardRecentActivity";
 import DashboardCards from "./_components/DashboardCards/DashboardCards";
 import DashboardCharts from "./_components/DashboardCharts/DashboardCharts";
 import DashboardGoals from "./_components/DashboardGoals/DashboardGoals";
 import KebabMenu from "@/components/KebabMenu/KebabMenu";
+import { Suspense } from "react";
 
 export default function DashboardPage({
   searchParams,

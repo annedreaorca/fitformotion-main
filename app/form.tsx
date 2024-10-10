@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { useState } from "react";
 
 interface UploadFormProps {
@@ -7,21 +6,22 @@ interface UploadFormProps {
 
 export default function UploadForm({ onUploadComplete }: UploadFormProps) {
     const [file, setFile] = useState<File | null>(null);
-    const [preview, setPreview] = useState<string | null>(null);
+    const [workoutName, setWorkoutName] = useState<string>(""); // Add state for workout name
     const [inProgress, setInProgress] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setInProgress(true);
 
-        if (!file) {
-            alert("No file selected");
+        if (!file || !workoutName) {
+            alert("Please select a file and enter a workout name.");
             setInProgress(false);
             return;
         }
 
         const formData = new FormData();
         formData.append("file", file);
+        formData.append("workoutName", workoutName); // Append workout name
 
         try {
             const response = await fetch("/api/upload", {
@@ -30,11 +30,11 @@ export default function UploadForm({ onUploadComplete }: UploadFormProps) {
             });
 
             if (!response.ok) {
+                const errorText = await response.text(); // Log error text for debugging
+                console.error("Upload error:", errorText);
                 throw new Error("Failed to upload file");
             }
 
-            const data = await response.json();
-            // setPreview(data.imageUrl);
             await onUploadComplete(); // Notify when upload is complete
         } catch (error) {
             console.error("Upload error:", error);
@@ -51,14 +51,16 @@ export default function UploadForm({ onUploadComplete }: UploadFormProps) {
                     type="file"
                     onChange={(e) => setFile(e.target.files?.item(0) || null)}
                 />
+                <input
+                    type="text"
+                    placeholder="Workout Name"
+                    value={workoutName}
+                    onChange={(e) => setWorkoutName(e.target.value)}
+                    required
+                />
                 <button type="submit">
-                    <span  className="upload-form-button">{inProgress ? "Uploading..." : "Upload"}</span>
+                    <span className="upload-form-button">{inProgress ? "Uploading..." : "Upload"}</span>
                 </button>
-                {preview && (
-                    <div>
-                        <Image src={preview} alt="Uploaded preview" width={200} height={200} />
-                    </div>
-                )}
             </form>
         </div>
     );
