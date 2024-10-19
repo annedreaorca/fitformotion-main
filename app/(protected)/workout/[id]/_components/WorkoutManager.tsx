@@ -40,10 +40,10 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
   const router = useRouter();
   const workoutPlanId = workout.id;
   const [isDataLoaded, setIsDataLoaded] = useState(false);
-  const [pausedTime, setPausedTime] = useState(0); 
-  const [pauseStartTime, setPauseStartTime] = useState<number | null>(null); 
-  const [showUploadForm, setShowUploadForm] = useState(false); 
-  const [isUploading, setIsUploading] = useState(false); 
+  const [pausedTime, setPausedTime] = useState(0);
+  const [pauseStartTime, setPauseStartTime] = useState<number | null>(null);
+  const [showUploadForm, setShowUploadForm] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   const { startConfetti } = useConfetti();
   const { workoutExercises, setWorkoutExercises } = useWorkoutData();
@@ -84,7 +84,7 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
     exerciseIndex: number,
     setIndex: number,
     exerciseName: string,
-    isSelected: boolean
+    isSelected: boolean,
   ) => {
     if (!workoutExercises) {
       toast.error("Workout exercises data is not loaded yet");
@@ -278,7 +278,7 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
   const completeWorkout = () => {
     if (workoutExercises) {
       const allSetsCompleted = workoutExercises.every((exercise) =>
-        exercise.sets.every((set) => set.completed)
+        exercise.sets.every((set) => set.completed),
       );
 
       if (!allSetsCompleted) {
@@ -353,7 +353,7 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
       setWorkoutDuration(0);
       setWorkoutStartTime(null);
       setActiveWorkoutRoutine(null);
-      
+
       // Resume the workout timer if it was paused
       if (isPaused) {
         resumeWorkout();
@@ -399,7 +399,7 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
       setWorkoutDuration(0);
       setWorkoutStartTime(null);
       setActiveWorkoutRoutine(null);
-      
+
       // Resume the workout timer if it was paused
       if (isPaused) {
         resumeWorkout();
@@ -431,7 +431,7 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
   const completedSets = workoutExercises
     ? workoutExercises.reduce(
         (acc, curr) => acc + curr.sets.filter((set) => set.completed).length,
-        0
+        0,
       )
     : 0;
 
@@ -444,11 +444,7 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
         <div className="fixed inset-0 z-[9999] flex justify-center items-center bg-black bg-opacity-50 animate-fadeIn">
           <div className="wrapper bg-[#18181a] p-6 rounded-lg shadow-lg relative animate-scaleIn">
             <UploadForm onUploadComplete={handleUploadCompletion} />
-            <Button
-              onPress={skipUpload}
-              className="mt-4"
-              color="primary"
-            >
+            <Button onPress={skipUpload} className="mt-4" color="primary">
               Skip
             </Button>
           </div>
@@ -461,7 +457,9 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
             <CardHeader className="text-lg px-5">
               <div className="flex gap-2 items-center mb-3">
                 <ExerciseOrderIndicator position={index} />
-                <p className="text-lg font-[600] text-zinc-800 dark:text-white">{exercise.exerciseName}</p>
+                <p className="text-lg font-[600] text-zinc-800 dark:text-white">
+                  {exercise.exerciseName}
+                </p>
               </div>
             </CardHeader>
             <CardBody className="pb-1 pt-0">

@@ -1,41 +1,86 @@
 import { NextRequest, NextResponse } from "next/server";
-import { put } from "@vercel/blob"; // Ensure this library is correctly installed and imported
+import { put } from "@vercel/blob";
 import prisma from "@/prisma/prisma";
 import { getAuth } from "@clerk/nextjs/server";
 
 export async function POST(req: NextRequest) {
-    try {
-        // Parse form data
-        const form = await req.formData();
-        const file = form.get("file") as File; // Expecting a file object
-        const workoutName = form.get("workoutName") as string;  // Get workout name
+  try {
+    const form = await req.formData();
+    const file = form.get("file") as File;
+    const currentWeight = form.get("currentWeight") as string;
 
-        // Check if file and workoutName are provided
-        if (!file || !workoutName) {
-            return NextResponse.json({ error: "File or workout name missing" }, { status: 400 });
-        }
-
-        // Get authenticated user's ID
-        const { userId } = getAuth(req);
-        if (!userId) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-        }
-
-        // Upload file to blob storage
-        const blob = await put(file.name, file, { access: "public" });
-
-        // Save image data to database, including workoutName
-        const savedImage = await prisma.workoutImage.create({
-            data: {
-                imageUrl: blob.url,
-                userId: userId,
-                workoutName: workoutName,  // Save workout name
-            },
-        });
-
-        return NextResponse.json(savedImage); // Respond with saved image data
-    } catch (error) {
-        console.error("Error in upload route:", error);
-        return NextResponse.json({ error: "Error processing request" }, { status: 500 });
+    if (!file || !currentWeight) {
+      return NextResponse.json(
+        { error: "File or current weight missing" },
+        { status: 400 },
+      );
     }
+
+    const { userId } = getAuth(req);
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Convert currentWeight to a number
+    const weight = parseFloat(currentWeight);
+    if (isNaN(weight)) {
+      return NextResponse.json(
+        { error: "Invalid weight value" },
+        { status: 400 },
+      );
+    }
+
+    const blob = await put(file.name, file, { access: "public" });
+
+    // Save the image and weight into the WorkoutImage table
+    const savedImage = await prisma.workoutImage.create({
+      data: {
+        imageUrl: blob.url,
+        userId: userId,
+        currentWeight: weight,
+      },
+    });
+
+    // Check if the user exists in the UserInfo table
+    let userExists = await prisma.userInfo.findUnique({
+      where: { userId: userId },
+    });
+
+    // If the user doesn't exist, create a new UserInfo record
+    if (!userExists) {
+      userExists = await prisma.userInfo.create({
+        data: {
+          userId: userId,
+          weight: weight, // Set initial weight or any other default values
+        },
+      });
+    }
+
+    // Now that we're sure the user exists, save the currentWeight to the UserWeight table
+    const savedWeight = await prisma.userWeight.create({
+      data: {
+        userId: userExists.userId, // Use the existing user's userId
+        weight: weight,
+      },
+    });
+
+    return NextResponse.json({
+      savedImage,
+      savedWeight,
+    });
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("Error in upload route:", error.message);
+      return NextResponse.json(
+        { error: "Error processing request", details: error.message },
+        { status: 500 },
+      );
+    } else {
+      console.error("Unknown error:", error);
+      return NextResponse.json(
+        { error: "An unknown error occurred" },
+        { status: 500 },
+      );
+    }
+  }
 }

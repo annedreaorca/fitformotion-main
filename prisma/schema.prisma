@@ -8,21 +8,21 @@ datasource db {
 }
 
 model UserInfo {
-  id     String @id @default(uuid())
-  userId String @unique
-  age    Int?
-  height Float?
-  weight Float?
-  subscriptionType String   @default("free")
-  userWeights      UserWeight[] // Add this line to create the relation
+  id                String      @id @default(uuid())
+  userId            String      @unique // Ensure uniqueness across users
+  age               Int?
+  height            Float?
+  weight            Float? // Optional, consider if this is necessary
+  subscriptionType  String      @default("free")
+  userWeights       UserWeight[] // Relation with UserWeight
 }
 
 model UserWeight {
-  id        String   @id @default(uuid())
-  userId    String   // Reference to the user
-  weight    Float    // The weight of the user
-  recordedAt DateTime @default(now()) // The date and time the weight was recorded
-  user      UserInfo @relation(fields: [userId], references: [userId])
+  id          String     @id @default(uuid())
+  userId      String     // Reference to the UserInfo model, consider making non-nullable if needed
+  weight      Float      // The weight of the user
+  recordedAt  DateTime   @default(now()) // The date and time the weight was recorded
+  user        UserInfo   @relation(fields: [userId], references: [userId]) // Relation to UserInfo
 }
 
 model Exercise {
@@ -47,7 +47,7 @@ model Exercise {
   userPBs UserExercisePB[]
   favouritedBy FavouriteExercise[]
   userGoals           UserGoal[]
-   isPremium           Boolean               @default(false)
+  isPremium           Boolean               @default(false)
 }
 
 model FavouriteExercise {
@@ -90,7 +90,7 @@ model WorkoutImage {
   imageUrl      String
   uploadedAt    DateTime    @default(now())
   userId        String?
-  workoutName   String?
+  currentWeight Float?     
 }
 
 model WorkoutLog {
