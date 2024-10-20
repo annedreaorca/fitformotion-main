@@ -1,5 +1,6 @@
 import { authMiddleware } from "@clerk/nextjs";
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
 const isBot = (req: NextRequest) => {
   const userAgent = req.headers.get("user-agent") || "";
@@ -9,8 +10,9 @@ const isBot = (req: NextRequest) => {
 export default authMiddleware({
   publicRoutes: ["/", "/about-us", "/features", "/pricing", "/faq", "/references"],
   beforeAuth(req) {
+    // Allow bots to proceed without authentication
     if (isBot(req)) {
-      return NextResponse.next(); // Allow bots to proceed
+      return NextResponse.next();
     }
   },
 });
