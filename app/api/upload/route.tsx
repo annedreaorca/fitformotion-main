@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
-import { put } from "@vercel/blob";
 import prisma from "@/prisma/prisma";
 import { getAuth } from "@clerk/nextjs/server";
+import { put } from "@vercel/blob";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {

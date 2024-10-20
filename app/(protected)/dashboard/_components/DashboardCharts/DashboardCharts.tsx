@@ -1,16 +1,15 @@
 import { Suspense } from "react";
 //import DashboardChartExerciseCategoryDistribution from "./DashboardChartExerciseCategoryDistribution";
-import DashboardChartProgressOverTime from "./DashboardChartProgressOverTime";
-import DashboardChartVolumeLoad from "./DashboardChartVolumeLoad";
-import DashboardChartWorkoutFrequency from "./DashboardChartWorkoutFrequency";
-import DashboardChartCard from "./DashboardChartCard";
 import {
   IconChartAreaFilled,
   IconChartBar,
-  IconChartLine,
-  IconChartPie,
-  IconChartRadar,
+  IconChartLine
 } from "@tabler/icons-react";
+import DashboardChartCard from "./DashboardChartCard";
+import DashboardChartProgressOverTime from "./DashboardChartProgressOverTime";
+import DashboardChartVolumeLoad from "./DashboardChartVolumeLoad";
+import DashboardChartWeightProgress from "./DashboardChartWeightProgress";
+import DashboardChartWorkoutFrequency from "./DashboardChartWorkoutFrequency";
 
 export default function DashboardCharts({
   chart1DateRange,
@@ -55,6 +54,17 @@ export default function DashboardCharts({
       >
         <Suspense fallback={<div>Loading Chart...</div>}>
           <DashboardChartVolumeLoad dateRange={chart3DateRange} />
+        </Suspense>
+      </DashboardChartCard>
+
+      <DashboardChartCard
+        icon={<IconChartAreaFilled className="text-danger" />}
+        title="Progress"
+        colSpan="col-span-2"
+        chartId={2}
+      >
+        <Suspense fallback={<div>Loading Chart...</div>}>
+          <DashboardChartWeightProgress dateRange={chart2DateRange} />
         </Suspense>
       </DashboardChartCard>
 
