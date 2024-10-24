@@ -113,34 +113,6 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
       return;
     }
 
-    let totalRequiredDuration = 0;
-    for (let i = 0; i <= exerciseIndex; i++) {
-      const currentExercise = workoutExercises[i];
-      for (
-        let j = 0;
-        j < (i === exerciseIndex ? setIndex + 1 : currentExercise.sets.length);
-        j++
-      ) {
-        const currentSet = currentExercise.sets[j];
-        if (currentExercise.trackingType === "duration") {
-          totalRequiredDuration += currentSet.duration || 0;
-        } else if (currentExercise.trackingType === "reps") {
-          totalRequiredDuration += (currentSet.reps || 0) * 2; // Assuming 2 seconds per rep
-        }
-      }
-    }
-
-    if (!workoutStartTime) {
-      return;
-    }
-    const currentWorkoutDuration =
-      (Date.now() - workoutStartTime - pausedTime) / 1000;
-
-    if (currentWorkoutDuration < totalRequiredDuration) {
-      toast.error(`Please complete the workout.`);
-      return;
-    }
-
     if (!workoutStartTime) {
       startWorkout(workoutPlanId);
     }

@@ -12,7 +12,7 @@ import {
 } from "@nextui-org/table";
 import { IconInfoCircle, IconSquareCheck } from "@tabler/icons-react";
 import Image from "next/image";
-import { useEffect, useState } from "react"; // Import useEffect
+import { useEffect, useState } from "react"; 
 
 interface Set {
   weight: number | "" | null;
@@ -23,7 +23,7 @@ interface Set {
 interface ExerciseDetail {
   exerciseName: string;
   sets: Set[];
-  instructions?: string[]; // Marked as optional
+  instructions?: string[]; 
 }
 
 interface ExerciseTableProps {

@@ -57,7 +57,7 @@ export default function DashboardCharts({
         </Suspense>
       </DashboardChartCard>
 
-      <DashboardChartCard
+      {/* <DashboardChartCard
         icon={<IconChartAreaFilled className="text-danger" />}
         title="Progress"
         colSpan="col-span-2"
@@ -66,7 +66,7 @@ export default function DashboardCharts({
         <Suspense fallback={<div>Loading Chart...</div>}>
           <DashboardChartWeightProgress dateRange={chart2DateRange} />
         </Suspense>
-      </DashboardChartCard>
+      </DashboardChartCard> */}
 
       {/* <DashboardChartCard 
         icon={<IconChartRadar />} 
