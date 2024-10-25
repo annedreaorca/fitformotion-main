@@ -28,6 +28,10 @@ export function HeaderLinks() {
         label: "FAQ",
         href: "/faq",
         active: pathname === "/faq" },
+    {
+        label: "References",
+        href: "/references",
+        active: pathname === "/references" },
   ];
 
   return (

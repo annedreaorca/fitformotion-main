@@ -1,12 +1,13 @@
 import { Dot } from "@/app/index";
+import 'animate.css';
 import Image from "next/image";
 import Link from "next/link";
 
 export default async function ReferencesInfo() {
     return (
-        <>
+        <div className="animate__animated animate__fadeInUp duration-1000">
             {/* Front-end */}
-            <div className="flex items-center">
+            <div className="flex items-center ">
                 <div className="relative">
                     <div className="w-[40px] bullet-list-custom-first">
                         <Image
@@ -22,8 +23,8 @@ export default async function ReferencesInfo() {
                         <p className="text-zinc-500 description">An open public domain exercise dataset in JSON format, featuring over 800 exercises with a browsable and searchable frontend.</p>
                     </div>
                     <div>
-                        <Link href="https://nextjs.org/docs">
-                            <span className="text-zinc-700 hover:text-zinc-400 duration-200 ease-in-out">View on Next.js</span>
+                        <Link href="https://nextjs.org/docs" rel="noopener noreferrer" target="_blank">
+                            <span className="text-zinc-600 hover:text-primary-800 duration-200 ease-in-out">View on Next.js</span>
                         </Link>
                     </div>
                 </div>
@@ -44,8 +45,8 @@ export default async function ReferencesInfo() {
                         <p className="text-zinc-500 description">An open public domain exercise dataset in JSON format, featuring over 800 exercises with a browsable and searchable frontend.</p>
                     </div>
                     <div>
-                        <Link href="https://tailwindcss.com/docs/installation">
-                            <span className="text-zinc-700 hover:text-zinc-400 duration-200 ease-in-out">View on Tailwind CSS</span>
+                        <Link href="https://tailwindcss.com/docs/installation" rel="noopener noreferrer" target="_blank">
+                            <span className="text-zinc-600 hover:text-primary-800 duration-200 ease-in-out">View on Tailwind CSS</span>
                         </Link>
                     </div>
                 </div>
@@ -68,8 +69,8 @@ export default async function ReferencesInfo() {
                         <p className="text-zinc-500 description">Documentation for Clerk, the authentication service used in Fitformotion for managing user accounts and securing access to the app.</p>
                     </div>
                     <div>
-                        <Link href="https://clerk.com/docs">
-                            <span className="text-zinc-700 hover:text-zinc-400 duration-200 ease-in-out">View on Clerk</span>
+                        <Link href="https://clerk.com/docs" rel="noopener noreferrer" target="_blank">
+                            <span className="text-zinc-600 hover:text-primary-800 duration-200 ease-in-out">View on Clerk</span>
                         </Link>
                     </div>
                 </div>
@@ -90,8 +91,8 @@ export default async function ReferencesInfo() {
                         <p className="text-zinc-500 description">Official documentation for Prisma, an open-source database toolkit that simplifies database access and management with a type-safe ORM for Node.js and TypeScript applications.</p>
                     </div>
                     <div>
-                        <Link href="https://www.prisma.io/docs">
-                            <span className="text-zinc-700 hover:text-zinc-400 duration-200 ease-in-out">View on Prisma</span>
+                        <Link href="https://www.prisma.io/docs" rel="noopener noreferrer" target="_blank">
+                            <span className="text-zinc-600 hover:text-primary-800 duration-200 ease-in-out">View on Prisma</span>
                         </Link>
                     </div>
                 </div>
@@ -112,8 +113,8 @@ export default async function ReferencesInfo() {
                         <p className="text-zinc-500 description">Official documentation for PostgreSQL, a powerful, open-source object-relational database system known for its reliability, feature robustness, and performance.</p>
                     </div>
                     <div>
-                        <Link href="https://www.postgresql.org/docs/">
-                            <span className="text-zinc-700 hover:text-zinc-400 duration-200 ease-in-out">View on PostgreSQL</span>
+                        <Link href="https://www.postgresql.org/docs/" rel="noopener noreferrer" target="_blank">
+                            <span className="text-zinc-600 hover:text-primary-800 duration-200 ease-in-out">View on PostgreSQL</span>
                         </Link>
                     </div>
                 </div>
@@ -137,8 +138,8 @@ export default async function ReferencesInfo() {
                         </p>
                     </div>
                     <div>
-                        <Link href="https://vercel.com/docs">
-                            <span className="text-zinc-700 hover:text-zinc-400 duration-200 ease-in-out">View on Vercel</span>
+                        <Link href="https://vercel.com/docs" rel="noopener noreferrer" target="_blank">
+                            <span className="text-zinc-600 hover:text-primary-800 duration-200 ease-in-out">View on Vercel</span>
                         </Link>
                     </div>
                 </div>
@@ -159,8 +160,8 @@ export default async function ReferencesInfo() {
                         <p className="text-zinc-500 description">Guides and documentation for Hostinger, the service provider from which the domain for Fitformotion was purchased.</p>
                     </div>
                     <div>
-                        <Link href="https://www.hostinger.ph/tutorials/">
-                            <span className="text-zinc-700 hover:text-zinc-400 duration-200 ease-in-out">View on Hostinger</span>
+                        <Link href="https://www.hostinger.ph/tutorials/" rel="noopener noreferrer" target="_blank">
+                            <span className="text-zinc-600 hover:text-primary-800 duration-200 ease-in-out">View on Hostinger</span>
                         </Link>
                     </div>
                 </div>
@@ -184,8 +185,8 @@ export default async function ReferencesInfo() {
                         </p>
                     </div>
                     <div>
-                        <Link href="https://github.com/yuhonas/free-exercise-db">
-                            <span className="text-zinc-700 hover:text-zinc-400 duration-200 ease-in-out">View on Github</span>
+                        <Link href="https://github.com/yuhonas/free-exercise-db" rel="noopener noreferrer" target="_blank">
+                            <span className="text-zinc-600 hover:text-primary-800 duration-200 ease-in-out">View on Github</span>
                         </Link>
                     </div>
                 </div>
@@ -206,7 +207,7 @@ export default async function ReferencesInfo() {
                         <p className="text-zinc-500 description">A comprehensive resource offering a wide variety of exercise GIFs demonstrating proper techniques and movements for various workouts.</p>
                     </div>
                     <div>
-                        <Link href="https://fitnessprogramer.com/">
+                        <Link href="https://fitnessprogramer.com/" rel="noopener noreferrer" target="_blank">
                             <span className="text-zinc-600 hover:text-primary-800 duration-200 ease-in-out">View on Fitness Programer</span>
                         </Link>
                     </div>
@@ -230,13 +231,12 @@ export default async function ReferencesInfo() {
                         <p className="text-zinc-500 description">Comprehensive documentation for the Xendit API, which offers payment processing solutions and features for managing online transactions, integrated within the Fitformotion platform.</p>
                     </div>
                     <div>
-                        <Link href="https://developers.xendit.co/api-reference/">
-                            <span className="text-zinc-700 hover:text-zinc-400 duration-200 ease-in-out">View on Xendit</span>
+                        <Link href="https://developers.xendit.co/api-reference/" rel="noopener noreferrer" target="_blank">
+                            <span className="text-zinc-600 hover:text-primary-800 duration-200 ease-in-out">View on Xendit</span>
                         </Link>
                     </div>
                 </div>
             </div>
-        </>
-        
+        </div>
     );
 }

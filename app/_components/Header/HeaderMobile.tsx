@@ -52,7 +52,7 @@ export function HeaderMobile() {
 
             {/* Sidebar */}
             <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
-                <div className="flex flex-col h-screen justify-center gap-[20px] max-[580px]:gap-[20px] p-[35px]">
+                <div className="flex flex-col h-screen gap-[20px] mt-[100px] max-[580px]:gap-[20px] p-[35px]">
                     <HeaderLinks />
                 </div>
             </div>

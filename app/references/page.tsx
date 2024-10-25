@@ -14,7 +14,7 @@ export default async function References() {
                 </section>
             </div>
             <section className="bg-black">
-                <div className="py-[100px] page-width">
+                <div className="py-[75px] page-width">
                     <ReferencesInfo/>
                 </div>
             </section>
