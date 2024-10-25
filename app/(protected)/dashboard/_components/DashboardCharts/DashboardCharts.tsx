@@ -26,7 +26,7 @@ export default function DashboardCharts({
     <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-3 mb-3">
       <DashboardChartCard
         icon={<IconChartBar className="text-danger" />}
-        title="Frequency"
+        title="My Workout Frequency"
         colSpan="col-span-2 lg:col-span-4 xl:col-span-2"
         chartId={1}
       >
@@ -37,7 +37,7 @@ export default function DashboardCharts({
 
       <DashboardChartCard
         icon={<IconChartAreaFilled className="text-danger" />}
-        title="Progress"
+        title="My Lift Progress"
         colSpan="col-span-2"
         chartId={2}
       >
@@ -46,7 +46,7 @@ export default function DashboardCharts({
         </Suspense>
       </DashboardChartCard>
 
-      <DashboardChartCard
+      {/* <DashboardChartCard
         icon={<IconChartLine className="text-danger" />}
         title="Volume Load"
         colSpan="col-span-2"
@@ -55,18 +55,18 @@ export default function DashboardCharts({
         <Suspense fallback={<div>Loading Chart...</div>}>
           <DashboardChartVolumeLoad dateRange={chart3DateRange} />
         </Suspense>
-      </DashboardChartCard>
+      </DashboardChartCard> */}
 
-      {/* <DashboardChartCard
+      <DashboardChartCard
         icon={<IconChartAreaFilled className="text-danger" />}
-        title="Progress"
+        title="My Weight Progress"
         colSpan="col-span-2"
         chartId={2}
       >
         <Suspense fallback={<div>Loading Chart...</div>}>
           <DashboardChartWeightProgress dateRange={chart2DateRange} />
         </Suspense>
-      </DashboardChartCard> */}
+      </DashboardChartCard>
 
       {/* <DashboardChartCard 
         icon={<IconChartRadar />} 

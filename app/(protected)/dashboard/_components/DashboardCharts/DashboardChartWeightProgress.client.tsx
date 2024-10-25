@@ -1,17 +1,17 @@
 "use client";
 import {
-  Area,
-  AreaChart,
-  ResponsiveContainer,
-  Tooltip,
-  TooltipProps,
+  LineChart,
+  Line,
   XAxis,
+  Tooltip,
+  ResponsiveContainer,
+  TooltipProps,
 } from "recharts";
 import ChartMockDataMessage from "./ChartMockDataMessage";
 
-type WorkoutData = {
+type UserWeightData = {
   period: string;
-  totalWeight: number;
+  totalWeight: number; 
 };
 
 function CustomTooltip({
@@ -23,9 +23,9 @@ function CustomTooltip({
     return (
       <div className="bg-zinc-800 text-white px-4 py-2 rounded-xl shadow-xl text-xs">
         <p className="font-semibold">
-          Weight: <span className="text-primary">{payload[0].value}</span> lbs
+          Weight: <span className="text-primary">{payload[0].value}</span> kg
         </p>
-        <p>Period: {label}</p>
+        <p>Recorded on: {label}</p>
       </div>
     );
   }
@@ -37,29 +37,19 @@ export default function DashboardChartWeightProgressClient({
   data,
   isUsingMockData,
 }: {
-  data: WorkoutData[];
+  data: UserWeightData[]; // Adjusted to reflect UserWeightData type
   isUsingMockData?: boolean;
 }) {
   return (
     <>
-      {isUsingMockData && (<ChartMockDataMessage />)}
+      {isUsingMockData && <ChartMockDataMessage />}
 
       <ResponsiveContainer width="100%" height="100%">
-        <AreaChart
-          data={data}
-          margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
-          aria-label="Progress Over Time Area Chart"
-        >
-          <Area
-            type="monotone"
-            dataKey="totalWeight"
-            stroke="#000000"
-            fill="#000000"
-            aria-label="Total Weight Area"
-          />
+        <LineChart data={data} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
+          <Line type="monotone" dataKey="totalWeight" stroke="#000000" />
           <XAxis dataKey="period" tick={{ fontSize: "10px" }} />
           <Tooltip content={<CustomTooltip />} />
-        </AreaChart>
+        </LineChart>
       </ResponsiveContainer>
     </>
   );
