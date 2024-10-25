@@ -1,3 +1,4 @@
+
 export { default as Hacker } from './images/aao-hacker.png';
 export { default as Hipster } from './images/cjc-hipster.png';
 export { default as FooterBackground } from './images/footer-background.jpg';
@@ -13,3 +14,4 @@ export { default as Dashboard } from './images/features/fitfotmotion-dashboard.p
 export { default as StartWorkout } from './images/features/fitfotmotion-start-workout.png';
 export { default as WorkoutManager } from './images/features/fitfotmotion-workout-manager.png';
 
+export { default as Dot } from './images/dot.png';

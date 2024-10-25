@@ -10,6 +10,7 @@ import { HeaderLinks } from "./HeaderLinks";
 import { HeaderMobile } from "./HeaderMobile";
 
 export default async function Header() {
+    
     return (
         <header className="mb-[-100px] py-[12px] relative z-[999999] page-width">
             <div className="flex gap-[20px] max-[768px]:hidden desktop-menu">
