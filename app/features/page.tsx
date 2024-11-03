@@ -2,6 +2,8 @@ import Image from "next/image";
 import Footer from "../_components/Footer/Footer";
 import Header from "../_components/Header/Header";
 
+import 'animate.css';
+
 import { BrowseExecises, Dashboard, StartWorkout, WorkoutManager } from "../index";
 
 export default async function Features() {
@@ -16,8 +18,8 @@ export default async function Features() {
                 </section>
             </div>
             
-            <section className="py-[100px] mx-auto flex justify-center bg-black">
-                <div className="flex flex-col gap-[150px] section-container page-width">
+            <section className="py-[100px] mx-auto flex justify-center main-background">
+                <div className="flex flex-col gap-[150px] section-container page-width animate__animated animate__fadeInUp duration-1000">
                     <div className="flex items-center gap-[50px] max-[1024px]:flex-col ">
                         <div className="flex items-center justify-center gap-[15px] w-[60%] max-[1024px]:w-[100%]">
                             <Image

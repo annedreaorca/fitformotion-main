@@ -3,6 +3,7 @@
 import { Hacker, Hipster, Hustler, ProjectAdviser, ProjectBeneficiary } from "@/app/index";
 import { IconBrandFacebook, IconBrandInstagram } from '@tabler/icons-react';
 import Image, { StaticImageData } from "next/image";
+import 'animate.css';
 import Footer from "../_components/Footer/Footer";
 import Header from "../_components/Header/Header";
 
@@ -64,7 +65,7 @@ export default async function AboutUs() {
                 </div>
             </section>
             <section className="flex flex-col gap-[200px] bg-black py-[100px]">
-                <div className="flex flex-col gap-[40px] page-width">
+                <div className="flex flex-col gap-[40px] page-width animate__animated animate__fadeInUp duration-1000">
                     <div className="flex flex-col items-center gap-[20px]">
                         <div className="flex justify-center">
                             <span className="section-label text-center">Our Team</span>

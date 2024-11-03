@@ -5,6 +5,7 @@
 /* ===== Start Global Custom Styles ===== */
 html {
   scroll-behavior: smooth;
+  overscroll-behavior: none;
 }
 html.dark {
   background-color: #101010;
@@ -143,7 +144,7 @@ svg.tabler-icon.tabler-icon-star-filled.text-primary,
 
 /* ===== End Custom Style Toast ===== */
 
-/* ===== Satrt Pages Styles ===== */
+/* ===== Start Pages Styles ===== */
 .hero-section {
   background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7931547619047619) 3%, rgba(0,0,0,0) 100%);
 }
@@ -167,8 +168,17 @@ svg.tabler-icon.tabler-icon-star-filled.text-primary,
     width: min(100% - 50px, 100%);
   }
 }
+
+
 .page-heading.bg-image {
-  background-image: url('./images/page heading background.jpg');
+  background:linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('./images/page heading background.jpg');
+}
+.main-background {
+  background:linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1)), url('./images/page-background.jpg');
+}
+
+.page-heading.bg-image,
+.main-background {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;

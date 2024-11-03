@@ -1,10 +1,12 @@
 import { Button } from "@nextui-org/button";
 import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import {
-  IconPlayerPlayFilled
+  IconPlayerPlayFilled,
+  IconChevronsDown
 } from "@tabler/icons-react";
 
 import Link from "next/link";
+import 'animate.css';
 
 // import { Hacker, Hipster, Hustler } from ".";
 import Footer from "./_components/Footer/Footer";
@@ -46,31 +48,29 @@ export default function Home() {
           loop
           playsInline // Add this attribute
         >
-          <source src="/videos/video-hero-background.mp4" type="video/mp4" />
+          <source src="/videos/hero-video-background.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
 
-        <div className="flex items-center py-[100px] max-[767px]:flex-col gap-5 page-width">
+        <div className="flex items-center py-[100px] max-[767px]:flex-col gap-5 page-width  animate__animated animate__fadeInLeft duration-1000">
           <div className="flex flex-col justify-start text-left w-[50%] max-[1080px]:w-[60%]  max-[900px]:w-[80%] max-[767px]:w-[100%] max-[767px]:items-center max-[767px]:pt-[100px] max-[580px]:pt-[50px]">
+            <div className="flex justify-start mb-5">
+              <span className="section-label">FITFORMOTION</span>
+            </div>
             <h1 className="hero-headline uppercase text-white leading-[60px] max-[767px]:text-center">
               Where <span className="red">Fitness</span><br />
               Finds Its <span className="red">Form</span><br />
               In Every <span className="red">Motion!</span>
             </h1>
-            <p className="text-zinc-500 mt-5 mb-5 max-[767px]:text-center description">
+            <p className="text-zinc-500 mt-6 mb-6 max-[767px]:text-center description">
               Easily find exercises, customize your routine, and stay motivated as you achieve your fitness goals.
             </p>
             <div className="flex gap-3 mt-6 justify-start">
-              <Button
-                className="bg-primary-800 text-white"
-                as={Link}
-                prefetch={false}
-                href="#get-started"
-                size="md"
-              >
-                <IconPlayerPlayFilled size={18} />
-                Get Started
-              </Button>
+              <a href="#get-started"className="p-[15px] rounded-full bg-[#00000000] text-[#ffffff26] border border-[#ffffff26] hover:border-[#ffffffCC] hover:text-[#ffffffCC] animate__animated animate__pulse animate__infinite animate__slow">
+                <IconChevronsDown 
+                  className="w-[30px] h-[30px]"
+                  size={18} />
+              </a>
             </div>
           </div>
           {/* <div className="w-[50%] max-[767px]:hidden"></div> */}
@@ -78,7 +78,7 @@ export default function Home() {
       </section>
 
       <section className="py-[100px] mx-auto flex justify-center our-services" id="get-started">
-        <div className="flex gap-[50px] max-[580px]:flex-col items-center section-container page-width">
+        <div className="flex gap-[50px] max-[580px]:flex-col items-center section-container page-width  animate__animated animate__fadeInUp duration-1000">
           <div className="flex flex-col gap-[20px] w-[40%] max-[580px]:w-[100%]">
             <div className="flex justify-start">
               <span className="section-label">Key Features</span>

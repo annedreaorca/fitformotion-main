@@ -1,7 +1,6 @@
 import Footer from "../_components/Footer/Footer";
 import Header from "../_components/Header/Header";
 import ReferencesInfo from "../_components/Reference/ReferenceInfo";
-
 export default async function References() {
     return (
         <main>
@@ -13,7 +12,7 @@ export default async function References() {
                     </div>
                 </section>
             </div>
-            <section className="bg-black">
+            <section className="main-background">
                 <div className="py-[75px] page-width">
                     <ReferencesInfo/>
                 </div>

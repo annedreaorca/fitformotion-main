@@ -15,3 +15,5 @@ export { default as StartWorkout } from './images/features/fitfotmotion-start-wo
 export { default as WorkoutManager } from './images/features/fitfotmotion-workout-manager.png';
 
 export { default as Dot } from './images/dot.png';
+
+export { default as MainBackground } from './images/page-background.jpg';

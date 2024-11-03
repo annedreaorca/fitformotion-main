@@ -1,6 +1,6 @@
 import Footer from "../_components/Footer/Footer";
 import Header from "../_components/Header/Header";
-
+import 'animate.css';
 import Accordion from '../_components/Accordion/accordion';
 
 export default async function Faq() {
@@ -43,7 +43,7 @@ export default async function Faq() {
                 </section>
             </div>
             <section className="bg-black">
-                <div className="py-[75px] page-width">
+                <div className="py-[75px] page-width animate__animated animate__fadeInUp duration-1000">
                     <div className="divide-y divide-zinc-900">
                         {faqs.map((faq, index) => (
                             <Accordion key={index} title={faq.title} id={`faqs-${index}`} active={faq.active}>

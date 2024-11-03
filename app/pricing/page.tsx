@@ -2,6 +2,7 @@ import Accordion from "../_components/Accordion/accordion";
 import Footer from "../_components/Footer/Footer";
 import Header from "../_components/Header/Header";
 import PricingCards from "./_components/PricingCards";
+import 'animate.css';
 
 export default async function Pricing() {
     const pricingFaqs = [
@@ -32,7 +33,7 @@ export default async function Pricing() {
                 </section>
             </div>
             <section className="flex flex-col gap-[200px] bg-black py-[100px]">
-                <div className="flex flex-col gap-[100px] page-width">
+                <div className="flex flex-col gap-[100px] page-width  animate__animated animate__fadeInUp duration-1000">
                     <div className="flex flex-col gap-[20px] justify-center">
                         <div className="flex justify-center">
                             <span className="section-label">Choose Your Plan</span>
