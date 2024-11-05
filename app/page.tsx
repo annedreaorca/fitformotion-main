@@ -1,12 +1,12 @@
 import { Button } from "@nextui-org/button";
 import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import {
-  IconPlayerPlayFilled,
-  IconChevronsDown
+  IconChevronsDown,
+  IconPlayerPlayFilled
 } from "@tabler/icons-react";
 
-import Link from "next/link";
 import 'animate.css';
+import Link from "next/link";
 
 // import { Hacker, Hipster, Hustler } from ".";
 import Footer from "./_components/Footer/Footer";
@@ -66,8 +66,8 @@ export default function Home() {
               Easily find exercises, customize your routine, and stay motivated as you achieve your fitness goals.
             </p>
             <div className="flex gap-3 mt-6 justify-start">
-              <a href="#get-started"className="p-[15px] rounded-full bg-[#00000000] text-[#ffffff26] border border-[#ffffff26] hover:border-[#ffffffCC] hover:text-[#ffffffCC] animate__animated animate__pulse animate__infinite animate__slow">
-                <IconChevronsDown 
+              <a href="#get-started"className="p-[15px] rounded-full bg-[#00000000] text-[#ffffff26] border border-[#ffffff26] hover:border-[#ffffffCC] hover:text-[#ffffffCC] animate__animated animate__pulse animate__infinite animate__slow transition ease-in-out delay-150">
+                <IconChevronsDown
                   className="w-[30px] h-[30px]"
                   size={18} />
               </a>

@@ -68,7 +68,8 @@ button[title]:hover::after {
   top: -100%;
   left: 0;
 }
-/* Add your tooltip CSS here */
+
+/* Tooltip */
 .tooltip-text {
   visibility: hidden;
   opacity: 0;
@@ -133,6 +134,65 @@ svg.tabler-icon.tabler-icon-star-filled.text-primary,
   --tw-ring-opacity: 1;
   --tw-ring-color: #991b1b;
 }
+
+/* Bullet List - Reference Page */
+.bullet-icon-custom {
+  width: 40px;
+  height: auto;
+}
+.bullet-list-custom-none::before,
+.bullet-list-custom-none::after,
+.bullet-list-custom-first::before,
+.bullet-list-custom-first::after,
+.bullet-list-custom::before,
+.bullet-list-custom::after,
+.bullet-list-custom-last::before,
+.bullet-list-custom-last::after {
+  content: '';
+  display: block;
+  height: auto;
+  margin-left: 20px;
+  padding: 75px 0;
+}
+
+@media screen and (max-width: 510px) {
+  .bullet-list-custom-none::before,
+  .bullet-list-custom-none::after,
+  .bullet-list-custom-first::before,
+  .bullet-list-custom-first::after,
+  .bullet-list-custom::before,
+  .bullet-list-custom::after,
+  .bullet-list-custom-last::before,
+  .bullet-list-custom-last::after {
+    padding: 100px 0;
+  }
+}
+@media screen and (max-width: 310px) {
+  .bullet-list-custom-none::before,
+  .bullet-list-custom-none::before,
+  .bullet-list-custom-first::before,
+  .bullet-list-custom-first::after,
+  .bullet-list-custom::before,
+  .bullet-list-custom::after,
+  .bullet-list-custom-last::before,
+  .bullet-list-custom-last::after {
+    padding: 90px 0;
+  }
+}
+.bullet-list-custom-first::before,
+.bullet-list-custom-last::after,
+.bullet-list-custom-none::before,
+.bullet-list-custom-none::after {
+  border-left: 0px solid #292929;
+}
+
+.bullet-list-custom-first::after,
+.bullet-list-custom::before,
+.bullet-list-custom::after,
+.bullet-list-custom-last::before {
+  border-left: 1px solid #252525;
+}
+
 /* ===== End Global Custom Styles ===== */
 
 /* ===== Start Custom Style Toast ===== */
@@ -140,7 +200,6 @@ svg.tabler-icon.tabler-icon-star-filled.text-primary,
 [data-sonner-toast][data-styled="true"] {
   background: #991b1b !important;
 }
-
 
 /* ===== End Custom Style Toast ===== */
 
@@ -349,14 +408,23 @@ img.gallery-image {
 	-moz-transform: translateX(-50%) translateY(-50%) scale(1);
 	transform: translateX(-50%) translateY(-50%) scale(1);
 }
-/* Mobile Sidebar styles */
+
+@media screen and (max-width: 768px) {
+  .nav-link a:after, .nav-link a:before {
+    position: relative;
+    transform: none;
+    border: none;
+    border-radius: 0%;
+  }
+}
+/* Mobile Menu Sidebar styles */
 .sidebar {
   position: fixed;
   top: 0;
   left: -100%;
-  width: auto;
+  width: 100%;
   height: 100vh;
-  background-color: #000;
+  background-color: #000000;
   transition: left 0.4s ease-in-out;
   z-index: 1000;
 }
@@ -651,61 +719,4 @@ img.gallery-image {
 
 .animate-entrance {
   animation: entrance 0.5s ease-out forwards;
-}
-
-.bullet-icon-custom {
-  width: 40px;
-  height: auto;
-}
-.bullet-list-custom-none::before,
-.bullet-list-custom-none::after,
-.bullet-list-custom-first::before,
-.bullet-list-custom-first::after,
-.bullet-list-custom::before,
-.bullet-list-custom::after,
-.bullet-list-custom-last::before,
-.bullet-list-custom-last::after {
-  content: '';
-  display: block;
-  height: auto;
-  margin-left: 20px;
-  padding: 75px 0;
-}
-
-@media screen and (max-width: 510px) {
-  .bullet-list-custom-none::before,
-  .bullet-list-custom-none::after,
-  .bullet-list-custom-first::before,
-  .bullet-list-custom-first::after,
-  .bullet-list-custom::before,
-  .bullet-list-custom::after,
-  .bullet-list-custom-last::before,
-  .bullet-list-custom-last::after {
-    padding: 100px 0;
-  }
-}
-@media screen and (max-width: 310px) {
-  .bullet-list-custom-none::before,
-  .bullet-list-custom-none::before,
-  .bullet-list-custom-first::before,
-  .bullet-list-custom-first::after,
-  .bullet-list-custom::before,
-  .bullet-list-custom::after,
-  .bullet-list-custom-last::before,
-  .bullet-list-custom-last::after {
-    padding: 90px 0;
-  }
-}
-.bullet-list-custom-first::before,
-.bullet-list-custom-last::after,
-.bullet-list-custom-none::before,
-.bullet-list-custom-none::after {
-  border-left: 0px solid #292929;
-}
-
-.bullet-list-custom-first::after,
-.bullet-list-custom::before,
-.bullet-list-custom::after,
-.bullet-list-custom-last::before {
-  border-left: 1px solid #141414;
 }
