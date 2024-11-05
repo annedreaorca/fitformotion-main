@@ -1,9 +1,9 @@
 "use-client"
 
 import { Hacker, Hipster, Hustler, ProjectAdviser, ProjectBeneficiary } from "@/app/index";
-import { IconBrandFacebook, IconBrandInstagram } from '@tabler/icons-react';
-import Image, { StaticImageData } from "next/image";
+import { IconBrandFacebook, IconBrandInstagram, IconBrandLinkedin } from '@tabler/icons-react';
 import 'animate.css';
+import Image, { StaticImageData } from "next/image";
 import Footer from "../_components/Footer/Footer";
 import Header from "../_components/Header/Header";
 
@@ -18,6 +18,7 @@ interface ProfileCardProps {
     description: string;
     facebook?: string;
     instagram?: string;
+    linkedin?: string;
 }
 
 export default async function AboutUs() {
@@ -30,7 +31,8 @@ export default async function AboutUs() {
             name: "Mahasiah Bautista",
             description: "His leadership and relentless work ethic keep the team motivated and focused on success.",
             facebook: "https://www.facebook.com/siahbautista",
-            instagram: "https://www.instagram.com/haisaham"
+            instagram: "https://www.instagram.com/haisaham",
+            linkedin: "https://www.linkedin.com/in/siahbautista/"
         },
         {
             imageSrc: Hacker,
@@ -40,7 +42,8 @@ export default async function AboutUs() {
             name: "Andrea Anne Orca",
             description: "Her technical expertise and problem-solving skills are crucial in building and maintaining the platforms core functionalities.",
             facebook: "https://www.facebook.com/aa.orca",
-            instagram: "https://www.instagram.com/aa.orcs/"
+            instagram: "https://www.instagram.com/aa.orcs/",
+            linkedin: "#"
         },
         {
             imageSrc: Hipster,
@@ -50,7 +53,8 @@ export default async function AboutUs() {
             name: "Christian Jay Cuya",
             description: "His innovative approach ensures that our platform is both aesthetically pleasing and highly usable.",
             facebook: "https://www.facebook.com/christianjay.cuya.90/",
-            instagram: "https://www.instagram.com/cjaycuya/"
+            instagram: "https://www.instagram.com/cjaycuya/",
+            linkedin: "https://www.linkedin.com/in/christian-jay-a-cuya-a42b29245/"
         }
     ];
 
@@ -86,6 +90,7 @@ export default async function AboutUs() {
                                     description={member.description}
                                     facebook={member.facebook}
                                     instagram={member.instagram}
+                                    linkedin={member.linkedin}
                                 />
                             ))}
                         </div>
@@ -145,7 +150,7 @@ export default async function AboutUs() {
     );
 }
 
-function ProfileCard({ imageSrc, altText, title, name, description, secondaryTitle, facebook, instagram }: ProfileCardProps) {
+function ProfileCard({ imageSrc, altText, title, name, description, secondaryTitle, facebook, instagram, linkedin }: ProfileCardProps) {
     return (
         <div className="h-[520px] relative overflow-hidden rounded-[10px] bg-[#080808] border border-zinc-900 profile-item">
             <Image
@@ -181,6 +186,13 @@ function ProfileCard({ imageSrc, altText, title, name, description, secondaryTit
                                 <div className="p-[5px] rounded bg-zinc-800 duration-300 hover:bg-zinc-700">
                                     <a href={instagram} target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white transition-colors duration-300">
                                         <IconBrandInstagram size={20} className="transition-transform duration-300 transform hover:scale-110" />
+                                    </a>
+                                </div>
+                            )}
+                            {linkedin && (
+                                <div className="p-[5px] rounded bg-zinc-800 duration-300 hover:bg-zinc-700">
+                                    <a href={linkedin} target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white transition-colors duration-300">
+                                        <IconBrandLinkedin size={20} className="transition-transform duration-300 transform hover:scale-110" />
                                     </a>
                                 </div>
                             )}

@@ -52,7 +52,7 @@ export default function Home() {
           Your browser does not support the video tag.
         </video>
 
-        <div className="flex items-center py-[100px] max-[767px]:flex-col gap-5 page-width  animate__animated animate__fadeInLeft duration-1000">
+        <div className="flex items-center py-[100px] max-[767px]:flex-col gap-5 page-width  animate__animated animate__fadeInLeft max-[768]:animate__animated animate__fadeInUp duration-1000">
           <div className="flex flex-col justify-start text-left w-[50%] max-[1080px]:w-[60%]  max-[900px]:w-[80%] max-[767px]:w-[100%] max-[767px]:items-center max-[767px]:pt-[100px] max-[580px]:pt-[50px]">
             <div className="flex justify-start mb-5">
               <span className="section-label">FITFORMOTION</span>
