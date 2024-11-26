@@ -1,16 +1,13 @@
-"use client";  // Ensure this component is treated as a Client Component
+"use client";
 
 import { Button } from "@nextui-org/button";
-import {
-    IconUser
-} from "@tabler/icons-react";
+import { IconUser } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from 'next/link';
 import { HeaderLinks } from "./HeaderLinks";
 import { HeaderMobile } from "./HeaderMobile";
 
-export default async function Header() {
-    
+export default function Header() {
     return (
         <header className="mb-[-100px] py-[12px] relative z-[999999] page-width">
             <div className="flex gap-[20px] max-[768px]:hidden desktop-menu">
@@ -28,14 +25,14 @@ export default async function Header() {
                 <div className="flex justify-center items-center w-[60%]">
                     <HeaderLinks />
                 </div>
-                <div className='flex justify-end items-center nav-button w-[20%]'>
+                <div className="flex justify-end items-center nav-button w-[20%]">
                     <Button
                         className="bg-primary-800 text-white"
                         as={Link}
                         prefetch={false}
                         href="/dashboard"
                         size="md"
-                        >
+                    >
                         <IconUser size={18} />
                         Login
                     </Button>
