@@ -6,15 +6,27 @@ interface UploadFormProps {
 
 export default function UploadForm({ onUploadComplete }: UploadFormProps) {
   const [file, setFile] = useState<File | null>(null);
-  const [currentWeight, setCurrentWeight] = useState<string>(""); // Update state for current weight
+  const [currentWeight, setCurrentWeight] = useState<string>(""); // State for current weight
   const [inProgress, setInProgress] = useState(false);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.item(0) || null;
+
+    if (selectedFile && !selectedFile.type.startsWith("image/")) {
+      alert("Please upload a valid image file.");
+      setFile(null); // Reset the file input
+      return;
+    }
+
+    setFile(selectedFile);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setInProgress(true);
 
     if (!file || !currentWeight) {
-      alert("Please select a file and enter your current weight.");
+      alert("Please select a valid image file and enter your current weight.");
       setInProgress(false);
       return;
     }
@@ -49,7 +61,9 @@ export default function UploadForm({ onUploadComplete }: UploadFormProps) {
       <form onSubmit={handleSubmit} className="form-uploading-container">
         <input
           type="file"
-          onChange={(e) => setFile(e.target.files?.item(0) || null)}
+          accept="image/*" // Restrict to image file types
+          onChange={handleFileChange}
+          required
         />
         <input
           type="text"
@@ -58,7 +72,7 @@ export default function UploadForm({ onUploadComplete }: UploadFormProps) {
           onChange={(e) => setCurrentWeight(e.target.value)}
           required
         />
-        <button type="submit">
+        <button type="submit" disabled={inProgress}>
           <span className="upload-form-button">
             {inProgress ? "Uploading..." : "Upload"}
           </span>
