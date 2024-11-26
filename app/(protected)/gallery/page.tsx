@@ -1,10 +1,12 @@
 "use client";
 
+import KebabMenu from "@/components/KebabMenu/KebabMenu";
 import PageHeading from "@/components/PageHeading/PageHeading";
 import { useAuth } from "@clerk/nextjs";
+import { IconTrash } from "@tabler/icons-react";
+import { format } from "date-fns";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { format } from "date-fns";
 
 export default function Gallery() {
   const { userId } = useAuth();
@@ -65,7 +67,7 @@ export default function Gallery() {
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="h-screen w-full flex items-center justify-center">Loading...</div>;
   }
 
   if (error) {
@@ -84,45 +86,58 @@ export default function Gallery() {
   return (
     <div className="page-container">
       <PageHeading title="My Physique" />
-      <ul className="flex flex-row flex-wrap gap-[10px] mt-[30px] gallery">
-        {images.map((image: any) => (
-          <li key={image.id} className="gallery-item">
-            <div className="gallery-image-wrapper">
-              <a
-                href={image.imageUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image
-                  src={image.imageUrl}
-                  alt="Workout Image"
-                  width={250}
-                  height={250}
-                  className="rounded-lg gallery-image"
-                  unoptimized
-                />
-              </a>
-              <div className="workout-details">
+      <div className="mt-[30px]">
+        <ul className="flex flex-row flex-wrap gap-[10px] gallery">
+          {images.map((image: any) => (
+            <li key={image.id} className="p-[10px] bg-[#fff] dark:bg-[#0c0c0c] rounded-[10px] gallery-item">
+              <div className="gallery-image-wrapper relative">
+                <a
+                  href={image.imageUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Image
+                    src={image.imageUrl}
+                    alt="Workout Image"
+                    width={250}
+                    height={250}
+                    className="rounded-lg gallery-image"
+                    unoptimized
+                  />
+                </a>
+                <span className="absolute top-0 right-0 mt-[10px] mr-[10px] !text-white">
+                  <KebabMenu
+                    header="Options"
+                    kebabClassName="bg-zinc-50"
+                    width="auto"
+                    footer={
+                      <button
+                        onClick={() => handleDelete(image.id)}
+                        className="flex gap-[10px] items-center bg-primary-800 px-[12px] py-[6px] text-white rounded delete-button"
+                      >
+                        <span className="text-[14px]">Delete</span>
+                        <IconTrash size={16} className="w-[18px]" />
+                      </button>
+                    }
+                  />
+                </span>
+              </div>
+              <div className="px-[10px] pt-[20px] pb-[10px] workout-details">
+                <p className="workout-date">
+                  <span className="font-[500] text-[#222222] dark:text-[#cccccc]">Date: </span>
+                  {format(new Date(image.uploadedAt), "MM/dd/yyyy HH:mm")}
+                </p>
                 <p className="current-weight">
+                  <span className="font-[500] text-[#222222] dark:text-[#cccccc]">Weight: </span>
                   {image.currentWeight
                     ? `${image.currentWeight} kg`
                     : "No current weight"}
                 </p>
-                <p className="workout-date">
-                  {format(new Date(image.uploadedAt), "MM/dd/yyyy HH:mm")}
-                </p>
-                {/* Delete button */}
-                <button
-                  onClick={() => handleDelete(image.id)}
-                  className="delete-button bg-red-500 text-white px-3 py-1 mt-2 rounded"
-                >
-                  Delete
-                </button>
               </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

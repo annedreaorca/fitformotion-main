@@ -10,9 +10,9 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/table";
-import { IconInfoCircle, IconSquareCheck } from "@tabler/icons-react";
+import { IconSquareCheck } from "@tabler/icons-react";
 import Image from "next/image";
-import { useEffect, useState } from "react"; 
+import { useEffect, useState } from "react";
 
 interface Set {
   weight: number | "" | null;
@@ -23,7 +23,7 @@ interface Set {
 interface ExerciseDetail {
   exerciseName: string;
   sets: Set[];
-  instructions?: string[]; 
+  instructions?: string[];
 }
 
 interface ExerciseTableProps {
@@ -68,13 +68,13 @@ export default function ExerciseTable({
 
   return (
     <div>
-      <div className="flex items-center mb-4 ">
+      <div className="flex items-center">
         {/* <h2 className="text-xl font-semibold">{exerciseDetail.exerciseName}</h2> */}
-        <IconInfoCircle
+        {/* <IconInfoCircle
           className="hover:text-primary ml-2 cursor-pointer"
           size={24}
           onClick={() => setShowInstructions((prev) => !prev)}
-        />
+        /> */}
       </div>
 
       <Table

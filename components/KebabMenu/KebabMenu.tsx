@@ -1,42 +1,47 @@
 "use client";
-import ProfileActions from "@/app/(protected)/profile/_components/ProfileActions";
-import {
-    IconDotsVertical,
-    IconSettings,
-    IconUser,
-} from "@tabler/icons-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { IconDotsVertical } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 
 interface NavItemProps {
     icon: JSX.Element;
     label?: string;
     href?: string;
-    active: boolean;
 }
 
-function NavItem({ icon, label, href, active }: NavItemProps) {
+interface KebabMenuProps {
+    items?: NavItemProps[];
+    header?: string;
+    footer?: JSX.Element;
+    kebabClassName?: string;
+    itemClassName?: string;
+    buttonLabel?: string;
+    width?: string; // Add a width prop to control the menu's width
+}
+
+function NavItem({ icon, label, href }: NavItemProps) {
     return (
         <li className="my-1">
-            <Link
+            <a
                 href={href || "#"}
-                className={`flex items-center space-x-3 p-2 rounded-lg transition-colors duration-200 ease-in-out ${
-                active
-                    ? "bg-zinc-300 text-black dark:text-primary text-white"
-                    : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-300 dark:hover:bg-zinc-800"
-                }`}
+                className="flex items-center space-x-3 p-2 rounded-lg transition-colors duration-200 ease-in-out hover:bg-gray-100 dark:hover:bg-zinc-800"
             >
                 {icon}
                 <div>{label}</div>
-            </Link>
+            </a>
         </li>
     );
 }
 
-export default function KebabMenu() {
+export default function KebabMenu({
+    items = [],
+    header,
+    footer,
+    kebabClassName = "",
+    itemClassName = "",
+    buttonLabel = "Kebab Menu",
+    width = "12rem", // Default width if not provided
+}: KebabMenuProps) {
     const [isOpen, setIsOpen] = useState(false);
-    const pathname = usePathname();
     const menuRef = useRef<HTMLDivElement>(null);
 
     const toggleMenu = () => {
@@ -46,14 +51,14 @@ export default function KebabMenu() {
     // Close menu on clicking outside
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-        if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-            setIsOpen(false);
-        }
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
         };
 
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
 
@@ -62,35 +67,43 @@ export default function KebabMenu() {
             <button
                 className="shrink-0"
                 onClick={toggleMenu}
-                aria-label="Kebab Menu"
+                aria-label={buttonLabel}
             >
-                <IconDotsVertical size={24} className="text-black dark:text-primary" />
+                <IconDotsVertical size={24} className="text-black dark:text-white" />
             </button>
 
-            {isOpen && (
-                <ul className="absolute right-0 mt-2 w-48 bg-white dark:bg-content1 border border-gray-300 dark:border-zinc-700 rounded-md shadow-lg z-50 px-1 duration-500 ease-in-out ">
-                    <h4 className="border-b border-b-zinc-800 p-[10px]">Menu</h4>
+            <ul
+                className={`absolute right-0 mt-2 bg-white dark:bg-content1 border border-gray-300 dark:border-zinc-700 rounded-md shadow-lg z-50 px-1 transition-all duration-300 ease-out transform ${
+                    isOpen ? "opacity-100 max-h-[500px]" : "opacity-0 max-h-0"
+                } ${kebabClassName}`}
+                style={{
+                    width: width, // Apply the dynamic width here
+                    overflow: "hidden", // Prevents the menu from expanding beyond its boundaries
+                }}
+            >
+                {header && (
+                    <h4 className="border-b border-b-[#cccccc] dark:border-b-zinc-800 p-[10px]">
+                        {header}
+                    </h4>
+                )}
 
-                    <div className="flex flex-col">
+                <div className="flex flex-col">
+                    {items.map((item, idx) => (
                         <NavItem
-                            icon={<IconUser size={22} className="shrink-0" />}
-                            label="Profile"
-                            href="/profile"
-                            active={pathname === "/profile"}
+                            key={idx}
+                            icon={item.icon}
+                            label={item.label}
+                            href={item.href}
                         />
-                        <NavItem
-                            icon={<IconSettings size={22} className="shrink-0" />}
-                            label="Settings"
-                            href="/profile/advanced"
-                            active={pathname.startsWith("/profile/advanced")}
-                        />
-                    </div>
+                    ))}
+                </div>
 
-                    <div className="flex justify-start border-t border-t-zinc-800 p-[10px]">
-                        <ProfileActions/>
+                {footer && (
+                    <div className="flex justify-start border-t dark:border-t-zinc-800 p-[10px]">
+                        {footer}
                     </div>
-                </ul>
-            )}
+                )}
+            </ul>
         </div>
     );
 }

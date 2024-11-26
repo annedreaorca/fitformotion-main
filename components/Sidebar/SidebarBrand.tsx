@@ -26,7 +26,7 @@ export default function SidebarBrand() {
         </div>
         {!sidebarCollapse && (
           <div className="flex gap-3 items-center pt-[18px]">
-            <p className="text-[18px] brand uppercase font-semibold text-zinc-200 dark:text-zinc-400">
+            <p className="text-[18px] brand uppercase font-semibold text-zinc-900 dark:text-zinc-400">
               Fitformotion
             </p>
             {/* <Chip color="primary" radius="full">Pro</Chip> */}
