@@ -12,7 +12,16 @@ export async function POST(req: NextRequest) {
     if (!file || !currentWeight) {
       return NextResponse.json(
         { error: "File or current weight missing" },
-        { status: 400 },
+        { status: 400 }
+      );
+    }
+
+    // Validate file type
+    const validImageTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+    if (!validImageTypes.includes(file.type)) {
+      return NextResponse.json(
+        { error: "Invalid file type. Please upload an image file." },
+        { status: 400 }
       );
     }
 
@@ -26,7 +35,7 @@ export async function POST(req: NextRequest) {
     if (isNaN(weight)) {
       return NextResponse.json(
         { error: "Invalid weight value" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -56,7 +65,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Now that we're sure the user exists, save the currentWeight to the UserWeight table
+    // Save the currentWeight to the UserWeight table
     const savedWeight = await prisma.userWeight.create({
       data: {
         userId: userExists.userId, // Use the existing user's userId
@@ -73,14 +82,15 @@ export async function POST(req: NextRequest) {
       console.error("Error in upload route:", error.message);
       return NextResponse.json(
         { error: "Error processing request", details: error.message },
-        { status: 500 },
+        { status: 500 }
       );
     } else {
       console.error("Unknown error:", error);
       return NextResponse.json(
         { error: "An unknown error occurred" },
-        { status: 500 },
+        { status: 500 }
       );
     }
   }
 }
+
