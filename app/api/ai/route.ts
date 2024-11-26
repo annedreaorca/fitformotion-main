@@ -69,15 +69,23 @@ export async function POST(req: Request) {
       for (const message of responseMessages) {
         if (message.role === "assistant") {
           // Only process assistant messages
+          const textContent = message.content
+            .filter((content) => content.type === "text") // Only include text content
+            .map((content) => {
+              if (content.type === "text") {
+                return content; // Narrow the type to ensure it's `MessageContentText`
+              }
+              return null;
+            })
+            .filter(Boolean); // Remove any null values
+      
           sendMessage({
             id: message.id, // Message ID for tracking
             role: "assistant", // Specifies this as an assistant message
-            content: message.content.filter(
-              (content) => content.type === "text", // Only include text content
-            ),
+            content: textContent as { type: "text"; text: { value: string } }[], // Explicit type assertion
           });
         }
-      }
+      }      
     },
   );
 }
