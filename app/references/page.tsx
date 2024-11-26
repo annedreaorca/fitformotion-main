@@ -5,7 +5,7 @@ export default async function References() {
     return (
         <main>
             <Header/>
-            <div className="page-heading bg-image">
+            <div className="page-heading bg-black">
                 <section className="pt-[200px] pb-[75px] page-width">
                     <div className="page-heading-wrapper uppercase">
                         <h1 className="text-white inner-page-headings">References</h1>
