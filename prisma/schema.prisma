@@ -23,7 +23,6 @@ model UserWeight {
   weight      Float      // The weight of the user
   recordedAt  DateTime   @default(now()) // The date and time the weight was recorded
   user        UserInfo   @relation(fields: [userId], references: [userId]) // Relation to UserInfo
-  workoutLogs WorkoutLog[] @relation("UserWeightsToWorkoutLogs")
 }
 
 model Exercise {
@@ -106,8 +105,6 @@ model WorkoutLog {
   WorkoutPlan          WorkoutPlan        @relation(fields: [workoutPlanId], references: [id], onDelete: Cascade)
   exercises            WorkoutLogExercise[]
   UserExercisePB       UserExercisePB[]   @relation("WorkoutLogToUserExercisePB")
-  userWeights          UserWeight[]       @relation("UserWeightsToWorkoutLogs")
-  
 }
 
 model WorkoutLogExercise {
