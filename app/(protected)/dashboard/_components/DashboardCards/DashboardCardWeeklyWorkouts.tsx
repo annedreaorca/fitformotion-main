@@ -1,8 +1,8 @@
 // DashboardCardWeeklyWorkouts.tsx
-import { auth } from "@clerk/nextjs";
 import prisma from "@/prisma/prisma";
-import DashboardCardTemplate from "./DashboardCardTemplate";
+import { auth } from "@clerk/nextjs";
 import { IconCalendarWeek } from "@tabler/icons-react";
+import DashboardCardTemplate from "./DashboardCardTemplate";
 
 export default async function DashboardCardWeeklyWorkouts() {
   const { userId }: { userId: string | null } = auth();
@@ -23,7 +23,7 @@ export default async function DashboardCardWeeklyWorkouts() {
   return (
     <DashboardCardTemplate
       title="Weekly Workouts"
-      icon={<IconCalendarWeek className="text-danger" />}
+      icon={<IconCalendarWeek className="text-primary" />}
     >
       {workouts.length}
     </DashboardCardTemplate>

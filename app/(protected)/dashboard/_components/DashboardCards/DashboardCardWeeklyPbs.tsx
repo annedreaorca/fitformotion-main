@@ -6,7 +6,7 @@ export default function DashboardCardWeeklyPbs() {
   return (
     <DashboardCardTemplate
       title="Weekly PBs"
-      icon={<IconTrophy className="text-danger" />}
+      icon={<IconTrophy className="text-primary" />}
     >
       ...
     </DashboardCardTemplate>

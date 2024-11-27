@@ -1,13 +1,12 @@
 import { Suspense } from "react";
 //import DashboardChartExerciseCategoryDistribution from "./DashboardChartExerciseCategoryDistribution";
 import {
+  IconBarbell,
   IconChartAreaFilled,
-  IconChartBar,
-  IconChartLine
+  IconChartBar
 } from "@tabler/icons-react";
 import DashboardChartCard from "./DashboardChartCard";
 import DashboardChartProgressOverTime from "./DashboardChartProgressOverTime";
-import DashboardChartVolumeLoad from "./DashboardChartVolumeLoad";
 import DashboardChartWeightProgress from "./DashboardChartWeightProgress";
 import DashboardChartWorkoutFrequency from "./DashboardChartWorkoutFrequency";
 
@@ -25,7 +24,7 @@ export default function DashboardCharts({
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-3 mb-3">
       <DashboardChartCard
-        icon={<IconChartBar className="text-danger" />}
+        icon={<IconChartBar className="text-primary" />}
         title="My Workout Frequency"
         colSpan="col-span-2 lg:col-span-4 xl:col-span-2"
         chartId={1}
@@ -36,7 +35,7 @@ export default function DashboardCharts({
       </DashboardChartCard>
 
       <DashboardChartCard
-        icon={<IconChartAreaFilled className="text-danger" />}
+        icon={<IconChartAreaFilled className="text-primary" />}
         title="My Lift Progress"
         colSpan="col-span-2"
         chartId={2}
@@ -58,7 +57,7 @@ export default function DashboardCharts({
       </DashboardChartCard> */}
 
       <DashboardChartCard
-        icon={<IconChartAreaFilled className="text-danger" />}
+        icon={<IconBarbell  className="text-primary"/>}
         title="My Weight Progress"
         colSpan="col-span-2"
         chartId={2}

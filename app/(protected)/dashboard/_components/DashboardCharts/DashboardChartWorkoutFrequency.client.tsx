@@ -1,12 +1,11 @@
 "use client";
 import {
-  BarChart,
   Bar,
-  XAxis,
-  Tooltip,
+  BarChart,
   ResponsiveContainer,
+  Tooltip,
   TooltipProps,
-  CartesianGrid,
+  XAxis
 } from "recharts";
 import ChartMockDataMessage from "./ChartMockDataMessage";
 
@@ -22,11 +21,13 @@ function CustomTooltip({
 }: TooltipProps<number, string>) {
   if (active && payload && payload.length) {
     return (
-      <div className="bg-zinc-800 text-white px-4 py-2 rounded-xl shadow-xl text-xs">
-        <p className="font-semibold">
-          Workouts: <span className="text-primary">{payload[0].value}</span>
+      <div className="bg-zinc-300 dark:bg-zinc-800 text-white px-4 py-2 rounded-xl shadow-xl text-xs border-1 border-zinc-400 dark:border-zinc-700">
+        <p className="font-[500] text-zinc-700 dark:text-zinc-400">
+          Workouts: <span className="text-zinc-900 dark:text-zinc-200 font-[400]">{payload[0].value}</span>
         </p>
-        <p>Period: {label}</p>
+        <p className="font-[500] text-zinc-700 dark:text-zinc-400">
+          Period: <span className="text-zinc-900 dark:text-zinc-200 font-[400]">{label}</span>
+        </p>
       </div>
     );
   }

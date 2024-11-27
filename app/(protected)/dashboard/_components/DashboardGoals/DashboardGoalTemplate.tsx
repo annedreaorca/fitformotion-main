@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardBody } from "@nextui-org/card";
+import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import DeleteDashboardGoal from "./DeleteDashboardGoal";
 
 export default function DashboardGoalTemplate({
@@ -16,8 +16,8 @@ export default function DashboardGoalTemplate({
 }) {
   return (
     <Card shadow="none" className="shadow-md min-h-[148px]">
-      <CardHeader className="px-3 text-xs uppercase block w-full truncate flex justify-between items-center">
-        <div className="flex gap-3 items-center">
+      <CardHeader className="px-3 text-xs uppercase w-full truncate flex justify-between items-center">
+        <div className="flex gap-3 items-center text-zinc-700 dark:text-zinc-500">
           {icon}
           {title}
         </div>

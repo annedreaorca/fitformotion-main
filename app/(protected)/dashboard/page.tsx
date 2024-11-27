@@ -44,7 +44,6 @@ export default function DashboardPage({
             items={menuItems}
             header="Menu"
             footer={<ProfileActions />}
-            kebabClassName="bg-zinc-50"
             itemClassName="hover:bg-blue-100"
         />
       </div>

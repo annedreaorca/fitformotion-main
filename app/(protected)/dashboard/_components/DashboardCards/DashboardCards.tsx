@@ -19,7 +19,7 @@ export default function DashboardCards() {
         fallback={
           <DashboardCardTemplate
             title="Weekly Workouts"
-            icon={<IconCalendarWeek className="text-zinc-400" />}
+            icon={<IconCalendarWeek className="text-primary" />}
           >
             <Spinner color="primary" />
           </DashboardCardTemplate>
@@ -31,7 +31,7 @@ export default function DashboardCards() {
         fallback={
           <DashboardCardTemplate
             title="Avg Workout Time"
-            icon={<IconHourglass className="text-danger" />}
+            icon={<IconHourglass className="text-primary" />}
           >
             <Spinner color="primary" />
           </DashboardCardTemplate>
@@ -43,7 +43,7 @@ export default function DashboardCards() {
         fallback={
           <DashboardCardTemplate
             title="Daily Streak"
-            icon={<IconFlame className="text-danger" />}
+            icon={<IconFlame className="text-primary" />}
           >
             <Spinner color="primary" />
           </DashboardCardTemplate>
@@ -55,7 +55,7 @@ export default function DashboardCards() {
         fallback={
           <DashboardCardTemplate
             title="Weekly PBs"
-            icon={<IconTrophy className="text-danger" />}
+            icon={<IconTrophy className="text-primary" />}
           >
             <Spinner color="primary" />
           </DashboardCardTemplate>

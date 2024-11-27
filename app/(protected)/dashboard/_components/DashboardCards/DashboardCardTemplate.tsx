@@ -1,4 +1,4 @@
-import { Card, CardHeader, CardBody } from "@nextui-org/card";
+import { Card, CardBody, CardHeader } from "@nextui-org/card";
 export default function DashboardCardTemplate({
   children,
   title,
@@ -10,7 +10,7 @@ export default function DashboardCardTemplate({
 }) {
   return (
     <Card shadow="none" className="shadow-md">
-      <CardHeader className="px-3 text-xs uppercase block w-full truncate flex gap-3">
+      <CardHeader className="px-3 text-xs uppercase w-full truncate flex gap-3 text-zinc-700 dark:text-zinc-500">
         {icon}
         {title}
       </CardHeader>

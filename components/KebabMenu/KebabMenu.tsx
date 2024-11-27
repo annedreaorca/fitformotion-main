@@ -39,7 +39,7 @@ export default function KebabMenu({
     kebabClassName = "",
     itemClassName = "",
     buttonLabel = "Kebab Menu",
-    width = "12rem", // Default width if not provided
+    width = "12rem",
 }: KebabMenuProps) {
     const [isOpen, setIsOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
@@ -69,16 +69,15 @@ export default function KebabMenu({
                 onClick={toggleMenu}
                 aria-label={buttonLabel}
             >
-                <IconDotsVertical size={24} className="text-black dark:text-white" />
+                <IconDotsVertical size={24} className="text-black dark:text-white kebab-menu-icon" />
             </button>
 
-            <ul
-                className={`absolute right-0 mt-2 bg-white dark:bg-content1 border border-gray-300 dark:border-zinc-700 rounded-md shadow-lg z-50 px-1 transition-all duration-300 ease-out transform ${
+            <ul className={`absolute right-0 mt-2 bg-white dark:bg-content1 border border-gray-300 dark:border-zinc-700 rounded-md shadow-lg z-50 px-1 transition-all duration-300 ease-out transform ${
                     isOpen ? "opacity-100 max-h-[500px]" : "opacity-0 max-h-0"
                 } ${kebabClassName}`}
                 style={{
-                    width: width, // Apply the dynamic width here
-                    overflow: "hidden", // Prevents the menu from expanding beyond its boundaries
+                    width: width,
+                    overflow: "hidden",
                 }}
             >
                 {header && (

@@ -89,7 +89,7 @@ export default function Gallery() {
       <div className="mt-[30px]">
         <ul className="flex flex-row flex-wrap gap-[10px] gallery">
           {images.map((image: any) => (
-            <li key={image.id} className="p-[10px] bg-[#fff] dark:bg-[#0c0c0c] rounded-[10px] gallery-item">
+            <li key={image.id} className="flex flex-col gap-[10px] p-[10px] bg-[#fff] dark:bg-[#0c0c0c] rounded-[10px] gallery-item">
               <div className="gallery-image-wrapper relative">
                 <a
                   href={image.imageUrl}
@@ -105,10 +105,9 @@ export default function Gallery() {
                     unoptimized
                   />
                 </a>
-                <span className="absolute top-0 right-0 mt-[10px] mr-[10px] !text-white">
+                <span className="absolute top-0 right-0 mt-[10px] mr-[10px] kebab-gallery">
                   <KebabMenu
                     header="Options"
-                    kebabClassName="bg-zinc-50"
                     width="auto"
                     footer={
                       <button
@@ -122,7 +121,7 @@ export default function Gallery() {
                   />
                 </span>
               </div>
-              <div className="px-[10px] pt-[20px] pb-[10px] workout-details">
+              <div className="px-[10px] workout-details">
                 <p className="workout-date">
                   <span className="font-[500] text-[#222222] dark:text-[#cccccc]">Date: </span>
                   {format(new Date(image.uploadedAt), "MM/dd/yyyy HH:mm")}

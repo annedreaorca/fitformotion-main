@@ -1,11 +1,11 @@
-import { IconTarget, IconTargetArrow } from "@tabler/icons-react";
-import DashboardGoalTemplate from "./DashboardGoalTemplate";
 import prisma from "@/prisma/prisma";
 import { auth } from "@clerk/nextjs";
-import { UserGoal, GoalType } from "@prisma/client";
 import { Progress } from "@nextui-org/progress";
-import CreateDashboardGoal from "./CreateDashboardGoal";
+import { UserGoal } from "@prisma/client";
+import { IconTarget } from "@tabler/icons-react";
 import Link from "next/link";
+import CreateDashboardGoal from "./CreateDashboardGoal";
+import DashboardGoalTemplate from "./DashboardGoalTemplate";
 
 type ExerciseWithIdAndName = {
   id: string;
@@ -82,7 +82,7 @@ export default async function DashboardGoals() {
         <DashboardGoalTemplate
           key={goal.id}
           title={`Goal ${index + 1}`}
-          icon={<IconTarget className="text-danger" />}
+          icon={<IconTarget className="text-primary" />}
           showSettings
           id={goal.id}
         >
@@ -108,7 +108,7 @@ export default async function DashboardGoals() {
       {goals.length < 4 && (
         <DashboardGoalTemplate
           title="Add New Goal"
-          icon={<IconTarget className="text-danger" />}
+          icon={<IconTarget className="text-primary" />}
         >
           <p className="text-sm mb-3 leading-none text-zinc-600 dark:text-zinc-400">
             Select a{" "}
