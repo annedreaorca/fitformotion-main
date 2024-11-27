@@ -48,7 +48,7 @@ span.cl-badge.🔒️.cl-internal-qosp7d {
   padding-inline-end: 0 !important;
 }
 
-@media screen and (max-width:410px) {
+@media screen and (max-width: 410px) {
   .rep-input div div div,
   .lbs-input div div div {
     display: block !important;
@@ -82,7 +82,9 @@ button[title]:hover::after {
   bottom: 125%;
   left: 50%;
   transform: translateX(-50%);
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
   font-size: 12px;
   pointer-events: none;
   white-space: nowrap;
@@ -91,7 +93,7 @@ button[title]:hover::after {
 
 /* Tooltip arrow */
 .tooltip-text::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 100%;
   left: 50%;
@@ -119,11 +121,11 @@ button:hover .tooltip-text {
 }
 @media screen and (max-width: 768px) {
   .count-pages {
-      left: 50%;
-      top: 30%;
-      display: flex;
-      transform: translate(-50%, -50%);
-      justify-content: center;
+    left: 50%;
+    top: 30%;
+    display: flex;
+    transform: translate(-50%, -50%);
+    justify-content: center;
   }
 }
 svg.tabler-icon.tabler-icon-star-filled.text-primary,
@@ -148,7 +150,7 @@ svg.tabler-icon.tabler-icon-star-filled.text-primary,
 .bullet-list-custom::after,
 .bullet-list-custom-last::before,
 .bullet-list-custom-last::after {
-  content: '';
+  content: "";
   display: block;
   height: auto;
   margin-left: 20px;
@@ -205,7 +207,12 @@ svg.tabler-icon.tabler-icon-star-filled.text-primary,
 
 /* ===== Start Pages Styles ===== */
 .hero-section {
-  background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7931547619047619) 3%, rgba(0,0,0,0) 100%);
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.7931547619047619) 3%,
+    rgba(0, 0, 0, 0) 100%
+  );
 }
 .page-container {
   padding: 20px;
@@ -228,12 +235,13 @@ svg.tabler-icon.tabler-icon-star-filled.text-primary,
   }
 }
 
-
 .page-heading.bg-image {
-  background:linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('./images/page heading background.jpg');
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("./images/page heading background.jpg");
 }
 .main-background {
-  background:linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1)), url('./images/page-background.jpg');
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1)),
+    url("./images/page-background.jpg");
 }
 
 .page-heading.bg-image,
@@ -248,11 +256,11 @@ svg.tabler-icon.tabler-icon-star-filled.text-primary,
   font-weight: 600;
 }
 h2.section-headline {
-  font-size: 36px;
+  font-size: 32px;
   font-weight: 600;
 }
 h3.section-headline {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 600;
 }
 h4.section-headline {
@@ -373,48 +381,61 @@ img.gallery-image {
   color: #818181;
   font-size: 15px;
   transition: all 0.3s;
-	position: relative;
-	display: flex;
+  position: relative;
+  display: flex;
 }
 .nav-link a:hover {
   color: #cccccc;
-  text-shadow: 0 0 5px #ffffff26, 0 0 10px rgba(255, 255, 255, 0.5);
+  text-shadow:
+    0 0 5px #ffffff26,
+    0 0 10px rgba(255, 255, 255, 0.5);
   font-weight: 400;
 }
-.nav-link a:before, .nav-link a:after {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 52px;
-	height: 52px;
-	border: 1px solid rgba(255, 255, 255, 0.1);
-	border-radius: 50%;
-	content: '';
-	opacity: 0;
-	-webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
-	-moz-transition: -moz-transform 0.3s, opacity 0.3s;
-	transition: transform 0.3s, opacity 0.3s;
-	-webkit-transform: translateX(-50%) translateY(-50%) scale(0.2);
-	-moz-transform: translateX(-50%) translateY(-50%) scale(0.2);
-	transform: translateX(-50%) translateY(-50%) scale(0.2);
+.nav-link a:before,
+.nav-link a:after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 52px;
+  height: 52px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  content: "";
+  opacity: 0;
+  -webkit-transition:
+    -webkit-transform 0.3s,
+    opacity 0.3s;
+  -moz-transition:
+    -moz-transform 0.3s,
+    opacity 0.3s;
+  transition:
+    transform 0.3s,
+    opacity 0.3s;
+  -webkit-transform: translateX(-50%) translateY(-50%) scale(0.2);
+  -moz-transform: translateX(-50%) translateY(-50%) scale(0.2);
+  transform: translateX(-50%) translateY(-50%) scale(0.2);
 }
 .nav-link a:after {
-	width: 40px;
-	height: 40px;
-	border-width: 5px;
-	-webkit-transform: translateX(-50%) translateY(-50%) scale(0.8);
-	-moz-transform: translateX(-50%) translateY(-50%) scale(0.8);
-	transform: translateX(-50%) translateY(-50%) scale(0.8);
+  width: 40px;
+  height: 40px;
+  border-width: 5px;
+  -webkit-transform: translateX(-50%) translateY(-50%) scale(0.8);
+  -moz-transform: translateX(-50%) translateY(-50%) scale(0.8);
+  transform: translateX(-50%) translateY(-50%) scale(0.8);
 }
-.nav-link a:hover:before, .nav-link a:hover:after, .nav-link a:focus:before, .nav-link a:focus:after {
-	opacity: 1;
-	-webkit-transform: translateX(-50%) translateY(-50%) scale(1);
-	-moz-transform: translateX(-50%) translateY(-50%) scale(1);
-	transform: translateX(-50%) translateY(-50%) scale(1);
+.nav-link a:hover:before,
+.nav-link a:hover:after,
+.nav-link a:focus:before,
+.nav-link a:focus:after {
+  opacity: 1;
+  -webkit-transform: translateX(-50%) translateY(-50%) scale(1);
+  -moz-transform: translateX(-50%) translateY(-50%) scale(1);
+  transform: translateX(-50%) translateY(-50%) scale(1);
 }
 
 @media screen and (max-width: 768px) {
-  .nav-link a:after, .nav-link a:before {
+  .nav-link a:after,
+  .nav-link a:before {
     position: relative;
     transform: none;
     border: none;
@@ -509,7 +530,7 @@ img.gallery-image {
 
 /* Footer */
 .footer-section {
-  background-image: url('./images/footer-background.jpg');
+  background-image: url("./images/footer-background.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: top center;
@@ -535,7 +556,9 @@ img.gallery-image {
 .kebab-menu {
   opacity: 0;
   transform: translateY(-10px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 
 .kebab-menu.show {
@@ -653,7 +676,6 @@ img.gallery-image {
 }
 /* ===== End Modals Styles ===== */
 
-
 /* ===== Start About Us Page Styles ===== */
 
 .profiles-container .profile-item {
@@ -699,7 +721,9 @@ img.gallery-image {
   right: 0;
   padding: 10px;
   color: white;
-  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  transition:
+    opacity 0.3s ease-in-out,
+    transform 0.3s ease-in-out;
   transform: translateY(20px); /* Slide up effect */
 }
 

@@ -6,45 +6,46 @@ import DashboardCharts from "./_components/DashboardCharts/DashboardCharts";
 import DashboardGoals from "./_components/DashboardGoals/DashboardGoals";
 import DashboardLinks from "./_components/DashboardLinks";
 
+import UploadForm from "@/app/form";
 import { IconSettings, IconUser } from "@tabler/icons-react";
 
 export default function DashboardPage({
   searchParams,
-  }: {
-    searchParams?: {
-      chart1?: string;
-      chart2?: string;
-      chart3?: string;
-      chart4?: string;
-    };
-  }) {
-    const chart1DateRange = searchParams?.chart1 || "1W";
-    const chart2DateRange = searchParams?.chart2 || "1W";
-    const chart3DateRange = searchParams?.chart3 || "1W";
-    const chart4DateRange = searchParams?.chart4 || "1W";
+}: {
+  searchParams?: {
+    chart1?: string;
+    chart2?: string;
+    chart3?: string;
+    chart4?: string;
+  };
+}) {
+  const chart1DateRange = searchParams?.chart1 || "1W";
+  const chart2DateRange = searchParams?.chart2 || "1W";
+  const chart3DateRange = searchParams?.chart3 || "1W";
+  const chart4DateRange = searchParams?.chart4 || "1W";
 
-    const menuItems = [
-      {
-        icon: <IconUser size={22} />,
-        label: "Profile",
-        href: "/profile",
-      },
-      {
-        icon: <IconSettings size={22} />,
-        label: "Settings",
-        href: "/profile/advanced",
-      },
-    ];
+  const menuItems = [
+    {
+      icon: <IconUser size={22} />,
+      label: "Profile",
+      href: "/profile",
+    },
+    {
+      icon: <IconSettings size={22} />,
+      label: "Settings",
+      href: "/profile/advanced",
+    },
+  ];
 
   return (
     <div className="page-container">
       <div className="flex justify-between">
         <PageHeading title="Dashboard Overview" />
         <KebabMenu
-            items={menuItems}
-            header="Menu"
-            footer={<ProfileActions />}
-            itemClassName="hover:bg-blue-100"
+          items={menuItems}
+          header="Menu"
+          footer={<ProfileActions />}
+          itemClassName="hover:bg-blue-100"
         />
       </div>
       <DashboardCards />
