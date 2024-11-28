@@ -9,6 +9,7 @@ export default authMiddleware({
     "/faq",
     "/references",
     "/terms-of-service",
+    "/privacy-policy",
   ],
 });
 
