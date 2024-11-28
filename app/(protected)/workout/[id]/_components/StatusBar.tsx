@@ -73,7 +73,7 @@ export default function StatusBar({
                 <IconDeviceFloppy />
                 <span>Save</span>
               </Button>
-              <Button color="danger" onPress={cancelWorkout}>
+              <Button  onPress={cancelWorkout}>
                 <IconX />
                 <span>Cancel</span>
               </Button>

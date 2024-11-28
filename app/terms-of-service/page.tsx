@@ -1,7 +1,8 @@
 import { Image } from "@nextui-org/react";
 import Footer from "../_components/Footer/Footer";
 import Header from "../_components/Header/Header";
-export default async function References() {
+export default async function TermsOfService() {
+  const currentYear = new Date().getFullYear();
   return (
     <main>
       <div className="page-heading bg-image">
@@ -154,6 +155,13 @@ export default async function References() {
                 </div>
               </li>
             </ol>
+          </div>
+        </section>
+        <section className="z-40 bg-[#070707] border-t-1 border-[#0c0c0c] footer-section">
+          <div className="py-[40px] page-width">
+            <p className="text-center text-[14px] text-stone-300">
+              © {currentYear} Trifecta Proximity. All Rights Reserved.
+            </p>
           </div>
         </section>
       </div>

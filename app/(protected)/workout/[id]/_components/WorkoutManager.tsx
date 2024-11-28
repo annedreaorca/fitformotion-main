@@ -414,9 +414,9 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
     <div className="pb-32">
       {showUploadForm && (
         <div className="fixed inset-0 z-[9999] flex justify-center items-center bg-black bg-opacity-50 animate-fadeIn">
-          <div className="wrapper bg-[#18181a] p-6 rounded-lg shadow-lg relative animate-scaleIn">
+          <div className="wrapper bg-[#f1f1f1] dark:bg-[#18181a] p-6 rounded-lg shadow-lg relative animate-scaleIn ">
             <UploadForm onUploadComplete={handleUploadCompletion} />
-            <Button onPress={skipUpload} className="mt-4" color="primary">
+            <Button onPress={skipUpload} className="mt-4 !bg-transparent rounded-md px-4 py-[22px] font-[400] text-black dark:text-white border-1 border-zinc-500 dark:border-zinc-800 w-full">
               Skip
             </Button>
           </div>

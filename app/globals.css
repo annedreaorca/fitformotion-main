@@ -748,3 +748,86 @@ img.gallery-image {
 .animate-entrance {
   animation: entrance 0.5s ease-out forwards;
 }
+
+
+.dropzone-box {
+  border-radius: 1rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 36rem;
+  border: 1px solid var(--border);
+  width: 100%;
+  background: var(--dropzone-bg);
+}
+
+.dropzone-area {
+  padding: 1rem;
+  position: relative;
+  min-height: 16rem;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 1px dashed #979797;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dropzone-area .file-info {
+  font-size: 1.1rem;
+}
+
+.dropzone-area [type="file"] {
+  cursor: pointer;
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+
+/* .dropzone-area:hover {
+  background: #252525;
+} */
+
+.dropzone--over {
+  border: 2px solid #252525;
+  background: var(--dropzone-over);
+}
+
+.dropzone-actions button {
+  flex-grow: 1;
+  min-height: 3rem;
+  font-size: 1.2rem;
+  border: none;
+  transition: background 0.3s ease;
+}
+
+
+.dropzone-actions button[type='reset'] {
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--secondary);
+  cursor: pointer;
+  border: 1px solid var(--border);
+}
+
+.dropzone-actions button[type='reset']:hover {
+  background: var(--secondary-hover);
+}
+
+.dropzone-actions button[type='submit'] {
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  cursor: pointer;
+}
+
+.dropzone-actions button[type='submit']:hover {
+  background: var(--primary-hover);
+}
