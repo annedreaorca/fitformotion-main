@@ -9,11 +9,7 @@ export default async function PrivacyPolicy() {
         <section className="pt-[75px] pb-[75px] page-width">
           <div className="page-heading-wrapper uppercase flex flex-col gap-[20px] items-center">
             <div className="flex items-center gap-[10px] justify-center w-11 h-[60px]">
-              <img
-                src="/images/logo/Fitformotion Brandmark Logo White Ver.svg"
-                className="w-[40px]"
-              />
-              <p className="text-[18px] brand uppercase font-semibold text-zinc-900 dark:text-zinc-400">
+              <p className="text-[20px] brand uppercase font-semibold text-zinc-900 dark:text-zinc-400">
                 Fitformotion
               </p>
             </div>
@@ -45,7 +41,7 @@ export default async function PrivacyPolicy() {
                     <h4 className="text-[18px]">Your information will be used solely for the following purposes:</h4>
                     <span className="flex flex-col gap-[10px]">
                       <p>To personalize your fitness experience.</p>
-                      <p>To analyze and improve the app's performance and functionality.</p>
+                      <p>To analyze and improve the app&apos;s performance and functionality.</p>
                       <p>To provide customer support when needed.</p>  
                     </span>
                   </div>

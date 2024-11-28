@@ -9,11 +9,8 @@ export default async function TermsOfService() {
         <section className="pt-[75px] pb-[75px] page-width">
           <div className="page-heading-wrapper uppercase flex flex-col gap-[20px] items-center">
             <div className="flex items-center gap-[10px] justify-center w-11 h-[60px]">
-              <img
-                src="/images/logo/Fitformotion Brandmark Logo White Ver.svg"
-                className="w-[40px]"
-              />
-              <p className="text-[18px] brand uppercase font-semibold text-zinc-900 dark:text-zinc-400">
+              
+              <p className="text-[20px] brand uppercase font-semibold text-zinc-900 dark:text-zinc-400">
                 Fitformotion
               </p>
             </div>
