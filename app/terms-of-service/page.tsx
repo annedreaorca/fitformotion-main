@@ -1,18 +1,16 @@
 import { Image } from "@nextui-org/react";
 import Footer from "../_components/Footer/Footer";
 import Header from "../_components/Header/Header";
-export default async function References() {
+export default async function TermsOfService() {
+  const currentYear = new Date().getFullYear();
   return (
     <main>
       <div className="page-heading bg-image">
         <section className="pt-[75px] pb-[75px] page-width">
           <div className="page-heading-wrapper uppercase flex flex-col gap-[20px] items-center">
             <div className="flex items-center gap-[10px] justify-center w-11 h-[60px]">
-              <img
-                src="/images/logo/Fitformotion Brandmark Logo White Ver.svg"
-                className="w-[40px]"
-              />
-              <p className="text-[18px] brand uppercase font-semibold text-zinc-900 dark:text-zinc-400">
+              
+              <p className="text-[20px] brand uppercase font-semibold text-zinc-900 dark:text-zinc-400">
                 Fitformotion
               </p>
             </div>
@@ -154,6 +152,13 @@ export default async function References() {
                 </div>
               </li>
             </ol>
+          </div>
+        </section>
+        <section className="z-40 bg-[#070707] border-t-1 border-[#0c0c0c] footer-section">
+          <div className="py-[40px] page-width">
+            <p className="text-center text-[14px] text-stone-300">
+              © {currentYear} Trifecta Proximity. All Rights Reserved.
+            </p>
           </div>
         </section>
       </div>
