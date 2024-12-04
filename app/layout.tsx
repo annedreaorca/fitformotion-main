@@ -20,6 +20,7 @@ export function generateViewport() {
 const alexandria = Alexandria({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  manifest: "/manifest.json",
   title: "Fitformotion: Every Rep Smarter, Every Goal Closer",
   description:
     "Fitformotion provides gym beginners with personalized workout plans, real-time tracking, and smart progress insights ensuring every rep leads to faster, smarter gains.",
