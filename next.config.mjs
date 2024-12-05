@@ -19,14 +19,10 @@ const nextConfig = {
     if (!isServer) {
       config.module.rules.push({
         test: /\.(jpg|jpeg|png|gif|svg)$/i,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[contenthash].[ext]', // Ensure versioning based on content
-            },
-          },
-        ],
+        type: 'asset/resource', // Use Webpack's built-in asset module for images
+        generator: {
+          filename: 'static/media/[name].[contenthash][ext][query]', // Versioned image filenames
+        },
       });
     }
     return config;
