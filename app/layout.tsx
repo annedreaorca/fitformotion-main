@@ -12,8 +12,8 @@ export function generateViewport() {
     width: "device-width",
     initialScale: 1,
     maximumScale: 1,
-    minimumScale: 1, // Ensure no zoom allowed on iOS
-    userScalable: "no", // Proper attribute for disabling scaling
+    minimumScale: 1, 
+    userScalable: "no",
   };
 }
 
