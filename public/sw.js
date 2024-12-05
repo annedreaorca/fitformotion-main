@@ -67,90 +67,28 @@ if (!self.define) {
     });
   };
 }
-
 define(['./workbox-7144475a'], (function (workbox) { 'use strict';
 
   importScripts();
   self.skipWaiting();
   workbox.clientsClaim();
-
-  // Registering route for the homepage with NetworkFirst strategy
   workbox.registerRoute("/", new workbox.NetworkFirst({
     "cacheName": "start-url",
     plugins: [{
-      cacheWillUpdate: async ({ response }) => response && response.type === "opaqueredirect"
-        ? new Response(response.body, {
-            status: 200,
-            statusText: "OK",
-            headers: response.headers
-          })
-        : response
+      cacheWillUpdate: async ({
+        response: e
+      }) => e && "opaqueredirect" === e.type ? new Response(e.body, {
+        status: 200,
+        statusText: "OK",
+        headers: e.headers
+      }) : e
     }]
   }), 'GET');
-
-  // Registering route for caching all other requests with NetworkOnly strategy
   workbox.registerRoute(/.*/i, new workbox.NetworkOnly({
     "cacheName": "dev",
     plugins: []
   }), 'GET');
-
   self.__WB_DISABLE_DEV_LOGS = true;
 
-  // This is the service worker with the combined offline experience (Offline page + Offline copy of pages)
-  const CACHE = "pwabuilder-offline-page";
-  
-  // Offline fallback page
-  const offlineFallbackPage = "offline.html"; 
-
-  self.addEventListener("message", (event) => {
-    if (event.data && event.data.type === "SKIP_WAITING") {
-      self.skipWaiting();
-    }
-  });
-
-  // Install event: Cache offline fallback page
-  self.addEventListener('install', async (event) => {
-    event.waitUntil(
-      caches.open(CACHE)
-        .then((cache) => cache.add(offlineFallbackPage))
-    );
-  });
-
-  if (workbox.navigationPreload.isSupported()) {
-    workbox.navigationPreload.enable();
-  }
-
-  // Caching strategy for all routes
-  workbox.routing.registerRoute(
-    new RegExp('/*'),
-    new workbox.strategies.StaleWhileRevalidate({
-      cacheName: CACHE
-    })
-  );
-
-  // Handling fetch events and serving the fallback page when offline
-  self.addEventListener('fetch', (event) => {
-    if (event.request.mode === 'navigate') {
-      event.respondWith((async () => {
-        try {
-          const preloadResp = await event.preloadResponse;
-
-          if (preloadResp) {
-            return preloadResp;
-          }
-
-          const networkResp = await fetch(event.request);
-          return networkResp;
-        } catch (error) {
-          // If network fails, serve the cached offline page
-          const cache = await caches.open(CACHE);
-          const cachedResp = await cache.match(offlineFallbackPage);
-          return cachedResp;
-        }
-      })());
-    }
-  });
-
 }));
-
 //# sourceMappingURL=sw.js.map

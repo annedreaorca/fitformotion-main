@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
@@ -12,7 +13,7 @@ export function generateViewport() {
     width: "device-width",
     initialScale: 1,
     maximumScale: 1,
-    minimumScale: 1, 
+    minimumScale: 1,
     userScalable: "no",
   };
 }
@@ -31,6 +32,19 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/sw.js")
+        .then((registration) => {
+          console.log("Service Worker registered:", registration.scope);
+        })
+        .catch((error) => {
+          console.error("Service Worker registration failed:", error);
+        });
+    }
+  }, []); // Runs once when the app loads
+
   return (
     <html
       lang="en"
@@ -42,7 +56,7 @@ export default async function RootLayout({
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
         />
-        <link rel="canonical" href="https://fitformotion.com/"/>
+        <link rel="canonical" href="https://fitformotion.com/" />
       </head>
       <body
         className={`${alexandria.className} flex flex-col grow overflow-x-hidden`}
