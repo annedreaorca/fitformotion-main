@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -8,6 +6,7 @@ import { Alexandria } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 import { Providers } from "./providers";
+import { ServiceWorkerRegistrar } from "./_components/ServiceWorkerRegistrar";
 
 // Viewport settings with zooming disabled
 export function generateViewport() {
@@ -34,19 +33,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  useEffect(() => {
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker
-        .register("/sw.js")
-        .then((registration) => {
-          console.log("Service Worker registered:", registration.scope);
-        })
-        .catch((error) => {
-          console.error("Service Worker registration failed:", error);
-        });
-    }
-  }, []); // Runs once when the app loads
-
   return (
     <html
       lang="en"
@@ -73,6 +59,8 @@ export default async function RootLayout({
               },
             }}
           />
+          {/* Register the service worker */}
+          <ServiceWorkerRegistrar />
           {children}
         </Providers>
         <SpeedInsights />
