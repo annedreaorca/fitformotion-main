@@ -1,4 +1,4 @@
-// @ts-check
+import withPWAInit from "@ducanh2912/next-pwa";
 
 /**
  * @type {import('next').NextConfig}
@@ -12,23 +12,61 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       }
-    ]
+    ],
   },
   reactStrictMode: false,
+  webpack(config, { isServer }) {
+    if (!isServer) {
+      config.module.rules.push({
+        test: /\.(jpg|jpeg|png|gif|svg)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[contenthash].[ext]', // Ensure versioning based on content
+            },
+          },
+        ],
+      });
+    }
+    return config;
+  },
 };
 
-import withPWAInit from "@ducanh2912/next-pwa";
-
 const withPWA = withPWAInit({
-  dest: "public",
+  dest: "public", // Directory for service worker and PWA files
   cacheOnFrontEndNav: true,
   aggressiveFrontEndNavCaching: true,
   reloadOnOnline: true,
-  disable: false,
+  disable: false, // Set to `true` to disable PWA features for development
   workboxOptions: {
-    disableDevLogs: true,
-  }
+    disableDevLogs: true, // Disable dev logs for Workbox
+    runtimeCaching: [
+      {
+        urlPattern: /\/_next\/static\//, // Catch all Next.js static files
+        handler: 'StaleWhileRevalidate', // Cache and update in the background
+        options: {
+          cacheName: 'static-assets',
+          expiration: {
+            maxEntries: 100,
+            maxAgeSeconds: 60 * 60 * 24 * 30, // Cache for 30 days
+          },
+        },
+      },
+      {
+        urlPattern: /.*\.(?:jpg|jpeg|png|gif|svg)$/i, // For images
+        handler: 'CacheFirst',
+        options: {
+          cacheName: 'image-cache',
+          expiration: {
+            maxEntries: 50,
+            maxAgeSeconds: 60 * 60 * 24 * 365, // Cache images for 1 year
+          },
+        },
+      },
+    ],
+  },
 });
 
-
+// Export the config with PWA functionality
 export default withPWA(nextConfig);
