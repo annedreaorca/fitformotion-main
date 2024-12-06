@@ -1,8 +1,8 @@
 self.__WB_DISABLE_DEV_LOGS = true;
 
-const CACHE_ASSETS = "fitformotion-assets";
-const CACHE_API = "fitformotion-api";
-const CACHE_OFFLINE = "fitformotion-offline-page";
+const CACHE_ASSETS = "app-assets-cache";
+const CACHE_API = "app-api-cache";
+const CACHE_OFFLINE = "offline-cache";
 const OFFLINE_FALLBACK_PAGE = "/offline.html";
 
 // Import Workbox libraries
@@ -18,82 +18,81 @@ self.addEventListener("install", async (event) => {
   );
 });
 
-// Cache static assets (HTML, JS, CSS, images) with StaleWhileRevalidate
+// Cache static assets (e.g., JS, CSS, images)
 workbox.routing.registerRoute(
-  new RegExp("/.*"), // Match all routes for caching
+  new RegExp('/.*\.(js|css|html|jpg|jpeg|png|svg|ico)$'), // Match static assets
   new workbox.strategies.StaleWhileRevalidate({
     cacheName: CACHE_ASSETS,
-  })
-);
-
-// Cache API requests for offline usage (for dynamic content)
-workbox.routing.registerRoute(
-  new RegExp('/api/.*'),  // Adjust this to the API endpoints you need to sync
-  new workbox.strategies.NetworkFirst({
-    cacheName: CACHE_API,
     plugins: [
       new workbox.cacheableResponse.Plugin({
-        statuses: [0, 200],  // Cache successful responses
-      })
-    ]
+        statuses: [0, 200],
+      }),
+      new workbox.expiration.Plugin({
+        maxAgeSeconds: 60 * 60 * 24 * 7, // Cache assets for 1 week
+        maxEntries: 50,
+      }),
+    ],
   })
 );
 
-// Cache dynamic pages after login (e.g., /dashboard)
+// Cache dynamic content like the dashboard or user pages
 self.addEventListener('fetch', (event) => {
-  // Handle protected pages
-  if (event.request.url.includes('/dashboard') || event.request.url.includes('/profile')) {
+  if (event.request.mode === 'navigate') {
     event.respondWith(
       (async () => {
-        const cache = await caches.open(CACHE_ASSETS);
-
-        // Try fetching from the network first
         try {
+          // Try fetching from the network
           const networkResp = await fetch(event.request);
-
-          // If network is successful, cache the response for offline use
+          // Update the cache with the network response
+          const cache = await caches.open(CACHE_ASSETS);
           cache.put(event.request, networkResp.clone());
-
           return networkResp;
         } catch (error) {
-          // If offline, serve from cache
+          // If network fails, attempt to serve from cache
+          const cache = await caches.open(CACHE_ASSETS);
           const cachedResp = await cache.match(event.request);
           if (cachedResp) {
             return cachedResp;
           }
-
-          // If no cached version is available, return offline page
+          // If no cache, return the offline page
           return caches.match(OFFLINE_FALLBACK_PAGE);
         }
       })()
     );
   }
+});
 
-  // Serve fallback page for navigation requests if offline
-  if (event.request.mode === "navigate") {
-    event.respondWith(
-      (async () => {
-        try {
-          const networkResp = await fetch(event.request);
-          return networkResp;
-        } catch (error) {
-          const cache = await caches.open(CACHE_ASSETS);
-          const cachedResp = await cache.match(event.request);
-          return cachedResp || caches.match(OFFLINE_FALLBACK_PAGE); // Fallback to offline page
-        }
-      })()
-    );
-  }
+// Background Sync setup (for API requests that fail while offline)
+if (workbox.backgroundSync) {
+  const syncQueue = new workbox.backgroundSync.Queue('syncQueue');
+  
+  // Register the route for API endpoints needing sync
+  workbox.routing.registerRoute(
+    new RegExp('/api/.*'),  // Adjust this to the API endpoints you need to sync
+    new workbox.strategies.NetworkOnly({
+      plugins: [
+        new workbox.backgroundSync.Plugin('syncQueue', {
+          maxRetentionTime: 24 * 60 // Retry for up to 24 hours
+        })
+      ]
+    }),
+    ['POST', 'PUT', 'PATCH', 'DELETE'] // Include methods that should trigger background sync
+  );
+}
 
-  // Optionally, add logic for other resources (e.g., images, CSS) to cache them
-  if (event.request.url.includes('.html') || event.request.url.includes('.js') || event.request.url.includes('.css')) {
-    event.respondWith(
-      caches.match(event.request).then((cachedResponse) => {
-        return cachedResponse || fetch(event.request);
-      })
-    );
+// Periodic Sync setup
+self.addEventListener('periodicsync', (event) => {
+  if (event.tag === 'syncData') {
+    event.waitUntil(syncData());
   }
 });
+
+// Sync Data function (periodic sync)
+async function syncData() {
+  const cache = await caches.open(CACHE_API);
+  // Logic for syncing cached data with the server
+  // You could perform a network request here to send data back to the server
+}
 
 // Enable navigation preload if supported
 if (workbox.navigationPreload.isSupported()) {
@@ -102,5 +101,24 @@ if (workbox.navigationPreload.isSupported()) {
 
 // Push notification event handler (for future use if needed)
 self.addEventListener('push', (event) => {
+  // Handle push notifications if needed
   console.log('Push event received:', event);
+});
+
+// Handle cache expiration and cleanup
+self.addEventListener('activate', (event) => {
+  const currentCaches = [CACHE_ASSETS, CACHE_API, CACHE_OFFLINE];
+
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (!currentCaches.includes(cacheName)) {
+            // Delete outdated caches
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
 });
