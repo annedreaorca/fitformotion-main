@@ -56,21 +56,43 @@ if (workbox.backgroundSync) {
   );
 }
 
+// Cache dynamic pages after login (e.g., /dashboard)
+self.addEventListener('fetch', (event) => {
+  if (event.request.url.includes('/dashboard') || event.request.url.includes('/profile')) {
+    event.respondWith(
+      (async () => {
+        const cache = await caches.open(CACHE_ASSETS);
+
+        // Try fetching from the network first
+        try {
+          const networkResp = await fetch(event.request);
+          
+          // If network is successful, cache the response for offline use
+          cache.put(event.request, networkResp.clone());
+          
+          return networkResp;
+        } catch (error) {
+          // If offline, serve from cache
+          const cachedResp = await cache.match(event.request);
+          return cachedResp || caches.match(OFFLINE_FALLBACK_PAGE); // Fallback to offline page
+        }
+      })()
+    );
+  }
+});
+
 // Serve fallback page when offline (for navigation requests)
 self.addEventListener("fetch", (event) => {
-  // Handle navigation requests
   if (event.request.mode === "navigate") {
     event.respondWith(
       (async () => {
         try {
-          // First try to fetch the page from the network
           const networkResp = await fetch(event.request);
           return networkResp;
         } catch (error) {
-          // If network request fails (offline), fallback to cached page
           const cache = await caches.open(CACHE_ASSETS);
           const cachedResp = await cache.match(event.request);
-          return cachedResp || caches.match(OFFLINE_FALLBACK_PAGE); // Fallback to offline page if no match
+          return cachedResp || caches.match(OFFLINE_FALLBACK_PAGE); // Fallback to offline page
         }
       })()
     );
