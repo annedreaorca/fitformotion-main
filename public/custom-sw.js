@@ -35,34 +35,24 @@ workbox.routing.registerRoute(
   })
 );
 
-// Cache dynamic content like the dashboard or user pages
-self.addEventListener('fetch', (event) => {
-  if (event.request.mode === 'navigate') {
-    event.respondWith(
-      (async () => {
-        try {
-          // Try fetching from the network
-          const networkResp = await fetch(event.request);
-          // Update the cache with the network response
-          const cache = await caches.open(CACHE_ASSETS);
-          cache.put(event.request, networkResp.clone());
-          return networkResp;
-        } catch (error) {
-          // If network fails, attempt to serve from cache
-          const cache = await caches.open(CACHE_ASSETS);
-          const cachedResp = await cache.match(event.request);
-          if (cachedResp) {
-            return cachedResp;
-          }
-          // If no cache, return the offline page
-          return caches.match(OFFLINE_FALLBACK_PAGE);
-        }
-      })()
-    );
-  }
-});
+// Cache dynamic routes (e.g., /dashboard, /profile)
+workbox.routing.registerRoute(
+  new RegExp('/(dashboard|profile|.*)'),
+  new workbox.strategies.NetworkFirst({
+    cacheName: 'dynamic-cache',
+    plugins: [
+      new workbox.cacheableResponse.Plugin({
+        statuses: [0, 200],
+      }),
+      new workbox.expiration.Plugin({
+        maxAgeSeconds: 60 * 60 * 24, // Cache for 1 day
+        maxEntries: 10,
+      }),
+    ],
+  })
+);
 
-// Background Sync setup (for API requests that fail while offline)
+// Cache API requests that fail while offline
 if (workbox.backgroundSync) {
   const syncQueue = new workbox.backgroundSync.Queue('syncQueue');
   
@@ -80,14 +70,36 @@ if (workbox.backgroundSync) {
   );
 }
 
-// Periodic Sync setup
+// Serve fallback page when offline (for navigation requests)
+self.addEventListener("fetch", (event) => {
+  if (event.request.mode === "navigate") {
+    event.respondWith(
+      (async () => {
+        try {
+          const networkResp = await fetch(event.request);
+          return networkResp;
+        } catch (error) {
+          const cache = await caches.open(CACHE_ASSETS);
+          const cachedResp = await cache.match(event.request);
+          if (cachedResp) {
+            return cachedResp;
+          }
+          // If no cache, return the offline page
+          return caches.match(OFFLINE_FALLBACK_PAGE);
+        }
+      })()
+    );
+  }
+});
+
+// Background sync for periodic tasks (like syncing data)
 self.addEventListener('periodicsync', (event) => {
   if (event.tag === 'syncData') {
     event.waitUntil(syncData());
   }
 });
 
-// Sync Data function (periodic sync)
+// Sync data function (periodic sync)
 async function syncData() {
   const cache = await caches.open(CACHE_API);
   // Logic for syncing cached data with the server
@@ -98,12 +110,6 @@ async function syncData() {
 if (workbox.navigationPreload.isSupported()) {
   workbox.navigationPreload.enable();
 }
-
-// Push notification event handler (for future use if needed)
-self.addEventListener('push', (event) => {
-  // Handle push notifications if needed
-  console.log('Push event received:', event);
-});
 
 // Handle cache expiration and cleanup
 self.addEventListener('activate', (event) => {
