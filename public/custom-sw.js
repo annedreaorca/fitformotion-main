@@ -58,21 +58,30 @@ if (workbox.backgroundSync) {
 
 // Serve fallback page when offline (for navigation requests)
 self.addEventListener("fetch", (event) => {
+  // Handle navigation requests
   if (event.request.mode === "navigate") {
     event.respondWith(
       (async () => {
         try {
-          const preloadResp = await event.preloadResponse;
-          if (preloadResp) return preloadResp;
-
+          // First try to fetch the page from the network
           const networkResp = await fetch(event.request);
           return networkResp;
         } catch (error) {
-          const cache = await caches.open(CACHE_OFFLINE);
-          const cachedResp = await cache.match(OFFLINE_FALLBACK_PAGE);
-          return cachedResp || Response.error();
+          // If network request fails (offline), fallback to cached page
+          const cache = await caches.open(CACHE_ASSETS);
+          const cachedResp = await cache.match(event.request);
+          return cachedResp || caches.match(OFFLINE_FALLBACK_PAGE); // Fallback to offline page if no match
         }
       })()
+    );
+  }
+
+  // Optionally, add logic for other resources (e.g., images, CSS) to cache them
+  if (event.request.url.includes('.html') || event.request.url.includes('.js') || event.request.url.includes('.css')) {
+    event.respondWith(
+      caches.match(event.request).then((cachedResponse) => {
+        return cachedResponse || fetch(event.request);
+      })
     );
   }
 });
