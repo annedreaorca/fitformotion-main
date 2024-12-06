@@ -20,6 +20,7 @@ self.addEventListener("install", async (event) => {
 if (workbox.backgroundSync) {
   const syncQueue = new workbox.backgroundSync.Queue('syncQueue');
   
+  // Register the route for API endpoints needing sync
   workbox.routing.registerRoute(
     new RegExp('/api/.*'),  // Adjust this to the API endpoints you need to sync
     new workbox.strategies.NetworkOnly({
@@ -29,7 +30,8 @@ if (workbox.backgroundSync) {
         })
       ]
     }),
-    'POST' // Only POST requests will trigger background sync
+    // Allowing different HTTP methods (POST, PUT, PATCH, DELETE) to trigger background sync
+    ['POST', 'PUT', 'PATCH', 'DELETE'] // Include methods that should trigger background sync
   );
 }
 
