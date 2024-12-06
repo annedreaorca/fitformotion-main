@@ -39,25 +39,9 @@ workbox.routing.registerRoute(
   })
 );
 
-// Background Sync setup for API calls (optional)
-if (workbox.backgroundSync) {
-  const syncQueue = new workbox.backgroundSync.Queue('syncQueue');
-  
-  workbox.routing.registerRoute(
-    new RegExp('/api/.*'),
-    new workbox.strategies.NetworkOnly({
-      plugins: [
-        new workbox.backgroundSync.Plugin('syncQueue', {
-          maxRetentionTime: 24 * 60 // Retry for up to 24 hours
-        })
-      ]
-    }),
-    ['POST', 'PUT', 'PATCH', 'DELETE'] // Allow these methods to trigger background sync
-  );
-}
-
 // Cache dynamic pages after login (e.g., /dashboard)
 self.addEventListener('fetch', (event) => {
+  // Handle protected pages
   if (event.request.url.includes('/dashboard') || event.request.url.includes('/profile')) {
     event.respondWith(
       (async () => {
@@ -66,23 +50,26 @@ self.addEventListener('fetch', (event) => {
         // Try fetching from the network first
         try {
           const networkResp = await fetch(event.request);
-          
+
           // If network is successful, cache the response for offline use
           cache.put(event.request, networkResp.clone());
-          
+
           return networkResp;
         } catch (error) {
           // If offline, serve from cache
           const cachedResp = await cache.match(event.request);
-          return cachedResp || caches.match(OFFLINE_FALLBACK_PAGE); // Fallback to offline page
+          if (cachedResp) {
+            return cachedResp;
+          }
+
+          // If no cached version is available, return offline page
+          return caches.match(OFFLINE_FALLBACK_PAGE);
         }
       })()
     );
   }
-});
 
-// Serve fallback page when offline (for navigation requests)
-self.addEventListener("fetch", (event) => {
+  // Serve fallback page for navigation requests if offline
   if (event.request.mode === "navigate") {
     event.respondWith(
       (async () => {
