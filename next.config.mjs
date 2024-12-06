@@ -7,9 +7,12 @@ const withPWA = withPWAInit({
   reloadOnOnline: true,
   disable: false,
   workboxOptions: {
-    swSrc: "public/custom-sw.js", // Custom service worker source
-    swDest: "public/sw.js",      // Output service worker file
-    include: [/\.html$/, /\.js$/, /\.css$/, /\.png$/, /\.jpg$/, /\.svg$/, /\.json$/, /\.ts$/, /\.tsx$/, /\.gif$/, /\.mp4$/, /\.webp$/], // Files to precache
+    swSrc: "public/custom-sw.js", // Path to your custom service worker
+    swDest: "public/sw.js",       // Path where the processed SW will be output
+    include: [
+      /\.html$/, /\.js$/, /\.css$/, /\.png$/, /\.jpg$/, /\.svg$/,
+      /\.json$/, /\.ts$/, /\.tsx$/, /\.gif$/, /\.mp4$/, /\.webp$/
+    ], // Files to cache
   },
 });
 
