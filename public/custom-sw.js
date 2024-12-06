@@ -1,6 +1,8 @@
 self.__WB_DISABLE_DEV_LOGS = true;
 
-const CACHE = "pwabuilder-offline-page";
+const CACHE_ASSETS = "fitformotion-assets";
+const CACHE_API = "fitformotion-api";
+const CACHE_OFFLINE = "fitformotion-offline-page";
 const OFFLINE_FALLBACK_PAGE = "/offline.html";
 
 // Import Workbox libraries
@@ -12,17 +14,37 @@ workbox.precaching.precacheAndRoute(self.__WB_MANIFEST || []);
 // Install event: Cache the offline fallback page
 self.addEventListener("install", async (event) => {
   event.waitUntil(
-    caches.open(CACHE).then((cache) => cache.add(OFFLINE_FALLBACK_PAGE))
+    caches.open(CACHE_OFFLINE).then((cache) => cache.add(OFFLINE_FALLBACK_PAGE))
   );
 });
 
-// Background Sync setup
+// Cache static assets (HTML, JS, CSS, images) with StaleWhileRevalidate
+workbox.routing.registerRoute(
+  new RegExp("/.*"), // Match all routes for caching
+  new workbox.strategies.StaleWhileRevalidate({
+    cacheName: CACHE_ASSETS,
+  })
+);
+
+// Cache API requests for offline usage (for dynamic content)
+workbox.routing.registerRoute(
+  new RegExp('/api/.*'),  // Adjust this to the API endpoints you need to sync
+  new workbox.strategies.NetworkFirst({
+    cacheName: CACHE_API,
+    plugins: [
+      new workbox.cacheableResponse.Plugin({
+        statuses: [0, 200],  // Cache successful responses
+      })
+    ]
+  })
+);
+
+// Background Sync setup for API calls (optional)
 if (workbox.backgroundSync) {
   const syncQueue = new workbox.backgroundSync.Queue('syncQueue');
   
-  // Register the route for API endpoints needing sync
   workbox.routing.registerRoute(
-    new RegExp('/api/.*'),  // Adjust this to the API endpoints you need to sync
+    new RegExp('/api/.*'),
     new workbox.strategies.NetworkOnly({
       plugins: [
         new workbox.backgroundSync.Plugin('syncQueue', {
@@ -30,28 +52,8 @@ if (workbox.backgroundSync) {
         })
       ]
     }),
-    // Allowing different HTTP methods (POST, PUT, PATCH, DELETE) to trigger background sync
-    ['POST', 'PUT', 'PATCH', 'DELETE'] // Include methods that should trigger background sync
+    ['POST', 'PUT', 'PATCH', 'DELETE'] // Allow these methods to trigger background sync
   );
-}
-
-// Periodic Sync setup
-self.addEventListener('periodicsync', (event) => {
-  if (event.tag === 'syncData') {
-    event.waitUntil(syncData());
-  }
-});
-
-// Sync Data function (periodic sync)
-async function syncData() {
-  const cache = await caches.open(CACHE);
-  // Add logic to sync cached data to the server here
-  // You could perform a network request here to send data back to the server
-}
-
-// Enable navigation preload if supported
-if (workbox.navigationPreload.isSupported()) {
-  workbox.navigationPreload.enable();
 }
 
 // Serve fallback page when offline (for navigation requests)
@@ -66,7 +68,7 @@ self.addEventListener("fetch", (event) => {
           const networkResp = await fetch(event.request);
           return networkResp;
         } catch (error) {
-          const cache = await caches.open(CACHE);
+          const cache = await caches.open(CACHE_OFFLINE);
           const cachedResp = await cache.match(OFFLINE_FALLBACK_PAGE);
           return cachedResp || Response.error();
         }
@@ -75,16 +77,12 @@ self.addEventListener("fetch", (event) => {
   }
 });
 
-// Register a route for static assets (e.g., HTML, JS, CSS)
-workbox.routing.registerRoute(
-  new RegExp("/*"),
-  new workbox.strategies.StaleWhileRevalidate({
-    cacheName: CACHE,
-  })
-);
+// Enable navigation preload if supported
+if (workbox.navigationPreload.isSupported()) {
+  workbox.navigationPreload.enable();
+}
 
 // Push notification event handler (for future use if needed)
 self.addEventListener('push', (event) => {
-  // Handle push notifications if needed
   console.log('Push event received:', event);
 });
