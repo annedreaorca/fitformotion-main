@@ -16,7 +16,7 @@
     }
   ],
   "orientation": "portrait",
-  "display": "standalone",
+  "display": "fullscreen",
   "dir": "auto",
   "lang": "en-US",
   "name": "Fitformotion",

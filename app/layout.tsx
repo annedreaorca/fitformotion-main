@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
@@ -43,6 +42,8 @@ export default async function RootLayout({
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
         />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
         <link rel="canonical" href="https://fitformotion.com/" />
       </head>
       <body
@@ -66,3 +67,4 @@ export default async function RootLayout({
     </html>
   );
 }
+
