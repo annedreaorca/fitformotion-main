@@ -235,15 +235,6 @@ svg.tabler-icon.tabler-icon-star-filled.text-primary,
   }
 }
 
-.page-heading.bg-image {
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-    url("./images/page heading background.jpg");
-}
-.main-background {
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1)),
-    url("./images/page-background.jpg");
-}
-
 .page-heading.bg-image,
 .main-background {
   background-size: cover;
@@ -528,29 +519,6 @@ img.gallery-image {
   transform: rotate(45deg) translate(30px, -42px);
 }
 
-/* Footer */
-.footer-section {
-  background-image: url("./images/footer-background.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: top center;
-  box-shadow: 1px -5px 60px 10px #070707;
-}
-.footer-label {
-  text-transform: uppercase;
-  color: #ffffff;
-  font-size: 17px;
-}
-.footer-link a {
-  font-size: 16px;
-  font-weight: 300 !important;
-  transition: all 0.3s;
-  color: #747474;
-}
-.footer-link a:hover {
-  color: #ffffffa4;
-}
-/* ===== End Header and Footer ===== */
 
 /* ===== Start Kebab Menu ===== */
 .kebab-menu {
@@ -830,4 +798,39 @@ img.gallery-image {
 
 .dropzone-actions button[type='submit']:hover {
   background: var(--primary-hover);
+}
+.introjs-tooltip-header {
+  padding-top: 20px !important;
+}
+h1.introjs-tooltip-title {
+  font-family: 'Alexandria' !important;
+  color: #222 !important;
+}
+.introjs-tooltiptext {
+  font-family: 'Alexandria' !important;
+  color: #4b4b4b !important;
+  font-weight: 300 !important;
+  padding: 15px 20px !important;
+}
+.introjs-progressbar {
+  background-color: #991b1be7 !important;
+}
+.introjs-progress {
+  height: 12px !important;
+  margin: 10px 20px 20px 20px !important;
+}
+.introjs-tooltipbuttons {
+  padding: 20px !important;
+}
+.introjs-tooltipbuttons a {
+  padding: 8px 20px !important;
+  font-family: 'Alexandria' !important;
+  border-radius: 5px !important;
+}
+.mobileNav header {
+  justify-content: center !important;
+}
+.mobileNav {
+  padding: 5px 0!important;
+  box-shadow: 0px -5px 20px -10px rgb(83 83 83 / 25%)!important;
 }

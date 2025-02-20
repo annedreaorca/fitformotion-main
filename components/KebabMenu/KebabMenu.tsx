@@ -63,7 +63,7 @@ export default function KebabMenu({
     }, []);
 
     return (
-        <div className="relative" ref={menuRef}>
+        <div className="relative mb-[-6px]" ref={menuRef}>
             <button
                 className="shrink-0"
                 onClick={toggleMenu}

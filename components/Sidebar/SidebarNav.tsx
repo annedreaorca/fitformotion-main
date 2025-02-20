@@ -16,7 +16,6 @@ interface NavItemProps {
 import {
   IconBarbell,
   IconBodyScan,
-  IconCrown,
   IconHistory,
   IconLayoutDashboard,
   IconLayoutSidebarLeftCollapse,
@@ -95,12 +94,12 @@ export default function SidebarNav() {
           active={pathname === "/chatbot"}
         />
 
-        <NavItem
+        {/* <NavItem
           icon={<IconCrown size={22} className="shrink-0" />}
           label="Get Premium"
           href="/premium"
           active={pathname.startsWith("/premium")}
-        />
+        /> */}
         
         <SidebarToggle />
 

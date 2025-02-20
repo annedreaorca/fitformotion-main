@@ -26,11 +26,15 @@ export default function RootLayout({
       <div className="flex grow z-50">
         <Sidebar />
         <main className="flex flex-col grow w-full">
-          <Navbar />
           <LayoutWrapper>
-            <ActiveWorkoutWarning />
-            {children}
+              <ActiveWorkoutWarning />
+            <div className="max-[767px]:pb-[60px]">
+              {children}
+            </div>
           </LayoutWrapper>
+          <div className=" fixed bottom-0 w-full z-50">
+            <Navbar />
+          </div>
         </main>
         {/* <LegalNoticeModal /> */}
       </div>

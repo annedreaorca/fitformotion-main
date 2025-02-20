@@ -3,24 +3,23 @@
 import { Navbar, NavbarContent, NavbarItem } from "@nextui-org/navbar";
 
 import {
-  IconHistory,
   IconBarbell,
-  IconListSearch,
-  IconLayoutDashboard,
   IconBodyScan,
+  IconHistory,
+  IconLayoutDashboard,
+  IconListSearch,
 } from "@tabler/icons-react";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import NavbarUser from "./NavbarUser";
 
 const NAV_CONTENT_ITEMS = [
-  { icon: <IconLayoutDashboard />, href: "/dashboard", label: "Dashboard" },
-  { icon: <IconListSearch />, href: "/exercises", label: "Exercises" },
-  { icon: <IconBarbell />, href: "/workout", label: "Start Workout" },
-  { icon: <IconHistory />, href: "/activity", label: "Activity Log" },
-  { icon: <IconBodyScan />, href: "/gallery", label: "Gallery" },
+  { icon: <IconLayoutDashboard size={30} stroke={1.1} />, href: "/dashboard", label: "Dashboard" },
+  { icon: <IconListSearch size={30} stroke={1.1} />, href: "/exercises", label: "Exercises" },
+  { icon: <IconBarbell size={30} stroke={1.1} />, href: "/workout", label: "Start Workout" },
+  { icon: <IconHistory size={30} stroke={1.1} />, href: "/activity", label: "Activity Log" },
+  { icon: <IconBodyScan size={30} stroke={1.1} />, href: "/gallery", label: "Gallery" },
 ];
 
 export default function MobileNavbarClient({
@@ -33,8 +32,8 @@ export default function MobileNavbarClient({
   const pathname = usePathname();
 
   return (
-    <Navbar className="bg-white dark:bg-zinc-900 block md:hidden shadow-md">
-      <NavbarContent justify="start">
+    <Navbar className="bg-white dark:bg-zinc-900 block md:hidden shadow-md rounded-tl-[10px] rounded-tr-[10px] mobileNav">
+      {/* <NavbarContent justify="center">
         <NavbarItem>
           <Link
             href="/"
@@ -50,7 +49,7 @@ export default function MobileNavbarClient({
             />
           </Link>
         </NavbarItem>
-      </NavbarContent>
+      </NavbarContent> */}
 
       <NavbarContent className="gap-5" justify="center">
         {NAV_CONTENT_ITEMS.map((item) => (
@@ -60,15 +59,15 @@ export default function MobileNavbarClient({
             </Link>
           </NavbarItem>
         ))}
-      </NavbarContent>
-
-      <NavbarContent justify="end">
         <NavbarItem>
           <Link href="/profile">
             <NavbarUser username={username} userImage={userImage} />
           </Link>
         </NavbarItem>
       </NavbarContent>
+
+      {/* <NavbarContent justify="center">
+      </NavbarContent> */}
     </Navbar>
   );
 }

@@ -10,6 +10,7 @@ export default authMiddleware({
     "/references",
     "/terms-of-service",
     "/privacy-policy",
+    "/demo(.*)" // Makes all subpages inside /demo public
   ],
 });
 

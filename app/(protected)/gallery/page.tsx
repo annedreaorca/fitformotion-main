@@ -77,7 +77,17 @@ export default function Gallery() {
   if (images.length === 0) {
     return (
       <div className="page-container">
+        <div className="flex items-center justify-between mb-6">
         <PageHeading title="My Physique" />
+          {/* <div className="flex gap-[10px] items-center">
+            <button
+              onClick={startTour}
+              className="p-[5px] bg-zinc-800 text-white rounded-full hover:bg-zinc-700 w-10 h-10 flex items-center justify-center"
+            >
+              <IconWalk size={22} />
+            </button>
+          </div> */}
+        </div>
         <p>Please complete a workout to upload a picture of your progress.</p>
       </div>
     );
@@ -85,7 +95,17 @@ export default function Gallery() {
 
   return (
     <div className="page-container">
-      <PageHeading title="My Physique" />
+      <div className="flex items-center justify-between mb-6">
+        <PageHeading title="My Physique" />
+        {/* <div className="flex gap-[10px] items-center">
+          <button
+            onClick={startTour}
+            className="p-[5px] bg-zinc-800 text-white rounded-full hover:bg-zinc-700 w-10 h-10 flex items-center justify-center"
+          >
+            <IconWalk size={22} />
+          </button>
+        </div> */}
+      </div>
       <div className="mt-[30px]">
         <ul className="flex flex-row flex-wrap gap-[10px] gallery">
           {images.map((image: any) => (
