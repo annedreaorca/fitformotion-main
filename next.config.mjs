@@ -6,11 +6,9 @@ const withPWA = withPWAInit({
   aggressiveFrontEndNavCaching: true,
   reloadOnOnline: true,
   disable: false,
-  workboxOptions: {
-    swSrc: "public/custom-sw.js", // Custom service worker source
-    swDest: "public/sw.js",      // Output service worker file
-    include: [/\.html$/, /\.js$/, /\.css$/, /\.png$/, /\.jpg$/, /\.svg$/, /\.json$/, /\.ts$/, /\.tsx$/, /\.gif$/, /\.mp4$/, /\.webp$/], // Files to precache
-  },
+  // Removed workboxOptions to avoid conflicts with custom service worker
+  swSrc: "custom-sw.js", // Ensure this file is in the root or src/
+  swDest: "public/sw.js",
 });
 
 const nextConfig = {
@@ -24,7 +22,7 @@ const nextConfig = {
       },
     ],
   },
-  reactStrictMode: false,
+  reactStrictMode: true, // Keep this enabled for debugging
 };
 
 export default withPWA(nextConfig);
