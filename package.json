@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "validate-model": "ts-node app/(protected)/exercises/_components/Modals/ExerciseDetailModal/ModelValidation.ts"
   },
   "dependencies": {
     "@clerk/clerk-js": "^4.71.4",
@@ -30,6 +31,8 @@
     "chart.js": "^4.4.2",
     "cloudinary": "^2.2.0",
     "clsx": "^2.1.0",
+    "csv-parse": "^5.6.0",
+    "csv-parser": "^3.2.0",
     "date-fns": "^3.0.0",
     "embla-carousel-react": "^8.0.0-rc23",
     "framer-motion": "^11.0.0",
