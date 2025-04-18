@@ -1,6 +1,5 @@
 import { auth } from "@clerk/nextjs";
 import prisma from "@/prisma/prisma";
-import DashboardChartExerciseCategoryDistributionPieClient from "./DashboardChartExerciseCategoryDistributionPie.client";
 import DashboardChartExerciseCategoryDistributionClient from "./DashboardChartExerciseCategoryDistribution.client";
 import {
   calculateIntervals,
@@ -73,7 +72,7 @@ export default async function DashboardChartExerciseCategoryDistribution({
   );
 
   return (
-    <DashboardChartExerciseCategoryDistributionPieClient
+    <DashboardChartExerciseCategoryDistributionClient
       data={radarChartData}
     />
   );

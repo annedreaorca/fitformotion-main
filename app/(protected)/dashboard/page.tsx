@@ -8,6 +8,8 @@ import DashboardCards from "./_components/DashboardCards/DashboardCards";
 import DashboardCharts from "./_components/DashboardCharts/DashboardCharts";
 import DashboardGoals from "./_components/DashboardGoals/DashboardGoals";
 import DashboardLinks from "./_components/DashboardLinks";
+import DashboardRecentActivity from "./_components/DashboardRecentActivity";
+import { Suspense } from "react";
 
 // Load TourGuide only on the client side
 const TourGuide = dynamic(() => import("@/components/TourGuide/DashboardGuide"), { ssr: false });
@@ -67,7 +69,7 @@ export default function DashboardPage({
         <DashboardCards />
       </div>
       <div id="dashboard-charts">
-        <DashboardCharts
+      <DashboardCharts
           chart1DateRange={chart1DateRange}
           chart2DateRange={chart2DateRange}
           chart3DateRange={chart3DateRange}
@@ -81,9 +83,9 @@ export default function DashboardPage({
         <DashboardGoals />
       </div>
       
-      {/* <Suspense fallback={<div>Loading Recent Activity...</div>}>
+      <Suspense fallback={<div>Loading Recent Activity...</div>}>
         <DashboardRecentActivity />
-      </Suspense> */}
+      </Suspense>
       <TourGuide autoStart={false} />
     </div>
   );

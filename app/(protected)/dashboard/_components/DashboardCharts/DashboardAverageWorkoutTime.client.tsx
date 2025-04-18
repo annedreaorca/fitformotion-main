@@ -1,8 +1,10 @@
+// DashboardAverageWorkoutTime.client.tsx
 "use client";
 import {
   AreaChart,
   Area,
   XAxis,
+  YAxis,
   Tooltip,
   ResponsiveContainer,
   TooltipProps,
@@ -11,7 +13,7 @@ import ChartMockDataMessage from "./ChartMockDataMessage";
 
 type WorkoutData = {
   period: string;
-  totalWeight: number;
+  duration: number;
 };
 
 function CustomTooltip({
@@ -23,7 +25,7 @@ function CustomTooltip({
     return (
       <div className="bg-zinc-800 text-white px-4 py-2 rounded-xl shadow-xl text-xs">
         <p className="font-semibold">
-          Weight: <span className="text-primary">{payload[0].value}</span> lbs
+          Duration: <span className="text-primary">{payload[0].value}</span> minutes
         </p>
         <p>Period: {label}</p>
       </div>
@@ -33,34 +35,47 @@ function CustomTooltip({
   return null;
 }
 
-export default function DashboardChartProgressOverTimeClient({
+export default function DashboardAverageWorkoutTimeClient({
   data,
   isUsingMockData,
+  chartId = 1,
+  dateRange = "1W",
 }: {
   data: WorkoutData[];
   isUsingMockData?: boolean;
+  chartId?: number;
+  dateRange?: string;
 }) {
   return (
-    <>
+    <div className="flex flex-col h-full">
       {isUsingMockData && (<ChartMockDataMessage />)}
 
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           data={data}
           margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
-          aria-label="Progress Over Time Area Chart"
+          aria-label="Average Workout Duration Chart"
         >
           <Area
             type="monotone"
-            dataKey="totalWeight"
-            stroke="#000000"
-            fill="#000000"
-            aria-label="Total Weight Area"
+            dataKey="duration"
+            stroke="#6366f1"
+            fill="#a5b4fc"
+            aria-label="Average Duration Area"
           />
           <XAxis dataKey="period" tick={{ fontSize: "10px" }} />
+          <YAxis 
+            label={{ 
+              value: 'Minutes', 
+              angle: -90, 
+              position: 'insideLeft',
+              style: { fontSize: '10px' }
+            }}
+            tick={{ fontSize: "10px" }}
+          />
           <Tooltip content={<CustomTooltip />} />
         </AreaChart>
       </ResponsiveContainer>
-    </>
+    </div>
   );
 }

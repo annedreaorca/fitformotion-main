@@ -1,30 +1,36 @@
-import { Card, CardBody, CardHeader } from "@nextui-org/card";
-import clsx from "clsx";
-import React from "react";
+// DashboardChartCard.tsx
+import { ReactNode } from "react";
 import DashboardChartDateRange from "./DashboardChartDateRange";
 
 export default function DashboardChartCard({
   children,
-  title,
-  colSpan,
-  chartId,
   icon,
+  title,
+  colSpan = "col-span-2",
+  chartId,
+  showDateRange = true
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
+  icon: ReactNode;
   title: string;
   colSpan?: string;
   chartId: number;
-  icon: React.ReactNode;
+  showDateRange?: boolean;
 }) {
   return (
-    <Card shadow="none" className={clsx("shadow-md h-72", colSpan)}>
-      <CardHeader className="p-3 gap-5 items-start justify-between">
-        <p className="shrink-0 w-1/2 flex items-center gap-x-3 truncate font-[400] text-xs uppercase text-zinc-700 dark:text-zinc-500">
-          <span className="text-primary">{icon}</span> {title}
-        </p>
-        <DashboardChartDateRange chartId={chartId} />
-      </CardHeader>
-      <CardBody className="p-3 pb-0">{children}</CardBody>
-    </Card>
+    <div
+      className={`${colSpan} bg-white dark:bg-zinc-900 rounded-xl shadow-sm dark:shadow-zinc-800 p-3 h-60`}
+    >
+      <div className="flex justify-between items-center mb-3">
+        <div className="flex gap-2 items-center">
+          <div className="h-8 w-8 bg-zinc-100 dark:bg-zinc-800 rounded-xl flex justify-center items-center">
+            {icon}
+          </div>
+          <h2 className="font-semibold">{title}</h2>
+        </div>
+        {showDateRange && <DashboardChartDateRange chartId={chartId} />}
+      </div>
+      <div className="h-[calc(100%-48px)]">{children}</div>
+    </div>
   );
 }

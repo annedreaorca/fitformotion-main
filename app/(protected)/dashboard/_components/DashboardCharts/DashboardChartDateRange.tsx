@@ -12,11 +12,9 @@ export default function DashboardChartDateRange({
   const { replace } = useRouter();
 
   const valueToLabelMap: { [key: number]: string } = {
-    10: "3D",
-    20: "1W",
-    30: "1M",
-    40: "3M",
-    50: "1Y",
+    10: "1W",
+    20: "1M",
+    30: "1Y",
   };
 
   function handleChangeDateRange(term: number) {
@@ -48,17 +46,15 @@ export default function DashboardChartDateRange({
       step={10}
       color="foreground"
       showSteps={true}
-      defaultValue={20}
-      maxValue={50}
+      defaultValue={10}
+      maxValue={30}
       minValue={10}
       className="w-44"
       classNames={{ mark: "text-xs text-zinc-600 dark:text-zinc-400" }}
       marks={[
-        { value: 10, label: "3D" },
-        { value: 20, label: "1W" },
-        { value: 30, label: "1M" },
-        { value: 40, label: "3M" },
-        { value: 50, label: "1Y" },
+        { value: 10, label: "1W" },
+        { value: 20, label: "1M" },
+        { value: 30, label: "1Y" },
       ]}
     />
   );

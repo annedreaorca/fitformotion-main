@@ -1,14 +1,17 @@
+// DashboardCharts.tsx
 import { Suspense } from "react";
-//import DashboardChartExerciseCategoryDistribution from "./DashboardChartExerciseCategoryDistribution";
 import {
   IconBarbell,
   IconChartAreaFilled,
-  IconChartBar
+  IconChartBar,
+  IconChartRadar
 } from "@tabler/icons-react";
 import DashboardChartCard from "./DashboardChartCard";
 import DashboardChartProgressOverTime from "./DashboardChartProgressOverTime";
 import DashboardChartWeightProgress from "./DashboardChartWeightProgress";
 import DashboardChartWorkoutFrequency from "./DashboardChartWorkoutFrequency";
+import DashboardChartExerciseCategoryDistribution from "./DashboardChartExerciseCategoryDistribution";
+import DashboardAverageWorkoutTime from "./DashboardAverageWorkoutTime";
 
 export default function DashboardCharts({
   chart1DateRange,
@@ -25,45 +28,48 @@ export default function DashboardCharts({
     <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-3 mb-3">
       <DashboardChartCard
         icon={<IconChartBar className="text-primary" />}
-        title="My Workout Frequency"
+        title="Workout Frequency"
         colSpan="col-span-2 lg:col-span-4 xl:col-span-2"
         chartId={1}
+        showDateRange={false}
       >
         <Suspense fallback={<div>Loading Chart...</div>}>
-          <DashboardChartWorkoutFrequency dateRange={chart1DateRange} />
+          <DashboardChartWorkoutFrequency />
         </Suspense>
       </DashboardChartCard>
 
-      <DashboardChartCard
+      {/* <DashboardChartCard
         icon={<IconChartAreaFilled className="text-primary" />}
-        title="My Lift Progress"
+        title="Lift Progress"
         colSpan="col-span-2"
         chartId={2}
       >
         <Suspense fallback={<div>Loading Chart...</div>}>
           <DashboardChartProgressOverTime dateRange={chart2DateRange} />
         </Suspense>
-      </DashboardChartCard>
-
-      {/* <DashboardChartCard
-        icon={<IconChartLine className="text-danger" />}
-        title="Volume Load"
-        colSpan="col-span-2"
-        chartId={3}
-      >
-        <Suspense fallback={<div>Loading Chart...</div>}>
-          <DashboardChartVolumeLoad dateRange={chart3DateRange} />
-        </Suspense>
       </DashboardChartCard> */}
 
       <DashboardChartCard
-        icon={<IconBarbell  className="text-primary"/>}
-        title="My Weight Progress"
+        icon={<IconChartAreaFilled className="text-primary" />}
+        title="Average Workout Time"
         colSpan="col-span-2"
-        chartId={2}
+        chartId={3}
+        showDateRange={true}
       >
         <Suspense fallback={<div>Loading Chart...</div>}>
-          <DashboardChartWeightProgress dateRange={chart2DateRange} />
+          <DashboardAverageWorkoutTime dateRange={chart3DateRange} />
+        </Suspense>
+      </DashboardChartCard>
+
+      <DashboardChartCard
+        icon={<IconBarbell className="text-primary"/>}
+        title="Weight Progress"
+        colSpan="col-span-2"
+        chartId={4}
+        showDateRange={true}
+      >
+        <Suspense fallback={<div>Loading Chart...</div>}>
+          <DashboardChartWeightProgress dateRange={chart4DateRange} />
         </Suspense>
       </DashboardChartCard>
 

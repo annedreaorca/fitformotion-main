@@ -7,14 +7,12 @@ import {
 } from "@tabler/icons-react";
 import { Suspense } from "react";
 import DashboardCardAverageWorkoutDuration from "./DashboardCardAverageWorkoutDuration";
-import DashboardCardDailyStreak from "./DashboardCardDailyStreak";
 import DashboardCardTemplate from "./DashboardCardTemplate";
-import DashboardCardWeeklyPbs from "./DashboardCardWeeklyPbs";
 import DashboardCardWeeklyWorkouts from "./DashboardCardWeeklyWorkouts";
 
 export default function DashboardCards() {
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 max-[510px]:grid-cols-1 gap-3 mb-3">
+    <div className="grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 max-[510px]:grid-cols-1 gap-3 mb-3">
       <Suspense
         fallback={
           <DashboardCardTemplate
@@ -39,31 +37,6 @@ export default function DashboardCards() {
       >
         <DashboardCardAverageWorkoutDuration />
       </Suspense>
-      <Suspense
-        fallback={
-          <DashboardCardTemplate
-            title="Daily Streak"
-            icon={<IconFlame className="text-primary" />}
-          >
-            <Spinner color="primary" />
-          </DashboardCardTemplate>
-        }
-      >
-        <DashboardCardDailyStreak />
-      </Suspense>
-      <Suspense
-        fallback={
-          <DashboardCardTemplate
-            title="Weekly PBs"
-            icon={<IconTrophy className="text-primary" />}
-          >
-            <Spinner color="primary" />
-          </DashboardCardTemplate>
-        }
-      >
-        <DashboardCardWeeklyPbs />
-      </Suspense>
-
       {/* <DashboardCardTemplate title="Goal One" icon={<IconTarget className="text-primary" />}>
         1
       </DashboardCardTemplate>
