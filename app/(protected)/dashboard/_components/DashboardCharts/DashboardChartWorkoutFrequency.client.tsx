@@ -1,3 +1,5 @@
+// app\(protected)\dashboard\_components\DashboardCharts\DashboardChartWorkoutFrequency.client.tsx
+
 "use client";
 import {
   BarChart,
@@ -10,7 +12,7 @@ import {
   YAxis,
   ReferenceLine,
 } from "recharts";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ChartMockDataMessage from "./ChartMockDataMessage";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 
@@ -70,8 +72,8 @@ export default function DashboardChartWorkoutFrequencyClient({
   };
   
   return (
-    <div className="flex flex-col h-full">
-      {isUsingMockData && (<ChartMockDataMessage />)}
+    <div className="flex flex-col h-full relative">
+      {isUsingMockData && <ChartMockDataMessage />}
       
       <div className="flex-grow">
         <ResponsiveContainer width="100%" height="100%">

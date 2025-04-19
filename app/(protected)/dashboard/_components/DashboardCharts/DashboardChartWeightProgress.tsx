@@ -1,32 +1,27 @@
 import prisma from "@/prisma/prisma";
 import { auth } from "@clerk/nextjs";
-import { format, subDays } from "date-fns"; // Import subDays to calculate previous dates
-import DashboardChartWeightProgressClient from "./DashboardChartWeightProgress.client"; // Adjust the import as needed
+import { format, subDays } from "date-fns";
+import DashboardChartWeightProgressClient from "./DashboardChartWeightProgress.client";
 import {
   calculateIntervals,
   getIntervalStartAndEndDates,
 } from "./utils/dateUtils";
 
 type UserWeightData = {
-  period: string; // This will represent the date
-  totalWeight: number; // This will represent the weight
+  period: string; 
+  totalWeight: number; 
 };
 
-// Generate mock data for the previous 7 days
-const generateMockData = (): UserWeightData[] => {
-  const mockData: UserWeightData[] = [];
-  const today = new Date();
-
-  for (let i = 6; i >= 0; i--) {
-    const date = subDays(today, i); // Get the date for the past week
-    mockData.push({
-      period: format(date, "MM-dd-yyyy"), 
-      totalWeight: 0, 
-    });
-  }
-
-  return mockData;
-};
+// Static mock data for when no weight data exists
+const mockData: UserWeightData[] = [
+  { period: '01-14-2024', totalWeight: 180 },
+  { period: '01-15-2024', totalWeight: 175 },
+  { period: '01-16-2024', totalWeight: 170 },
+  { period: '01-17-2024', totalWeight: 165 },
+  { period: '01-18-2024', totalWeight: 160 },
+  { period: '01-19-2024', totalWeight: 155 },
+  { period: '01-20-2024', totalWeight: 150 },
+];
 
 export default async function DashboardChartUserWeight({
   dateRange = "1W",
@@ -58,8 +53,7 @@ export default async function DashboardChartUserWeight({
   });
 
   if (userWeights.length === 0) {
-    // Use the generated mock data for the previous 7 days if no user weight data exists
-    const mockData = generateMockData();
+    // Use the static mock data if no user weight data exists
     return <DashboardChartWeightProgressClient data={mockData} isUsingMockData />;
   }
 

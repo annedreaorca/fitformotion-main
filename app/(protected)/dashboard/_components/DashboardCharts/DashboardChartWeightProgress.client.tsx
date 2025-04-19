@@ -39,12 +39,12 @@ export default function DashboardChartWeightProgressClient({
   data,
   isUsingMockData,
 }: {
-  data: UserWeightData[]; // Adjusted to reflect UserWeightData type
+  data: UserWeightData[];
   isUsingMockData?: boolean;
 }) {
   return (
-    <>
-      {isUsingMockData && <ChartMockDataMessage />}
+    <div className="relative w-full h-full">
+      {isUsingMockData && (<ChartMockDataMessage />)}
 
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
@@ -53,6 +53,6 @@ export default function DashboardChartWeightProgressClient({
           <Tooltip content={<CustomTooltip />} />
         </LineChart>
       </ResponsiveContainer>
-    </>
+    </div>
   );
 }

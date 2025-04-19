@@ -1,4 +1,3 @@
-// DashboardAverageWorkoutTime.client.tsx
 "use client";
 import {
   AreaChart,
@@ -47,8 +46,8 @@ export default function DashboardAverageWorkoutTimeClient({
   dateRange?: string;
 }) {
   return (
-    <div className="flex flex-col h-full">
-      {isUsingMockData && (<ChartMockDataMessage />)}
+    <div className="flex flex-col h-full relative">
+      {isUsingMockData && <ChartMockDataMessage />}
 
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
