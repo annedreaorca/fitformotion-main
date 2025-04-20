@@ -16,7 +16,8 @@ model UserInfo {
   subscriptionType            String           @default("free")
   experienceLevel             ExperienceLevel?
   fitnessGoals                String?
-  workoutScheduleAvailability Json?
+  weeklySession               Int?
+  sessionTime                 Int?
   userWeights                 UserWeight[]
 }
 
