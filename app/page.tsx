@@ -37,7 +37,7 @@ export default function Home() {
               <Button
                 className="bg-transparent text-white w-[150px] max-[768px]:w-[250px] border-1 border-white"
                 as={Link}
-                href="/dashboard"
+                href="/profile"
                 size="lg"
               >
                 View Demo
@@ -45,7 +45,7 @@ export default function Home() {
               <Button
                 className="bg-primary-800 text-white w-[150px] max-[768px]:w-[250px] border-1 border-primary-800"
                 as={Link}
-                href="/dashboard"
+                href="/profile"
                 size="lg"
               >
                 Login

@@ -1,3 +1,4 @@
+// middleware.ts - simplified version
 import { authMiddleware } from "@clerk/nextjs";
 
 export default authMiddleware({
@@ -10,8 +11,9 @@ export default authMiddleware({
     "/references",
     "/terms-of-service",
     "/privacy-policy",
-    "/demo(.*)" // Makes all subpages inside /demo public
-  ],
+    "/demo(.*)",
+    "/profile-check" // Add this route as public for testing
+  ]
 });
 
 export const config = {

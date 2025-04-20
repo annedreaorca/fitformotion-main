@@ -2,7 +2,7 @@
 import { auth } from "@clerk/nextjs";
 import { clerkClient } from "@clerk/nextjs/server";
 import prisma from "@/prisma/prisma";
-import { EquipmentType } from "@prisma/client";
+import { EquipmentType, ExperienceLevel } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export async function handleUpdateUserDetails(data: {
@@ -34,6 +34,10 @@ export async function handleUpdateUserMeasurements(data: {
   age: string;
   height: string;
   weight: string;
+  fitnessGoals: string;
+  experienceLevel: string;
+  weeklySession: number;
+  sessionTime: number;
 }) {
   const { userId }: { userId: string | null } = auth();
 
@@ -45,6 +49,10 @@ export async function handleUpdateUserMeasurements(data: {
     age: data.age ? parseInt(data.age, 10) : null,
     height: data.height ? parseFloat(data.height) : null,
     weight: data.weight ? parseFloat(data.weight) : null,
+    fitnessGoals: data.fitnessGoals || null,
+    experienceLevel: data.experienceLevel ? data.experienceLevel as ExperienceLevel : null,
+    weeklySession: data.weeklySession,
+    sessionTime: data.sessionTime
   };
 
   try {
@@ -60,6 +68,7 @@ export async function handleUpdateUserMeasurements(data: {
     revalidatePath("/profile");
     return { success: true, message: "User info updated" };
   } catch (e) {
+    console.error("Error updating user measurements:", e);
     return { success: false, message: "Failed to update user info" };
   }
 }

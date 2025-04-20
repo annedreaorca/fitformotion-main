@@ -1,5 +1,7 @@
 import prisma from "@/prisma/prisma";
 import { currentUser } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 
 import { ThemeSwitcher } from "@/components/ThemeSwitcher/ThemeSwitcher";
 import { startTour } from "@/components/TourGuide/ProfileGuide";
@@ -10,8 +12,24 @@ import ProfileEquipment from "./_components/ProfileEquipment";
 import ProfileHero from "./_components/ProfileHero";
 import ProfileMeasurements from "./_components/ProfileMeasurements";
 import ProfileStats from "./_components/ProfileStats";
+import { isProfileComplete } from "@/utils/ProfileCompletion";
 
-export default async function ProfilePage() {
+// Define the updated structure that matches your components
+interface UserMeasurements {
+  age: number | null;
+  height: number | null;
+  weight: number | null;
+  fitnessGoals: string | null;
+  experienceLevel: string | null;
+  weeklySession: number | null;
+  sessionTime: number | null; 
+}
+
+export default async function ProfilePage({
+  searchParams,
+}: {
+  searchParams: { redirect?: string; allowRedirect?: string };
+}) {
   const user = await currentUser();
 
   if (!user) {
@@ -24,6 +42,27 @@ export default async function ProfilePage() {
   const lastName = user?.lastName || undefined;
   const userImage = user?.imageUrl || undefined;
 
+  // Calculate profile completion status
+  const profileComplete = await isProfileComplete(userId);
+  
+  // Determine if we're in a forced profile view scenario
+  const forceProfileView = searchParams.allowRedirect === "false";
+  
+  // Determine if we're in an explicit sidebar navigation (user clicked profile)
+  const headersList = headers();
+  const referer = headersList.get("referer") || "";
+  const isComingFromSidebar = referer.includes("/dashboard") || referer.includes("/workouts") || 
+                             referer.includes("/nutrition") || referer.includes("/settings");
+  
+  // Redirect logic:
+  // 1. If profile is complete AND
+  // 2. We're not forcing profile view AND
+  // 3. We're not coming from sidebar navigation
+  // Then redirect to dashboard
+  if (profileComplete && !forceProfileView && !isComingFromSidebar) {
+    redirect("/dashboard");
+  }
+
   const userMeasurements = await prisma.userInfo.findUnique({
     where: {
       userId: userId,
@@ -32,6 +71,10 @@ export default async function ProfilePage() {
       age: true,
       height: true,
       weight: true,
+      fitnessGoals: true,
+      experienceLevel: true,
+      weeklySession: true,
+      sessionTime: true
     },
   });
 
@@ -47,9 +90,51 @@ export default async function ProfilePage() {
   const equipment = equipmentObjects.map(
     (obj: { equipmentType: string }) => obj.equipmentType
   );
+  
+  const isRedirected = searchParams.redirect === "true";
+  
+  // Calculate completion percentage based on your requirements
+  let completionPercentage = 0;
+  
+  if (userMeasurements) {
+    const totalFields = 7; // Total number of fields we're checking
+    let completedFields = 0;
+    
+    if (userMeasurements.age) completedFields++;
+    if (userMeasurements.height) completedFields++;
+    if (userMeasurements.weight) completedFields++;
+    if (userMeasurements.fitnessGoals) completedFields++;
+    if (userMeasurements.experienceLevel) completedFields++;
+    if (userMeasurements.weeklySession) completedFields++;
+    if (userMeasurements.sessionTime) completedFields++;
+    
+    completionPercentage = Math.round((completedFields / totalFields) * 100);
+  }
 
   return (
     <>
+      {isRedirected && (
+        <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6" role="alert">
+          <p className="font-medium">Please complete your profile before exploring other areas of the app.</p>
+          <p>Complete the required information below to unlock all features.</p>
+        </div>
+      )}
+      
+      {!profileComplete && (
+        <div className="mb-6">
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="text-lg font-medium">Profile Completion</h3>
+            <span className="text-sm font-medium">{completionPercentage}%</span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+            <div 
+              className="bg-blue-600 h-2.5 rounded-full" 
+              style={{ width: `${completionPercentage}%` }}
+            ></div>
+          </div>
+        </div>
+      )}
+
       <div className="flex items-center justify-end mb-6">
         <button
           onClick={startTour}

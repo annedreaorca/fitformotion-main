@@ -8,17 +8,17 @@ datasource db {
 }
 
 model UserInfo {
-  id                          String           @id @default(uuid())
-  userId                      String           @unique
-  age                         Int?
-  height                      Float?
-  weight                      Float?
-  subscriptionType            String           @default("free")
-  experienceLevel             ExperienceLevel?
-  fitnessGoals                String?
-  weeklySession               Int?
-  sessionTime                 Int?
-  userWeights                 UserWeight[]
+  id               String           @id @default(uuid())
+  userId           String           @unique
+  age              Int?
+  height           Float?
+  weight           Float?
+  subscriptionType String           @default("free")
+  experienceLevel  ExperienceLevel?
+  fitnessGoals     String?
+  sessionTime      Int?
+  weeklySession    Int?
+  userWeights      UserWeight[]
 }
 
 model UserWeight {
