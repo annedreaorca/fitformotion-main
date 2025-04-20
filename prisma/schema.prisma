@@ -8,21 +8,24 @@ datasource db {
 }
 
 model UserInfo {
-  id                String      @id @default(uuid())
-  userId            String      @unique // Ensure uniqueness across users
-  age               Int?
-  height            Float?
-  weight            Float? // Optional, consider if this is necessary
-  subscriptionType  String      @default("free")
-  userWeights       UserWeight[] // Relation with UserWeight
+  id                          String           @id @default(uuid())
+  userId                      String           @unique
+  age                         Int?
+  height                      Float?
+  weight                      Float?
+  subscriptionType            String           @default("free")
+  experienceLevel             ExperienceLevel?
+  fitnessGoals                String?
+  workoutScheduleAvailability Json?
+  userWeights                 UserWeight[]
 }
 
 model UserWeight {
-  id          String     @id @default(uuid())
-  userId      String     // Reference to the UserInfo model, consider making non-nullable if needed
-  weight      Float      // The weight of the user
-  recordedAt  DateTime   @default(now()) // The date and time the weight was recorded
-  user        UserInfo   @relation(fields: [userId], references: [userId]) // Relation to UserInfo
+  id         String   @id @default(uuid())
+  userId     String
+  weight     Float
+  recordedAt DateTime @default(now())
+  user       UserInfo @relation(fields: [userId], references: [userId])
 }
 
 model Exercise {
@@ -42,128 +45,134 @@ model Exercise {
   image               String?
   date_created        DateTime              @default(now())
   date_updated        DateTime?             @default(now())
-  WorkoutPlanExercise WorkoutPlanExercise[]
-  logExercises  WorkoutLogExercise[]
-  userPBs UserExercisePB[]
-  favouritedBy FavouriteExercise[]
-  userGoals           UserGoal[]
   isPremium           Boolean               @default(false)
+  favouritedBy        FavouriteExercise[]
+  userPBs             UserExercisePB[]
+  userGoals           UserGoal[]
+  logExercises        WorkoutLogExercise[]
+  WorkoutPlanExercise WorkoutPlanExercise[]
 }
 
 model FavouriteExercise {
-  userId   String
-  favouritedAt   DateTime @default(now())
-  exerciseId    String
-  exercise Exercise @relation(fields: [exerciseId], references: [id])
+  userId       String
+  favouritedAt DateTime @default(now())
+  exerciseId   String
+  exercise     Exercise @relation(fields: [exerciseId], references: [id])
 
   @@id([userId, exerciseId])
 }
 
 model WorkoutPlan {
-  id                    String                   @id @default(uuid())
+  id                    String                @id @default(uuid())
   name                  String
   userId                String?
-  createdAt             DateTime                 @default(now())
-  updatedAt             DateTime                 @updatedAt
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
   notes                 String?
-  isSystemRoutine       Boolean                  @default(false)
-  systemRoutineCategory  String?
+  isSystemRoutine       Boolean               @default(false)
+  systemRoutineCategory String?
   logs                  WorkoutLog[]
   WorkoutPlanExercise   WorkoutPlanExercise[]
 }
 
 model WorkoutPlanExercise {
-  id                String        @id @default(uuid())
-  workoutPlanId String
-  exerciseId    String
-  sets          Int
-  reps          Int?
-  exerciseDuration  Int?
-  order         Int?
-  trackingType  TrackingType
-  Exercise      Exercise    @relation(fields: [exerciseId], references: [id])
-  WorkoutPlan   WorkoutPlan @relation(fields: [workoutPlanId], references: [id], onDelete: Cascade)
+  id               String       @id @default(uuid())
+  workoutPlanId    String
+  exerciseId       String
+  sets             Int
+  reps             Int?
+  exerciseDuration Int?
+  order            Int?
+  trackingType     TrackingType
+  Exercise         Exercise     @relation(fields: [exerciseId], references: [id])
+  WorkoutPlan      WorkoutPlan  @relation(fields: [workoutPlanId], references: [id], onDelete: Cascade)
 }
 
 model WorkoutImage {
-  id            String      @id @default(uuid())
+  id            String   @id @default(uuid())
   imageUrl      String
-  uploadedAt    DateTime    @default(now())
+  uploadedAt    DateTime @default(now())
   userId        String?
-  currentWeight Float?     
+  currentWeight Float?
 }
 
 model WorkoutLog {
-  id                   String             @id @default(uuid())
-  userId               String
-  workoutPlanId        String
-  date                 DateTime
-  duration             Int
-  inProgress           Boolean            @default(true)
-  createdAt           DateTime            @default(now())
-  date_updated         DateTime?         @default(now())
-  WorkoutPlan          WorkoutPlan        @relation(fields: [workoutPlanId], references: [id], onDelete: Cascade)
-  exercises            WorkoutLogExercise[]
-  UserExercisePB       UserExercisePB[]   @relation("WorkoutLogToUserExercisePB")
+  id             String               @id @default(uuid())
+  userId         String
+  workoutPlanId  String
+  date           DateTime
+  duration       Int
+  inProgress     Boolean              @default(true)
+  createdAt      DateTime             @default(now())
+  date_updated   DateTime?            @default(now())
+  UserExercisePB UserExercisePB[]     @relation("WorkoutLogToUserExercisePB")
+  WorkoutPlan    WorkoutPlan          @relation(fields: [workoutPlanId], references: [id], onDelete: Cascade)
+  exercises      WorkoutLogExercise[]
 }
 
 model WorkoutLogExercise {
-  id            String @id @default(uuid())
-  workoutLogId  String
-  exerciseId    String
-  trackingType  TrackingType
-  Exercise      Exercise   @relation(fields: [exerciseId], references: [id])
-  WorkoutLog    WorkoutLog @relation(fields: [workoutLogId], references: [id], onDelete: Cascade)
-  sets          SetLog[]
+  id           String       @id @default(uuid())
+  workoutLogId String
+  exerciseId   String
+  trackingType TrackingType
+  sets         SetLog[]
+  Exercise     Exercise     @relation(fields: [exerciseId], references: [id])
+  WorkoutLog   WorkoutLog   @relation(fields: [workoutLogId], references: [id], onDelete: Cascade)
 }
 
 model SetLog {
-  id            String @id @default(uuid())
+  id                   String             @id @default(uuid())
   workoutLogExerciseId String
-  weight              Float?
-  reps                Int?
-  exerciseDuration            Int?
-  order               Int?
-  isWarmUp            Boolean           @default(false)
-  WorkoutLogExercise  WorkoutLogExercise @relation(fields: [workoutLogExerciseId], references: [id], onDelete: Cascade)
+  weight               Float?
+  reps                 Int?
+  exerciseDuration     Int?
+  order                Int?
+  isWarmUp             Boolean            @default(false)
+  WorkoutLogExercise   WorkoutLogExercise @relation(fields: [workoutLogExerciseId], references: [id], onDelete: Cascade)
 }
 
 model UserExercisePB {
-  userId       String
-  exerciseId        String
-  weight            Float
-  reps              Int?
-  exerciseDuration  Int?
-  exercise          Exercise @relation(fields: [exerciseId], references: [id])
-  createdAt         DateTime @default(now())
-  workoutLogId      String?
-  WorkoutLog        WorkoutLog? @relation("WorkoutLogToUserExercisePB", fields: [workoutLogId], references: [id], onDelete: Cascade)
+  userId           String
+  exerciseId       String
+  weight           Float
+  reps             Int?
+  exerciseDuration Int?
+  createdAt        DateTime    @default(now())
+  workoutLogId     String?
+  exercise         Exercise    @relation(fields: [exerciseId], references: [id])
+  WorkoutLog       WorkoutLog? @relation("WorkoutLogToUserExercisePB", fields: [workoutLogId], references: [id], onDelete: Cascade)
 
   @@id([userId, exerciseId])
 }
 
 model UserGoal {
-  id          String   @id @default(uuid())
-  userId      String
-  exerciseId  String
-  goalType    GoalType
-  goalValue   Float
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  Exercise    Exercise @relation(fields: [exerciseId], references: [id])
+  id         String   @id @default(uuid())
+  userId     String
+  exerciseId String
+  goalType   GoalType
+  goalValue  Float
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  Exercise   Exercise @relation(fields: [exerciseId], references: [id])
 
   @@unique([userId, exerciseId, goalType])
 }
 
-enum GoalType {
-  WEIGHT
-}
-
 model UserEquipment {
-  userId   String
+  userId        String
   equipmentType EquipmentType
 
   @@id([userId, equipmentType])
+}
+
+enum ExperienceLevel {
+  beginner
+  intermediate
+  expert
+}
+
+enum GoalType {
+  WEIGHT
 }
 
 enum TrackingType {
@@ -193,7 +202,7 @@ enum EquipmentType {
   bands
   medicine_ball @map("medicine ball")
   exercise_ball @map("exercise ball")
-  ez_curl_bar  @map("ez curl bar")
+  ez_curl_bar   @map("ez curl bar")
 }
 
 enum ForceType {
