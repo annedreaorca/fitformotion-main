@@ -41,7 +41,7 @@ export default function DashboardChartProgressOverTimeClient({
   isUsingMockData?: boolean;
 }) {
   return (
-    <>
+    <div className="relative w-full h-full">
       {isUsingMockData && (<ChartMockDataMessage />)}
 
       <ResponsiveContainer width="100%" height="100%">
@@ -61,6 +61,6 @@ export default function DashboardChartProgressOverTimeClient({
           <Tooltip content={<CustomTooltip />} />
         </AreaChart>
       </ResponsiveContainer>
-    </>
+    </div>
   );
 }

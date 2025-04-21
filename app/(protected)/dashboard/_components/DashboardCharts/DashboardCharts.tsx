@@ -10,7 +10,7 @@ import DashboardChartCard from "./DashboardChartCard";
 import DashboardChartProgressOverTime from "./DashboardChartProgressOverTime";
 import DashboardChartWeightProgress from "./DashboardChartWeightProgress";
 import DashboardChartWorkoutFrequency from "./DashboardChartWorkoutFrequency";
-import DashboardChartExerciseCategoryDistribution from "./DashboardChartExerciseCategoryDistribution";
+import DashboardChartExerciseMuscleDistribution from "./DashboardChartExerciseMuscleDistribution";
 import DashboardAverageWorkoutTime from "./DashboardAverageWorkoutTime";
 
 export default function DashboardCharts({
@@ -49,7 +49,7 @@ export default function DashboardCharts({
         </Suspense>
       </DashboardChartCard> */}
 
-      <DashboardChartCard
+      {/* <DashboardChartCard
         icon={<IconChartAreaFilled className="text-primary" />}
         title="Average Workout Time"
         colSpan="col-span-2"
@@ -59,7 +59,7 @@ export default function DashboardCharts({
         <Suspense fallback={<div>Loading Chart...</div>}>
           <DashboardAverageWorkoutTime dateRange={chart3DateRange} />
         </Suspense>
-      </DashboardChartCard>
+      </DashboardChartCard> */}
 
       <DashboardChartCard
         icon={<IconBarbell className="text-primary"/>}
@@ -73,16 +73,16 @@ export default function DashboardCharts({
         </Suspense>
       </DashboardChartCard>
 
-      {/* <DashboardChartCard 
+      <DashboardChartCard 
         icon={<IconChartRadar />} 
         title='Exercise Split' 
         colSpan="col-span-2" 
         chartId={4}
       >
         <Suspense fallback={<div>Loading Chart...</div>}>
-          <DashboardChartExerciseCategoryDistribution dateRange={chart4DateRange} />
+          <DashboardChartExerciseMuscleDistribution dateRange={chart4DateRange} />
         </Suspense>
-      </DashboardChartCard> */}
+      </DashboardChartCard>
     </div>
   );
 }
