@@ -12,6 +12,7 @@ export default authMiddleware({
     "/terms-of-service",
     "/privacy-policy",
     "/demo(.*)",
+    "/api/ai",
     "/profile-check" // Add this route as public for testing
   ]
 });
