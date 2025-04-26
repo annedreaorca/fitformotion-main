@@ -84,7 +84,7 @@ export default function PopupChatbot() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("https://www.app.fitformotion.com/api/ai", {
+      const response = await fetch("app.fitformotion.com/api/ai", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: input }),
