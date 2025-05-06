@@ -167,7 +167,7 @@ export default function IntroductionWizard() {
               <div className="space-y-4">
                 <h3 className="text-lg text-white font-medium">Welcome to our fitness app!</h3>
                 <p className="text-gray-300">
-                  We're thrilled to have you join our community. This brief introduction will guide you through what our app has to offer.
+                  We&apos;re thrilled to have you join our community. This brief introduction will guide you through what our app has to offer.
                 </p>
                 <div className="border-l-4 border-blue-500 pl-4 py-2 bg-blue-900 bg-opacity-20 rounded">
                   <p className="text-gray-200">
@@ -181,7 +181,7 @@ export default function IntroductionWizard() {
               <div className="space-y-4">
                 <h3 className="text-lg text-white font-medium">Personalized Fitness Journey</h3>
                 <p className="text-gray-300">
-                  Our app adapts to your unique fitness goals, whether you're looking to lose weight, build muscle, or improve overall health.
+                  Our app adapts to your unique fitness goals, whether you&apos;re looking to lose weight, build muscle, or improve overall health.
                 </p>
                 <div className="grid grid-cols-3 gap-2 text-center">
                   <div className="p-3 bg-gray-800 rounded-lg">
@@ -204,7 +204,7 @@ export default function IntroductionWizard() {
               <div className="space-y-4">
                 <h3 className="text-lg text-white font-medium">For Every Experience Level</h3>
                 <p className="text-gray-300">
-                  Whether you're just starting out or are an experienced athlete, we have workouts and programs tailored to your level.
+                  Whether you&apos;re just starting out or are an experienced athlete, we have workouts and programs tailored to your level.
                 </p>
                 <div className="flex justify-between items-center bg-gray-800 p-3 rounded-lg">
                   <div className="text-center flex-1">
@@ -227,7 +227,7 @@ export default function IntroductionWizard() {
               <div className="space-y-4">
                 <h3 className="text-lg text-white font-medium">Ready to start your journey?</h3>
                 <p className="text-gray-300">
-                  You can customize your profile settings anytime from your account dashboard. Let's get started!
+                  You can customize your profile settings anytime from your account dashboard. Let&apos;s get started!
                 </p>
                 <div className="bg-blue-900 bg-opacity-20 p-4 rounded-lg border border-blue-800">
                   <div className="flex items-center mb-2">
@@ -235,7 +235,7 @@ export default function IntroductionWizard() {
                     <div className="text-blue-300 font-medium">Pro Tip</div>
                   </div>
                   <p className="text-gray-300 text-sm">
-                    Don't forget to check out the 'Programs' section for curated workout plans designed to help you reach your goals faster.
+                    Don&apos;t forget to check out the &apos;Programs&apos; section for curated workout plans designed to help you reach your goals faster.
                   </p>
                 </div>
               </div>
