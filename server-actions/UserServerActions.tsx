@@ -31,7 +31,7 @@ export async function handleUpdateUserDetails(data: {
 }
 
 export async function handleUpdateUserMeasurements(data: {
-  age: string;
+  birthdate: string;
   height: string;
   weight: string;
   fitnessGoals: string;
@@ -46,7 +46,7 @@ export async function handleUpdateUserMeasurements(data: {
   }
 
   const parsedData = {
-    age: data.age ? parseInt(data.age, 10) : null,
+    birthdate: data.birthdate ? new Date(data.birthdate) : null,
     height: data.height ? parseFloat(data.height) : null,
     weight: data.weight ? parseFloat(data.weight) : null,
     fitnessGoals: data.fitnessGoals || null,

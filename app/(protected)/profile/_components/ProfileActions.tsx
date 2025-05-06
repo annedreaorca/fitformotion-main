@@ -1,3 +1,5 @@
+// C:\Users\anned\Desktop\fitformotion\app\(protected)\profile\_components\ProfileActions.tsx
+
 "use client";
 import { useClerk } from "@clerk/clerk-react";
 import { Button } from "@nextui-org/button";

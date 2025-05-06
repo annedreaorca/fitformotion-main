@@ -1,3 +1,5 @@
+// C:\Users\anned\Desktop\fitformotion\app\(protected)\dashboard\_components\DashboardCharts\DashboardChartWeightProgress.tsx
+
 import prisma from "@/prisma/prisma";
 import { auth } from "@clerk/nextjs";
 import { format, subDays } from "date-fns";

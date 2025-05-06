@@ -24,10 +24,13 @@ export default async function DashboardCardAverageWorkoutDuration() {
     },
   });
 
-  const totalDuration = workouts.reduce(
-    (total, workout) => total + workout.duration / 60,
-    0,
-  );
+  // Check if duration is stored in seconds and convert to minutes if needed
+  const totalDuration = workouts.reduce((total, workout) => {
+    // If duration is likely in seconds (a large number), convert to minutes
+    const durationInMinutes = workout.duration >= 60 ? workout.duration / 60 : workout.duration;
+    return total + durationInMinutes;
+  }, 0);
+  
   const averageDuration =
     workouts.length > 0 ? Math.round(totalDuration / workouts.length) : 0;
 

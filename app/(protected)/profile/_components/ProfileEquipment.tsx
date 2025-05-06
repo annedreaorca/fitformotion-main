@@ -1,3 +1,5 @@
+// C:\Users\anned\Desktop\fitformotion\app\(protected)\profile\_components\ProfileEquipment.tsx
+
 "use client";
 import { useState } from "react";
 import { handleUpdateUserEquipment } from "@/server-actions/UserServerActions";

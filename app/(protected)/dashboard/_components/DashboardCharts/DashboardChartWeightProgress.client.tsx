@@ -1,3 +1,5 @@
+// C:\Users\anned\Desktop\fitformotion\app\(protected)\dashboard\_components\DashboardCharts\DashboardChartWeightProgress.client.tsx
+
 "use client";
 import {
   Line,

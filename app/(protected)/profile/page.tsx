@@ -1,14 +1,12 @@
+// C:\Users\anned\Desktop\fitformotion\app\(protected)\profile\page.tsx
 import prisma from "@/prisma/prisma";
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
-
 import { ThemeSwitcher } from "@/components/ThemeSwitcher/ThemeSwitcher";
 import { startTour } from "@/components/TourGuide/ProfileGuide";
 import { IconWalk } from "@tabler/icons-react";
 import ProfileActions from "./_components/ProfileActions";
-import ProfileDetails from "./_components/ProfileDetails";
-import ProfileEquipment from "./_components/ProfileEquipment";
 import ProfileHero from "./_components/ProfileHero";
 import ProfileMeasurements from "./_components/ProfileMeasurements";
 import ProfileStats from "./_components/ProfileStats";
@@ -16,7 +14,7 @@ import { isProfileComplete } from "@/utils/ProfileCompletion";
 
 // Define the updated structure that matches your components
 interface UserMeasurements {
-  age: number | null;
+  birthdate: Date | null;
   height: number | null;
   weight: number | null;
   fitnessGoals: string | null;
@@ -68,7 +66,7 @@ export default async function ProfilePage({
       userId: userId,
     },
     select: {
-      age: true,
+      birthdate: true,
       height: true,
       weight: true,
       fitnessGoals: true,
@@ -76,7 +74,7 @@ export default async function ProfilePage({
       weeklySession: true,
       sessionTime: true
     },
-  });
+  }) as UserMeasurements | null;
 
   const equipmentObjects = await prisma.userEquipment.findMany({
     where: {
@@ -100,7 +98,7 @@ export default async function ProfilePage({
     const totalFields = 7; // Total number of fields we're checking
     let completedFields = 0;
     
-    if (userMeasurements.age) completedFields++;
+    if (userMeasurements.birthdate) completedFields++;
     if (userMeasurements.height) completedFields++;
     if (userMeasurements.weight) completedFields++;
     if (userMeasurements.fitnessGoals) completedFields++;
@@ -158,22 +156,16 @@ export default async function ProfilePage({
         <ThemeSwitcher />
       </div>
 
-      <div id="profile-details">
-        <ProfileDetails
-          username={username}
-          firstName={firstName}
-          lastName={lastName}
-        />
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-5">
-        <div id="profile-measurements">
-          <ProfileMeasurements userMeasurements={userMeasurements} />
-        </div>
-        <div id="profile-equipment">
-          <ProfileEquipment equipment={equipment} />
-        </div>
-      </div>
+      <ProfileMeasurements 
+        userDetails={{
+          username: username,
+          firstName: firstName,
+          lastName: lastName
+        }}
+        userMeasurements={userMeasurements} 
+        equipment={equipment}
+        userId={userId}
+      />
 
       <div id="profile-actions">
         <ProfileActions />

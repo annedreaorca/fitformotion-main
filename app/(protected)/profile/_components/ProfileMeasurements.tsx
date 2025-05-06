@@ -1,21 +1,35 @@
+// C:\Users\anned\Desktop\fitformotion\app\(protected)\profile\_components\ProfileMeasurements.tsx
+
 "use client";
 import { useState } from "react";
 import { toast } from "sonner";
-import { handleUpdateUserMeasurements } from "@/server-actions/UserServerActions";
+import { 
+  handleUpdateUserMeasurements, 
+  handleUpdateUserDetails,
+  handleUpdateUserEquipment 
+} from "@/server-actions/UserServerActions";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
-import { IconDeviceFloppy, IconRulerMeasure } from "@tabler/icons-react";
+import { IconDeviceFloppy, IconRulerMeasure, IconUser, IconBarbell } from "@tabler/icons-react";
 import { Select, SelectItem } from "@nextui-org/select";
+import { CheckboxGroup, Checkbox } from "@nextui-org/checkbox";
+import { EquipmentType } from "@prisma/client";
 
-interface UserMeasurements {
-  weight?: number | null;
+interface UserMeasurementsProps {
+  birthdate?: Date | string | null;
   height?: number | null;
-  age?: number | null;
+  weight?: number | null;
   fitnessGoals?: string | null;
   experienceLevel?: string | null;
   weeklySession?: number | null;
   sessionTime?: number | null;
+}
+
+interface UserDetailsProps {
+  username?: string;
+  firstName?: string;
+  lastName?: string;
 }
 
 const experienceLevels = [
@@ -30,13 +44,51 @@ const fitnessGoalOptions = [
   { label: "Maintain Weight", value: "WEIGHT_MAINTAIN" }
 ];
 
+const equipmentItems = [
+  "barbell",
+  "cable",
+  "dumbbell",
+  "ez_curl_bar",
+  "machine",
+];
+
+const formatText = (text: string): string => {
+  return text
+    .split("_")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};
+
+function toEquipmentType(items: string[]): EquipmentType[] {
+  return items.filter((item): item is EquipmentType =>
+    Object.values(EquipmentType).includes(item as EquipmentType),
+  );
+}
+
 export default function ProfileMeasurements({
+  userDetails,
   userMeasurements,
+  equipment,
+  userId
 }: {
-  userMeasurements: UserMeasurements | null;
+  userDetails: UserDetailsProps;
+  userMeasurements: UserMeasurementsProps | null;
+  equipment: string[];
+  userId: string;
 }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [age, setAge] = useState(userMeasurements?.age || "");
+  
+  // User details
+  const [username, setUsername] = useState(userDetails?.username || "");
+  const [firstName, setFirstName] = useState(userDetails?.firstName || "");
+  const [lastName, setLastName] = useState(userDetails?.lastName || "");
+  
+  // Measurements
+  const [birthdate, setBirthdate] = useState(
+    userMeasurements?.birthdate
+      ? new Date(userMeasurements.birthdate).toISOString().split('T')[0]
+      : ""
+  );
   const [height, setHeight] = useState(userMeasurements?.height || "");
   const [weight, setWeight] = useState(userMeasurements?.weight || "");
   const [fitnessGoals, setFitnessGoals] = useState(userMeasurements?.fitnessGoals || "");
@@ -47,12 +99,30 @@ export default function ProfileMeasurements({
   const [sessionTime, setSessionTime] = useState(
     userMeasurements?.sessionTime || 45
   );
+  
+  // Equipment
+  const [selectedEquipment, setSelectedEquipment] = useState(equipment || []);
 
-  const handleSubmit = async () => {
+  const handleSaveAll = async () => {
     setIsLoading(true);
+    let hasErrors = false;
 
-    const data = {
-      age: age.toString(),
+    // 1. Update user details
+    const detailsData = {
+      username: username,
+      firstName: firstName,
+      lastName: lastName,
+    };
+
+    const detailsResponse = await handleUpdateUserDetails(detailsData);
+    if (!detailsResponse.success) {
+      toast.error("Failed to update user details");
+      hasErrors = true;
+    }
+
+    // 2. Update measurements
+    const measurementsData = {
+      birthdate: birthdate,
       height: height.toString(),
       weight: weight.toString(),
       fitnessGoals: fitnessGoals.toString(),
@@ -61,120 +131,199 @@ export default function ProfileMeasurements({
       sessionTime: Number(sessionTime),
     };
 
-    const response = await handleUpdateUserMeasurements(data);
+    const measurementsResponse = await handleUpdateUserMeasurements(measurementsData);
+    if (!measurementsResponse.success) {
+      toast.error("Failed to update measurements");
+      hasErrors = true;
+    }
 
-    if (response.success) {
-      toast.success(response.message);
-    } else {
-      toast.error(response.message);
+    // 3. Update equipment
+    const equipmentResponse = await handleUpdateUserEquipment(
+      toEquipmentType(selectedEquipment)
+    );
+    
+    if (!equipmentResponse.success) {
+      toast.error("Failed to update equipment");
+      hasErrors = true;
     }
 
     setIsLoading(false);
+    
+    if (!hasErrors) {
+      toast.success("Profile updated successfully");
+    }
   };
 
   return (
-    <Card shadow="none" className="shadow-md">
-      <CardHeader className="text-xl font-semibold px-5 pb-0 gap-x-3 items-center">
-        <IconRulerMeasure className="text-danger" />
-        Measurements & Fitness Profile
-      </CardHeader>
-      <CardBody className="gap-y-3 px-5">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <Input
-            type="number"
-            label="Height (cm)"
-            size="sm"
-            placeholder="Enter your Height"
-            value={height !== null ? height.toString() : ""}
-            onChange={(e) => setHeight(e.target.value)}
-          />
+    <div className="grid grid-cols-1 gap-3 mb-5">
+      {/* User Details Card */}
+      <Card shadow="none" className="shadow-md mb-3">
+        <CardHeader className="text-xl font-semibold px-5 pb-0 gap-x-3 items-center">
+          <IconUser className="text-danger" />
+          Details
+        </CardHeader>
+        <CardBody className="px-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <Input
+              type="text"
+              label="Username"
+              size="sm"
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              isRequired
+            />
+
+            <Input
+              type="text"
+              label="First Name"
+              size="sm"
+              placeholder="Enter your first name"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+
+            <Input
+              type="text"
+              label="Last Name"
+              size="sm"
+              placeholder="Enter your last name"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          </div>
+        </CardBody>
+      </Card>
+      
+      {/* Measurements Card */}
+      <Card shadow="none" className="shadow-md mb-3">
+        <CardHeader className="text-xl font-semibold px-5 pb-0 gap-x-3 items-center">
+          <IconRulerMeasure className="text-danger" />
+          Measurements & Fitness Profile
+        </CardHeader>
+        <CardBody className="gap-y-3 px-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <Input
+              type="number"
+              label="Height (cm)"
+              size="sm"
+              placeholder="Enter your Height"
+              value={height !== null ? height.toString() : ""}
+              onChange={(e) => setHeight(e.target.value)}
+            />
+
+            <Input
+              type="number"
+              label="Weight (kg)"
+              size="sm"
+              placeholder="Enter your Weight"
+              value={weight !== null ? weight.toString() : ""}
+              onChange={(e) => setWeight(e.target.value)}
+            />
+          </div>
 
           <Input
-            type="number"
-            label="Weight (kg)"
+            type="date"
+            label="Birth Date"
             size="sm"
-            placeholder="Enter your Weight"
-            value={weight !== null ? weight.toString() : ""}
-            onChange={(e) => setWeight(e.target.value)}
-          />
-        </div>
-
-        <Input
-          type="number"
-          label="Age"
-          size="sm"
-          placeholder="Enter your Age"
-          value={age !== null ? age.toString() : ""}
-          onChange={(e) => setAge(e.target.value)}
-        />
-
-        <Select
-          label="Fitness Goals"
-          placeholder="Select your primary fitness goal"
-          selectedKeys={fitnessGoals ? [fitnessGoals] : []}
-          onSelectionChange={(keys) => setFitnessGoals(Array.from(keys)[0] as string)}
-          className="w-full"
-        >
-          {fitnessGoalOptions.map((goal) => (
-            <SelectItem key={goal.value} value={goal.value}>
-              {goal.label}
-            </SelectItem>
-          ))}
-        </Select>
-
-        <Select
-          label="Experience Level"
-          placeholder="Select your fitness experience level"
-          selectedKeys={experienceLevel ? [experienceLevel] : []}
-          onSelectionChange={(keys) => setExperienceLevel(Array.from(keys)[0] as string)}
-          className="w-full"
-        >
-          {experienceLevels.map((level) => (
-            <SelectItem key={level.value} value={level.value}>
-              {level.label}
-            </SelectItem>
-          ))}
-        </Select>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <Input
-            type="number"
-            label="Workout Days per Week"
-            size="sm"
-            placeholder="Days per week"
-            value={weeklySession.toString()}
-            onChange={(e) => setWeeklySession(Number(e.target.value))}
-            min={1}
-            max={7}
+            placeholder="Enter your birth date"
+            value={birthdate}
+            onChange={(e) => setBirthdate(e.target.value)}
           />
 
-          <Input
-            type="number"
-            label="Minutes per Session"
-            size="sm"
-            placeholder="Minutes per workout"
-            value={sessionTime.toString()}
-            onChange={(e) => setSessionTime(Number(e.target.value))}
-            min={10}
-            max={180}
-          />
-        </div>
+          <Select
+            label="Fitness Goals"
+            placeholder="Select your primary fitness goal"
+            selectedKeys={fitnessGoals ? [fitnessGoals] : []}
+            onSelectionChange={(keys) => setFitnessGoals(Array.from(keys)[0] as string)}
+            className="w-full"
+          >
+            {fitnessGoalOptions.map((goal) => (
+              <SelectItem key={goal.value} value={goal.value}>
+                {goal.label}
+              </SelectItem>
+            ))}
+          </Select>
 
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">
-          Your data is secure with us. We only use your information to enhance
-          your user experience and never share it with third parties.
-        </p>
-      </CardBody>
-      <CardFooter className="px-5">
+          <Select
+            label="Experience Level"
+            placeholder="Select your fitness experience level"
+            selectedKeys={experienceLevel ? [experienceLevel] : []}
+            onSelectionChange={(keys) => setExperienceLevel(Array.from(keys)[0] as string)}
+            className="w-full"
+          >
+            {experienceLevels.map((level) => (
+              <SelectItem key={level.value} value={level.value}>
+                {level.label}
+              </SelectItem>
+            ))}
+          </Select>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <Input
+              type="number"
+              label="Workout Days per Week"
+              size="sm"
+              placeholder="Days per week"
+              value={weeklySession.toString()}
+              onChange={(e) => setWeeklySession(Number(e.target.value))}
+              min={1}
+              max={7}
+            />
+
+            <Input
+              type="number"
+              label="Minutes per Session"
+              size="sm"
+              placeholder="Minutes per workout"
+              value={sessionTime.toString()}
+              onChange={(e) => setSessionTime(Number(e.target.value))}
+              min={10}
+              max={180}
+            />
+          </div>
+
+          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+            Your data is secure with us. We only use your information to enhance
+            your user experience and never share it with third parties.
+          </p>
+        </CardBody>
+      </Card>
+      
+      {/* Equipment Card */}
+      <Card shadow="none" className="shadow-md mb-3">
+        <CardHeader className="text-xl font-semibold px-5 pb-0 gap-x-3 items-center">
+          <IconBarbell className="text-danger" />
+          Equipments
+        </CardHeader>
+        <CardBody className="px-5">
+          <CheckboxGroup
+            value={selectedEquipment}
+            onChange={(value) => setSelectedEquipment(value as EquipmentType[])}
+            color="primary"
+          >
+            {equipmentItems.map((item, index) => (
+              <Checkbox key={index} value={item}>
+                {formatText(item)}
+              </Checkbox>
+            ))}
+          </CheckboxGroup>
+        </CardBody>
+      </Card>
+      
+      {/* Save All Button */}
+      <div className="flex justify-center">
         <Button
           variant="flat"
-          onPress={handleSubmit}
+          size="lg"
+          onPress={handleSaveAll}
           isLoading={isLoading}
           startContent={<IconDeviceFloppy size={20} />}
+          className="px-8"
         >
-          Save
+          Save All Changes
         </Button>
-      </CardFooter>
-    </Card>
+      </div>
+    </div>
   );
 }

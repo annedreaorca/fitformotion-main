@@ -1,3 +1,4 @@
+// C:\Users\anned\Desktop\fitformotion\app\(protected)\dashboard\_components\DashboardRecentActivity.tsx
 import { auth } from "@clerk/nextjs";
 import prisma from "@/prisma/prisma";
 import { format } from "date-fns";
@@ -10,19 +11,26 @@ function formatDuration(seconds: number) {
   return `${minutes}m`;
 }
 
-export default async function DashboardRecentActivity() {
+export default async function DashboardRecentActivity({
+  isAdvancedView = false
+}: {
+  isAdvancedView?: boolean;
+}) {
   const { userId }: { userId: string | null } = auth();
 
   if (!userId) {
     throw new Error("You must be signed in to view this page.");
   }
 
+  // In advanced view, show more recent activity items
+  const takeLimit = isAdvancedView ? 8 : 4;
+
   const recentActivity = await prisma.workoutLog.findMany({
     where: {
       userId: userId,
       inProgress: false,
     },
-    take: 4,
+    take: takeLimit,
     orderBy: {
       createdAt: "desc",
     },
@@ -38,7 +46,6 @@ export default async function DashboardRecentActivity() {
       exercises: {
         select: {
           id: true,
-
           Exercise: {
             select: {
               name: true,
@@ -61,7 +68,7 @@ export default async function DashboardRecentActivity() {
       {recentActivity.length > 0 && (
         <>
           <h2 className="mb-3 mt-2 text-lg">Recent Activity</h2>
-          <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-4 gap-3 mb-5">
+          <div className={`grid grid-cols-1 md:grid-cols-1 ${isAdvancedView ? 'lg:grid-cols-4' : 'lg:grid-cols-2'} gap-3 mb-5`}>
             {recentActivity.map((activity) => {
               const totalWeight = activity.exercises.reduce(
                 (total, exercise) => {
@@ -110,6 +117,14 @@ export default async function DashboardRecentActivity() {
                         </li>
                       ))}
                     </ul>
+                    
+                    {isAdvancedView && (
+                      <div className="mt-3">
+                        <Link href={`/activity/${activity.id}`} className="text-sm text-primary hover:underline">
+                          View Details
+                        </Link>
+                      </div>
+                    )}
                   </CardBody>
                 </Card>
               );

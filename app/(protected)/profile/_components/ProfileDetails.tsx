@@ -1,3 +1,5 @@
+// C:\Users\anned\Desktop\fitformotion\app\(protected)\profile\_components\ProfileDetails.tsx
+
 "use client";
 import { handleUpdateUserDetails } from "@/server-actions/UserServerActions";
 import { Button } from "@nextui-org/button";

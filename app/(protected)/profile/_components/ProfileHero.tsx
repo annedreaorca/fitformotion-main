@@ -1,3 +1,5 @@
+// C:\Users\anned\Desktop\fitformotion\app\(protected)\profile\_components\ProfileHero.tsx
+
 import { Avatar } from "@nextui-org/avatar";
 
 export default function ProfileHero({

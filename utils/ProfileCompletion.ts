@@ -4,7 +4,7 @@ export async function isProfileComplete(userId: string): Promise<boolean> {
   const userInfo = await prisma.userInfo.findUnique({
     where: { userId },
     select: {
-      age: true,
+      birthdate: true,
       height: true,
       weight: true,
       fitnessGoals: true,
@@ -19,7 +19,7 @@ export async function isProfileComplete(userId: string): Promise<boolean> {
   
   // Update this based on which fields you consider mandatory
   return !!(
-    userInfo.age && 
+    userInfo.birthdate && 
     userInfo.height && 
     userInfo.weight && 
     userInfo.fitnessGoals && 

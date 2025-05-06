@@ -10,7 +10,6 @@ datasource db {
 model UserInfo {
   id               String           @id @default(uuid())
   userId           String           @unique
-  age              Int?
   height           Float?
   weight           Float?
   subscriptionType String           @default("free")
@@ -18,7 +17,9 @@ model UserInfo {
   fitnessGoals     String?
   sessionTime      Int?
   weeklySession    Int?
+  birthdate        DateTime?
   userWeights      UserWeight[]
+  isNewUser        Boolean          @default(true)
 }
 
 model UserWeight {

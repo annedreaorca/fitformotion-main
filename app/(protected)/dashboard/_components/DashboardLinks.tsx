@@ -1,10 +1,11 @@
+// C:\Users\anned\Desktop\fitformotion\app\(protected)\dashboard\_components\DashboardLinks.tsx
 "use client";
 import { Card, CardHeader } from "@nextui-org/card";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function DashboardLinks() {
+export default function DashboardLinks({ isAdvancedView = false }) {
   const links = [
     {
       title: "Exercises",
@@ -41,7 +42,7 @@ export default function DashboardLinks() {
   ];
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
+    <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-3 mb-3">
       {links.map((link, index) => (
         <Link key={index} href={link.href}>
           <Card

@@ -1,5 +1,5 @@
 export type ExpandedProfile = {
-  age: number | null;
+  birthdate: Date | null; 
   height: number | null;
   weight: number | null;
   workoutsGoal: number | null;
