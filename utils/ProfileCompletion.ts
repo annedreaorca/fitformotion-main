@@ -1,3 +1,4 @@
+//ProfileCompletion.ts
 import prisma from "@/prisma/prisma";
 
 export async function isProfileComplete(userId: string): Promise<boolean> {

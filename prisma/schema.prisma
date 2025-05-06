@@ -20,6 +20,8 @@ model UserInfo {
   birthdate        DateTime?
   userWeights      UserWeight[]
   isNewUser        Boolean          @default(true)
+  hasSeenWizard   Boolean   @default(false) // New field to track wizard status
+
 }
 
 model UserWeight {
