@@ -8,7 +8,7 @@ import { handleSaveWorkout } from "@/server-actions/WorkoutServerActions";
 import { Button, ButtonGroup } from "@nextui-org/button";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { TrackingType } from "@prisma/client";
-import { IconPlus, IconX } from "@tabler/icons-react";
+import { IconInfoCircle, IconPlus, IconX } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -410,6 +410,30 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
   const progressPercentage =
     totalSets > 0 ? Math.round((completedSets / totalSets) * 100) : 0;
 
+  const [activeInstructionsIndex, setActiveInstructionsIndex] = useState<number | null>(null);
+
+  // Add these handler functions inside the WorkoutManager component
+  const handleShowInstructions = (exerciseIndex: number) => {
+    setActiveInstructionsIndex(exerciseIndex);
+    
+    // Optional: Pause workout while viewing instructions
+    if (!isPaused) {
+      togglePause();
+      setPauseStartTime(Date.now());
+    }
+  };
+
+  const handleCloseInstructions = () => {
+    setActiveInstructionsIndex(null);
+    
+    // Optional: Resume workout after viewing instructions
+    if (isPaused && pauseStartTime) {
+      togglePause();
+      setPausedTime((prevPausedTime) => prevPausedTime + (Date.now() - pauseStartTime));
+      setPauseStartTime(null);
+    }
+  };
+
   return (
     <div className="pb-32">
       {showUploadForm && (
@@ -432,16 +456,27 @@ export default function WorkoutManager({ workout }: { workout: Workout }) {
                 <p className="text-lg font-[600] text-zinc-800 dark:text-white">
                   {exercise.exerciseName}
                 </p>
+                <IconInfoCircle
+                  className="hover:text-primary ml-2 cursor-pointer"
+                  size={24}
+                  onClick={() => handleShowInstructions(index)}
+                />
               </div>
             </CardHeader>
             <CardBody className="pb-1 pt-0">
-              <ExerciseTable
-                exerciseDetail={exercise}
-                index={index}
-                handleCompleteSet={handleCompleteSet}
-                handleWeightChange={handleWeightChange}
-                handleRepChange={handleRepChange}
-              />
+            <ExerciseTable
+              exerciseDetail={{
+                exerciseName: exercise.exerciseName,
+                exerciseId: exercise.exerciseId,
+                sets: exercise.sets,
+              }}
+              index={index}
+              handleCompleteSet={handleCompleteSet}
+              handleWeightChange={handleWeightChange}
+              handleRepChange={handleRepChange}
+              showInstructions={activeInstructionsIndex === index}
+              onCloseInstructions={handleCloseInstructions}
+            />
             </CardBody>
             <CardFooter className="gap-2 px-5 bg-default-100">
               <ButtonGroup className="shrink-0">

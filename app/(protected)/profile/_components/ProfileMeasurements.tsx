@@ -1,5 +1,3 @@
-// C:\Users\anned\Desktop\fitformotion\app\(protected)\profile\_components\ProfileMeasurements.tsx
-
 "use client";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -89,19 +87,35 @@ export default function ProfileMeasurements({
       ? new Date(userMeasurements.birthdate).toISOString().split('T')[0]
       : ""
   );
-  const [height, setHeight] = useState(userMeasurements?.height || "");
-  const [weight, setWeight] = useState(userMeasurements?.weight || "");
-  const [fitnessGoals, setFitnessGoals] = useState(userMeasurements?.fitnessGoals || "");
-  const [experienceLevel, setExperienceLevel] = useState(userMeasurements?.experienceLevel || "");
-  const [weeklySession, setWeeklySession] = useState(
-    userMeasurements?.weeklySession || 3
+  const [height, setHeight] = useState<string>(
+    userMeasurements?.height !== null && userMeasurements?.height !== undefined
+      ? userMeasurements.height.toString()
+      : ""
   );
-  const [sessionTime, setSessionTime] = useState(
-    userMeasurements?.sessionTime || 45
+  const [weight, setWeight] = useState<string>(
+    userMeasurements?.weight !== null && userMeasurements?.weight !== undefined
+      ? userMeasurements.weight.toString()
+      : ""
+  );
+  const [fitnessGoals, setFitnessGoals] = useState<string>(
+    userMeasurements?.fitnessGoals || ""
+  );
+  const [experienceLevel, setExperienceLevel] = useState<string>(
+    userMeasurements?.experienceLevel || ""
+  );
+  const [weeklySession, setWeeklySession] = useState<number>(
+    userMeasurements?.weeklySession !== null && userMeasurements?.weeklySession !== undefined
+      ? userMeasurements.weeklySession
+      : 3
+  );
+  const [sessionTime, setSessionTime] = useState<number>(
+    userMeasurements?.sessionTime !== null && userMeasurements?.sessionTime !== undefined
+      ? userMeasurements.sessionTime
+      : 45
   );
   
   // Equipment
-  const [selectedEquipment, setSelectedEquipment] = useState(equipment || []);
+  const [selectedEquipment, setSelectedEquipment] = useState<string[]>(equipment || []);
 
   const handleSaveAll = async () => {
     setIsLoading(true);
@@ -122,11 +136,11 @@ export default function ProfileMeasurements({
 
     // 2. Update measurements
     const measurementsData = {
-      birthdate: birthdate,
-      height: height.toString(),
-      weight: weight.toString(),
-      fitnessGoals: fitnessGoals.toString(),
-      experienceLevel: experienceLevel.toString(),
+      birthdate: birthdate || null,
+      height: height || null,
+      weight: weight || null,
+      fitnessGoals: fitnessGoals || null,
+      experienceLevel: experienceLevel || null,
       weeklySession: Number(weeklySession),
       sessionTime: Number(sessionTime),
     };
@@ -208,7 +222,7 @@ export default function ProfileMeasurements({
               label="Height (cm)"
               size="sm"
               placeholder="Enter your Height"
-              value={height !== null ? height.toString() : ""}
+              value={height}
               onChange={(e) => setHeight(e.target.value)}
             />
 
@@ -217,7 +231,7 @@ export default function ProfileMeasurements({
               label="Weight (kg)"
               size="sm"
               placeholder="Enter your Weight"
-              value={weight !== null ? weight.toString() : ""}
+              value={weight}
               onChange={(e) => setWeight(e.target.value)}
             />
           </div>
@@ -266,7 +280,7 @@ export default function ProfileMeasurements({
               size="sm"
               placeholder="Days per week"
               value={weeklySession.toString()}
-              onChange={(e) => setWeeklySession(Number(e.target.value))}
+              onChange={(e) => setWeeklySession(Number(e.target.value) || 3)}
               min={1}
               max={7}
             />
@@ -277,7 +291,7 @@ export default function ProfileMeasurements({
               size="sm"
               placeholder="Minutes per workout"
               value={sessionTime.toString()}
-              onChange={(e) => setSessionTime(Number(e.target.value))}
+              onChange={(e) => setSessionTime(Number(e.target.value) || 45)}
               min={10}
               max={180}
             />
@@ -299,7 +313,7 @@ export default function ProfileMeasurements({
         <CardBody className="px-5">
           <CheckboxGroup
             value={selectedEquipment}
-            onChange={(value) => setSelectedEquipment(value as EquipmentType[])}
+            onChange={(value) => setSelectedEquipment(value as string[])}
             color="primary"
           >
             {equipmentItems.map((item, index) => (

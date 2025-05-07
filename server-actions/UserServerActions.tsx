@@ -26,16 +26,17 @@ export async function handleUpdateUserDetails(data: {
     revalidatePath("/profile");
     return { success: true, message: "User info updated" };
   } catch (e) {
+    console.error("Error updating user details:", e);
     return { success: false, message: "Failed to update user info" };
   }
 }
 
 export async function handleUpdateUserMeasurements(data: {
-  birthdate: string;
-  height: string;
-  weight: string;
-  fitnessGoals: string;
-  experienceLevel: string;
+  birthdate: string | null;
+  height: string | null;
+  weight: string | null;
+  fitnessGoals: string | null;
+  experienceLevel: string | null;
   weeklySession: number;
   sessionTime: number;
 }) {
@@ -50,12 +51,20 @@ export async function handleUpdateUserMeasurements(data: {
     height: data.height ? parseFloat(data.height) : null,
     weight: data.weight ? parseFloat(data.weight) : null,
     fitnessGoals: data.fitnessGoals || null,
-    experienceLevel: data.experienceLevel ? data.experienceLevel as ExperienceLevel : null,
-    weeklySession: data.weeklySession,
-    sessionTime: data.sessionTime
+    experienceLevel: data.experienceLevel 
+      ? data.experienceLevel as ExperienceLevel 
+      : null,
+    weeklySession: data.weeklySession || 3,
+    sessionTime: data.sessionTime || 45
   };
 
   try {
+    // Check if user info already exists
+    const existingUserInfo = await prisma.userInfo.findUnique({
+      where: { userId: userId }
+    });
+
+    // Use upsert to create or update the record
     await prisma.userInfo.upsert({
       where: { userId: userId },
       update: parsedData,
@@ -83,24 +92,27 @@ export async function handleUpdateUserEquipment(
   }
 
   try {
+    // First delete all existing equipment for this user
     await prisma.userEquipment.deleteMany({
       where: {
         userId: userId,
       },
     });
 
-    for (let item of selectedEquipment) {
-      await prisma.userEquipment.create({
-        data: {
+    // Then create new entries for each selected equipment
+    if (selectedEquipment.length > 0) {
+      await prisma.userEquipment.createMany({
+        data: selectedEquipment.map(item => ({
           userId: userId,
           equipmentType: item,
-        },
+        })),
       });
     }
 
     revalidatePath("/profile");
     return { success: true, message: "User equipment updated" };
   } catch (e) {
+    console.error("Error updating user equipment:", e);
     return { success: false, message: "Failed to update user equipment" };
   }
 }

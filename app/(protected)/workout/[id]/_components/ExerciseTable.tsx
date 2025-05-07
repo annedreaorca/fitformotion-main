@@ -22,6 +22,7 @@ interface Set {
 
 interface ExerciseDetail {
   exerciseName: string;
+  exerciseId: string; // Add exerciseId to fetch instructions
   sets: Set[];
   instructions?: string[];
 }
@@ -45,6 +46,8 @@ interface ExerciseTableProps {
     setIndex: number,
     newValue: number | null
   ) => void;
+  showInstructions?: boolean; // New prop to control instructions visibility
+  onCloseInstructions?: () => void; // New prop to handle closing instructions
 }
 
 function formatExerciseNameForImage(exerciseName?: string): string {
@@ -58,25 +61,41 @@ export default function ExerciseTable({
   handleCompleteSet,
   handleWeightChange,
   handleRepChange,
+  showInstructions = false,
+  onCloseInstructions
 }: ExerciseTableProps) {
-  const [showInstructions, setShowInstructions] = useState(false);
+  const [instructions, setInstructions] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Effect to log instructions for debugging
+  // Fetch instructions when needed
+  const fetchInstructions = async () => {
+    if (!exerciseDetail.exerciseId) return;
+    
+    setIsLoading(true);
+    try {
+      const response = await fetch(`/api/exercises/${exerciseDetail.exerciseId}/instructions`);
+      if (response.ok) {
+        const data = await response.json();
+        setInstructions(data.instructions || []);
+      } else {
+        console.error("Failed to fetch instructions");
+      }
+    } catch (error) {
+      console.error("Error fetching instructions:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Fetch instructions when the modal is opened
   useEffect(() => {
-    console.log("Instructions: ", exerciseDetail.instructions);
-  }, [exerciseDetail.instructions]);
+    if (showInstructions && instructions.length === 0) {
+      fetchInstructions();
+    }
+  }, [showInstructions, exerciseDetail.exerciseId]);
 
   return (
     <div>
-      <div className="flex items-center">
-        {/* <h2 className="text-xl font-semibold">{exerciseDetail.exerciseName}</h2> */}
-        {/* <IconInfoCircle
-          className="hover:text-primary ml-2 cursor-pointer"
-          size={24}
-          onClick={() => setShowInstructions((prev) => !prev)}
-        /> */}
-      </div>
-
       <Table
         removeWrapper
         aria-label={`Table for exercise ${exerciseDetail.exerciseName}`}
@@ -171,35 +190,60 @@ export default function ExerciseTable({
       {showInstructions && (
         <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-50">
           <div
-            className="bg-white p-4 border border-gray-300 rounded shadow-md"
-            onClick={() => setShowInstructions(false)} // Close on click outside
+            className="bg-white dark:bg-gray-800 p-6 border border-gray-300 dark:border-gray-700 rounded-lg shadow-md max-w-xl w-full max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
           >
-            <Image
-              src={`/images/exercises/${formatExerciseNameForImage(
-                exerciseDetail.exerciseName
-              )}/images/0.gif`}
-              width={750}
-              height={500}
-              alt={`${exerciseDetail.exerciseName} gif`}
-            />
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-bold dark:text-white">{exerciseDetail.exerciseName}</h3>
+              <Button 
+                isIconOnly 
+                size="sm" 
+                variant="light" 
+                onClick={() => onCloseInstructions && onCloseInstructions()}
+                className="hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full"
+              >
+                <IconSquareCheck size={24} />
+              </Button>
+            </div>
 
-            {/* Render Instructions if Available */}
-            {exerciseDetail?.instructions && exerciseDetail.instructions.length > 0 ? (
-              <>
-                <h4 className="font-semibold text-lg mb-3">Instructions</h4>
-                <ol className="list-decimal list-inside space-y-2 text-sm">
-                  {exerciseDetail.instructions.map((instruction, index) => (
-                    <li key={index}>{instruction}</li>
-                  ))}
-                </ol>
-              </>
-            ) : (
-              <p>No instructions available.</p> // Fallback message if no instructions are provided
-            )}
+            <div className="flex flex-col gap-6">
+              {/* Image Section */}
+              <div className="flex justify-center mb-2">
+                <Image
+                  src={`/images/exercises/${formatExerciseNameForImage(
+                    exerciseDetail.exerciseName
+                  )}/images/0.gif`}
+                  width={300}
+                  height={200}
+                  alt={`${exerciseDetail.exerciseName} demonstration`}
+                  className="rounded-lg"
+                />
+              </div>
 
-            <Button onClick={() => setShowInstructions(false)} className="mt-2">
-              Close
-            </Button>
+              {/* Instructions Section */}
+              {isLoading ? (
+                <div className="text-center py-4">Loading instructions...</div>
+              ) : (
+                <>
+                  <div>
+                    <h4 className="font-semibold text-lg mb-3 dark:text-white">Instructions</h4>
+                    {instructions && instructions.length > 0 ? (
+                      <ol className="list-decimal list-inside space-y-2 text-sm dark:text-gray-300">
+                        {instructions.map((instruction, index) => (
+                          <li key={index} className="mb-2">{instruction}</li>
+                        ))}
+                      </ol>
+                    ) : (
+                      <p className="text-gray-600 dark:text-gray-400">No instructions available.</p>
+                    )}
+                  </div>
+                </>
+              )}
+
+              <Button onClick={() => onCloseInstructions && onCloseInstructions()} className="mt-4">
+                Close
+              </Button>
+            </div>
           </div>
         </div>
       )}
