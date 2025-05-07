@@ -100,8 +100,8 @@ export default function IntroductionWizard() {
       setHasSeenWizard(true);
       setIsOpen(false);
       
-      // Refresh the page to apply changes
-      router.refresh();
+      // Redirect to dashboard after completing the wizard
+      router.push('/dashboard');
     } catch (error) {
       console.error("Error completing wizard:", error);
     } finally {
@@ -129,7 +129,9 @@ export default function IntroductionWizard() {
       
       setHasSeenWizard(true);
       setIsOpen(false);
-      router.refresh();
+      
+      // Redirect to dashboard after skipping the wizard
+      router.push('/dashboard');
     } catch (error) {
       console.error("Error skipping wizard:", error);
     } finally {

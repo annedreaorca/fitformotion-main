@@ -5,12 +5,12 @@ import PageHeading from "@/components/PageHeading/PageHeading";
 import { startTour } from "@/components/TourGuide/DashboardGuide";
 import { IconSettings, IconUser, IconWalk } from "@tabler/icons-react";
 import dynamic from "next/dynamic";
+import { Suspense } from "react";
 import DashboardCards from "./_components/DashboardCards/DashboardCards";
 import DashboardCharts from "./_components/DashboardCharts/DashboardCharts";
 import DashboardGoals from "./_components/DashboardGoals/DashboardGoals";
 import DashboardLinks from "./_components/DashboardLinks";
 import DashboardRecentActivity from "./_components/DashboardRecentActivity";
-import { Suspense } from "react";
 
 // Import the components dynamically to ensure they're client-side rendered
 const DashboardViewToggle = dynamic(() => import("./_components/DashboardViewToggle"), { 

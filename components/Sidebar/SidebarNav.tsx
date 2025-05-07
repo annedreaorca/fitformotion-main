@@ -4,7 +4,7 @@ import { useSidebarToggleContext } from "@/contexts/SidebarToggleContext";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface NavItemProps {
   icon: JSX.Element;
@@ -22,9 +22,9 @@ import {
   IconLayoutSidebarLeftCollapse,
   IconLayoutSidebarLeftExpand,
   IconListSearch,
-  IconMessageChatbot,
-  IconUser,
-  IconLock
+  IconLock,
+  IconStretching2,
+  IconUser
 } from "@tabler/icons-react";
 
 export default function SidebarNav() {
@@ -97,6 +97,15 @@ export default function SidebarNav() {
           label="My Physique"
           href="/gallery"
           active={pathname.startsWith("/gallery")}
+          disabled={!profileComplete}
+        />
+
+        
+        <NavItem
+          icon={<IconStretching2 size={22} className="shrink-0" />}
+          label="Coaches"
+          href="/coaches"
+          active={pathname.startsWith("/coaches")}
           disabled={!profileComplete}
         />
         

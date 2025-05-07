@@ -1,4 +1,3 @@
-// C:\Users\anned\Desktop\fitformotion\app\(protected)\profile\page.tsx
 import IntroductionWizard from "@/components/IntroductionWizard"; // Import the wizard component
 import { ThemeSwitcher } from "@/components/ThemeSwitcher/ThemeSwitcher";
 import { startTour } from "@/components/TourGuide/ProfileGuide";
@@ -57,13 +56,24 @@ export default async function ProfilePage({
                              referer.includes("/nutrition") || referer.includes("/settings");
   
   // Modified Redirect logic:
-  // 1. If profile is complete AND
+  // Only redirect to dashboard if:
+  // 1. Profile is complete AND
   // 2. We're not forcing profile view AND
   // 3. We're not coming from sidebar navigation AND
   // 4. We're not returning after an update
-  // Then redirect to dashboard
+  // 5. We're not showing the introduction wizard
   if (profileComplete && !forceProfileView && !isComingFromSidebar && !isAfterUpdate) {
-    redirect("/profile");
+    // Check if wizard has been seen
+    const wizardStatus = await prisma.userInfo.findUnique({
+      where: { userId },
+      select: { hasSeenWizard: true }
+    });
+    
+    // Only redirect to dashboard if the wizard has already been seen
+    if (wizardStatus?.hasSeenWizard) {
+      redirect("/dashboard");
+    }
+    // Otherwise, stay on profile page to show the wizard
   }
 
   const userMeasurements = await prisma.userInfo.findUnique({
