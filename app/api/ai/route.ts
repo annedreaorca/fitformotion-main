@@ -10,54 +10,66 @@ const openai = new OpenAI({
 export const runtime = "edge";
 
 export async function POST(req: Request) {
-  const input: { message: string } = await req.json();
-
-  const thread = await openai.beta.threads.create();
-  const userMessage = await openai.beta.threads.messages.create(thread.id, {
+  const input: { message: string; threadId?: string } = await req.json();
+  
+  // Create a new thread if threadId is not provided or use the existing one
+  let threadId: string;
+  if (!input.threadId) {
+    const thread = await openai.beta.threads.create();
+    threadId = thread.id;
+  } else {
+    // We know input.threadId is not undefined here
+    threadId = input.threadId;
+  }
+  
+  // Add the user message to the thread
+  await openai.beta.threads.messages.create(threadId, {
     role: "user",
     content: input.message,
   });
 
   // Start the assistant run
-  let run = await openai.beta.threads.runs.create(thread.id, {
+  let run = await openai.beta.threads.runs.create(threadId, {
     assistant_id: process.env.ASSISTANT_ID ?? (() => {
       throw new Error("ASSISTANT_ID is not set");
     })(),
   });
 
-  async function waitForRunCompletion(run: OpenAI.Beta.Threads.Runs.Run) {
-    while (run.status === "queued" || run.status === "in_progress") {
+  async function waitForRunCompletion(runId: string, threadId: string) {
+    let currentRun = await openai.beta.threads.runs.retrieve(threadId, runId);
+    while (currentRun.status === "queued" || currentRun.status === "in_progress") {
       await new Promise((resolve) => setTimeout(resolve, 500));
-      run = await openai.beta.threads.runs.retrieve(thread.id, run.id);
+      currentRun = await openai.beta.threads.runs.retrieve(threadId, runId);
     }
-    return run;
+    return currentRun;
   }
 
-  run = await waitForRunCompletion(run);
+  run = await waitForRunCompletion(run.id, threadId);
 
   if (run.status !== "completed") {
     throw new Error(`Run did not complete successfully: ${run.status}`);
   }
 
-  const responseMessages = (
-    await openai.beta.threads.messages.list(thread.id, { order: "asc" })
-  ).data;
-
-  // Extract only the assistant's message content
-  const assistantMessage = responseMessages
-    .filter((msg) => msg.role === "assistant")
-    .map((msg) =>
-      msg.content
-        .filter((content) => content.type === "text")
-        .map((content) =>
-          content.type === "text" ? content.text.value : null
-        )
-        .filter(Boolean)
-        .join(" ")
-    )
-    .join("\n");
-
-  return new Response(JSON.stringify({ content: assistantMessage }), {
-    headers: { "Content-Type": "application/json" },
+  // Get only the latest message (the assistant's response to this request)
+  const messages = await openai.beta.threads.messages.list(threadId, { 
+    order: "desc",
+    limit: 1
   });
+  
+  const assistantMessage = messages.data[0];
+  
+  // Extract the content from the assistant message
+  const messageContent = assistantMessage.content
+    .filter((content) => content.type === "text")
+    .map((content) => content.type === "text" ? content.text.value : null)
+    .filter(Boolean)
+    .join(" ");
+
+  return new Response(
+    JSON.stringify({ 
+      content: messageContent,
+      threadId: threadId // Return the threadId so it can be stored in localStorage
+    }), 
+    { headers: { "Content-Type": "application/json" } }
+  );
 }

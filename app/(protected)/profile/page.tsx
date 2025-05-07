@@ -11,6 +11,7 @@ import ProfileHero from "./_components/ProfileHero";
 import ProfileMeasurements from "./_components/ProfileMeasurements";
 import ProfileStats from "./_components/ProfileStats";
 import { isProfileComplete } from "@/utils/ProfileCompletion";
+import IntroductionWizard from "@/components/IntroductionWizard"; // Import the wizard component
 
 // Define the updated structure that matches your components
 interface UserMeasurements {
@@ -111,6 +112,9 @@ export default async function ProfilePage({
 
   return (
     <>
+      {/* Introduction Wizard will be shown when profile is complete */}
+      <IntroductionWizard />
+      
       {isRedirected && (
         <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6" role="alert">
           <p className="font-medium">Please complete your profile before exploring other areas of the app.</p>

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // C:\Users\anned\Desktop\fitformotion\utils\ProfileCompletion.ts
+=======
+//ProfileCompletion.ts
+>>>>>>> 2186840bdefc83363ff8f49e62c2f852e12080cc
 import prisma from "@/prisma/prisma";
 
 export async function isProfileComplete(userId: string): Promise<boolean> {

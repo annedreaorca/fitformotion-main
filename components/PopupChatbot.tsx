@@ -12,17 +12,77 @@ interface Message {
 export default function PopupChatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    { role: "assistant", content: "Hello! How can I help you with your fitness journey today?" },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [displayedText, setDisplayedText] = useState("");
   const [fullContent, setFullContent] = useState("");
   const [charIndex, setCharIndex] = useState(0);
+  const [threadId, setThreadId] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  // Load chat history from localStorage when component mounts
+  useEffect(() => {
+    // Try to get the thread ID from localStorage
+    const savedThreadId = localStorage.getItem("fitnessAssistantThreadId");
+    if (savedThreadId) {
+      setThreadId(savedThreadId);
+      
+      // Fetch the conversation history for this thread
+      fetchChatHistory(savedThreadId);
+    } else {
+      // If no thread exists, initialize with a welcome message
+      setMessages([
+        { role: "assistant", content: "Hello! How can I help you with your fitness journey today?" },
+      ]);
+    }
+  }, []);
+
+  // Fetch chat history from the backend
+  const fetchChatHistory = async (threadId: string) => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(`/api/chat-history?threadId=${threadId}`, {
+        method: "GET",
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to fetch chat history");
+      }
+  
+      const data = await response.json();
+      
+      if (data.messages && data.messages.length > 0) {
+        // Apply formatting to each assistant message
+        const formattedMessages = data.messages.map((msg: Message) => {
+          if (msg.role === "assistant") {
+            return {
+              ...msg,
+              content: formatResponseText(msg.content)
+            };
+          }
+          return msg;
+        });
+        
+        setMessages(formattedMessages);
+      } else {
+        // If no messages, set the default welcome message
+        setMessages([
+          { role: "assistant", content: "Hello! How can I help you with your fitness journey today?" },
+        ]);
+      }
+    } catch (error) {
+      console.error("Error fetching chat history:", error);
+      // Set default message if there's an error
+      setMessages([
+        { role: "assistant", content: "Hello! How can I help you with your fitness journey today?" },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Auto-scroll to the bottom when new messages are added
   useEffect(() => {
@@ -87,7 +147,10 @@ export default function PopupChatbot() {
       const response = await fetch("/api/ai", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: input }),
+        body: JSON.stringify({ 
+          message: input,
+          threadId: threadId // Include the threadId if we have one
+        }),
       });
 
       if (!response.ok) {
@@ -95,6 +158,12 @@ export default function PopupChatbot() {
       }
 
       const data = await response.json();
+      
+      // Save the threadId from the response if we don't already have one
+      if (data.threadId && !threadId) {
+        setThreadId(data.threadId);
+        localStorage.setItem("fitnessAssistantThreadId", data.threadId);
+      }
       
       // Format the response with proper paragraph spacing
       const formattedContent = formatResponseText(data.content);
@@ -106,6 +175,7 @@ export default function PopupChatbot() {
       setIsTyping(true);
       
     } catch (error) {
+      console.error("Error sending message:", error);
       setMessages(prev => [
         ...prev,
         { role: "assistant", content: "Sorry, something went wrong." },
@@ -115,17 +185,66 @@ export default function PopupChatbot() {
     }
   };
 
-  // Function to format response text with proper paragraph spacing
-  const formatResponseText = (text: string) => {
-    // Replace single newlines with double newlines for paragraph spacing
-    // and ensure appropriate spacing around headers and lists
+ // Function to format response text with proper paragraph spacing
+const formatResponseText = (text: string) => {
+  // Check if text already has paragraph breaks - if so, minimal processing
+  if (text.includes('\n\n')) {
     return text
-      .replace(/([.!?])\s*(?=###)/g, '$1\n\n') // Add spacing before headers
-      .replace(/###\s+([^\n]+)/g, '\n\n### $1\n') // Format headers
-      .replace(/([.!?])\s*(?=-)/g, '$1\n\n') // Add spacing before lists
-      .replace(/\n(?!\n)/g, '\n\n') // Convert single newlines to double
-      .replace(/\n\n\n+/g, '\n\n') // Reduce excessive newlines
-      .trim();
+      // Just handle the asterisks in this case
+      .replace(/\*\*([^*]+)\*\*:/g, '### $1:')
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/^- \*\*([^:*]+):\*\*/gm, '- <strong>$1:</strong>')
+      .replace(/^- \*\*([^*]+)\*\*/gm, '- <strong>$1</strong>')
+      .replace(/^\* /gm, '- ');
+  }
+  
+  // For condensed/single block messages (like from history)
+  // First identify and preserve list structures
+  let formattedText = text
+    // Add spacing after periods followed by ** (indicating new sections)
+    .replace(/\.(\s*)\*\*/g, '.\n\n**')
+    
+    // Handle different formats of lists
+    .replace(/\*\*([^*]+)\*\*:(\s+)-/g, '**$1:**\n\n-')
+    .replace(/\*\*([^*]+)\*\*:/g, '### $1:\n')
+    
+    // Add newlines before bullet points that follow text
+    .replace(/([^-\n])\s*-\s+/g, '$1\n\n- ')
+    
+    // Add newlines between bullet points when they don't have them
+    .replace(/\.(\s+)-/g, '.\n\n-')
+    
+    // Convert all asterisk bullets to dashes for consistency
+    .replace(/^\*/gm, '-')
+    
+    // Format bold text
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    
+    // Add paragraph breaks between sentences that look like they should be separate
+    .replace(/\.(\s+)(?=[A-Z])/g, '.\n\n')
+    
+    // Then apply the standard formatting
+    .replace(/([.!?])\s*(?=###)/g, '$1\n\n')
+    .replace(/###\s+([^\n]+)/g, '\n\n### $1\n')
+    .replace(/\n\n\n+/g, '\n\n')
+    .trim();
+    
+  return formattedText;
+};
+
+
+  // Reset conversation
+  const resetConversation = async () => {
+    if (window.confirm("Are you sure you want to start a new conversation? Your chat history will be cleared.")) {
+      // Clear the threadId from localStorage
+      localStorage.removeItem("fitnessAssistantThreadId");
+      setThreadId(null);
+      
+      // Reset the messages with just the welcome message
+      setMessages([
+        { role: "assistant", content: "Hello! How can I help you with your fitness journey today?" },
+      ]);
+    }
   };
 
   // Toggle fullscreen mode
@@ -144,19 +263,12 @@ export default function PopupChatbot() {
     </svg>
   );
 
-  // Typing indicator component
-  const TypingIndicator = () => (
-    <div className="flex items-center space-x-1 px-4 py-2 bg-gray-800 text-white rounded-lg rounded-tl-none max-w-[80%]">
-      <div className="w-2 h-2 bg-gray-400 rounded-full animate-pulse"></div>
-      <div className="w-2 h-2 bg-gray-400 rounded-full animate-pulse" style={{ animationDelay: "0.2s" }}></div>
-      <div className="w-2 h-2 bg-gray-400 rounded-full animate-pulse" style={{ animationDelay: "0.4s" }}></div>
-    </div>
-  );
-
-  // Format message content with proper paragraph spacing
+  // Message content component
   const MessageContent = ({ content }: { content: string }) => {
-    // Split content by double newlines to get paragraphs
-    const paragraphs = content.split(/\n\n+/);
+    // Check if content is a single block or already formatted
+    const paragraphs = content.includes('\n\n') 
+      ? content.split(/\n\n+/) 
+      : [content];
     
     return (
       <>
@@ -165,19 +277,24 @@ export default function PopupChatbot() {
           if (paragraph.startsWith('### ')) {
             return <h3 key={idx} className="font-bold mt-2 mb-1">{paragraph.replace('### ', '')}</h3>;
           }
-          // Handle list items
-          else if (paragraph.startsWith('- ')) {
+          // Handle list items - if paragraph contains multiple list items
+          else if (paragraph.startsWith('- ') || paragraph.includes('\n- ')) {
+            const items = paragraph.split('\n- ');
             return (
               <ul key={idx} className="list-disc pl-5 my-1">
-                {paragraph.split('\n- ').map((item, itemIdx) => (
-                  <li key={itemIdx}>{item.replace(/^- /, '')}</li>
+                {items.map((item, itemIdx) => (
+                  <li key={itemIdx} 
+                      dangerouslySetInnerHTML={{
+                        __html: itemIdx === 0 ? item.replace(/^- /, '') : item
+                      }}
+                  />
                 ))}
               </ul>
             );
           }
-          // Regular paragraphs
+          // Regular paragraphs (may contain HTML tags)
           else {
-            return <p key={idx} className="mb-2">{paragraph}</p>;
+            return <p key={idx} className="mb-2" dangerouslySetInnerHTML={{__html: paragraph}} />;
           }
         })}
       </>
@@ -215,6 +332,14 @@ export default function PopupChatbot() {
               <h3 className="font-medium">Fitness AI Assistant</h3>
             </div>
             <div className="flex items-center space-x-2">
+              {/* New button to reset conversation */}
+              <button 
+                onClick={resetConversation}
+                className="text-white hover:text-gray-200 text-xs bg-red-950 px-2 py-1 rounded"
+                title="Start a new conversation"
+              >
+                New Chat
+              </button>
               <button 
                 onClick={toggleFullscreen}
                 className="text-white hover:text-gray-200"

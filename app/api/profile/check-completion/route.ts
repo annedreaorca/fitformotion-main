@@ -1,26 +1,53 @@
-// app/api/profile/check-completion/route.ts
 import { NextResponse } from "next/server";
-import { currentUser } from "@clerk/nextjs";
-import { isProfileComplete } from "@/utils/ProfileCompletion";
+import prisma from "@/prisma/prisma";
+import { auth } from "@clerk/nextjs";
 
 export async function GET() {
   try {
-    const user = await currentUser();
+    const { userId } = auth();
     
-    if (!user) {
+    if (!userId) {
       return NextResponse.json(
         { error: "Unauthorized" },
         { status: 401 }
       );
     }
-    
-    const isComplete = await isProfileComplete(user.id);
-    
-    return NextResponse.json({ isComplete });
+
+    // Find user info from database
+    const userInfo = await prisma.userInfo.findUnique({
+      where: {
+        userId: userId,
+      },
+      select: {
+        birthdate: true,
+        height: true,
+        weight: true,
+        fitnessGoals: true,
+        experienceLevel: true,
+        weeklySession: true,
+        sessionTime: true,
+        hasSeenWizard: true, // Include the hasSeenWizard field
+      },
+    });
+
+    // Calculate if profile is complete
+    const isComplete = userInfo && 
+                        userInfo.birthdate &&
+                        userInfo.height &&
+                        userInfo.weight &&
+                        userInfo.fitnessGoals &&
+                        userInfo.experienceLevel &&
+                        userInfo.weeklySession &&
+                        userInfo.sessionTime;
+
+    return NextResponse.json({
+      isComplete: Boolean(isComplete),
+      hasSeenWizard: Boolean(userInfo?.hasSeenWizard),
+    });
   } catch (error) {
     console.error("Error checking profile completion:", error);
     return NextResponse.json(
-      { error: "Failed to check profile completion" },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }
