@@ -63,7 +63,7 @@ export default async function ProfilePage({
   // 4. We're not returning after an update
   // Then redirect to dashboard
   if (profileComplete && !forceProfileView && !isComingFromSidebar && !isAfterUpdate) {
-    redirect("/dashboard");
+    redirect("/profile");
   }
 
   const userMeasurements = await prisma.userInfo.findUnique({
