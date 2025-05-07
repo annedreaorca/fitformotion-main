@@ -1,18 +1,18 @@
 "use client";
-import { useState } from "react";
-import { toast } from "sonner";
-import { 
-  handleUpdateUserMeasurements, 
+import {
   handleUpdateUserDetails,
-  handleUpdateUserEquipment 
+  handleUpdateUserEquipment,
+  handleUpdateUserMeasurements
 } from "@/server-actions/UserServerActions";
-import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
-import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
-import { IconDeviceFloppy, IconRulerMeasure, IconUser, IconBarbell } from "@tabler/icons-react";
+import { Card, CardBody, CardHeader } from "@nextui-org/card";
+import { Checkbox, CheckboxGroup } from "@nextui-org/checkbox";
+import { Input } from "@nextui-org/input";
 import { Select, SelectItem } from "@nextui-org/select";
-import { CheckboxGroup, Checkbox } from "@nextui-org/checkbox";
 import { EquipmentType } from "@prisma/client";
+import { IconBarbell, IconDeviceFloppy, IconRulerMeasure, IconUser } from "@tabler/icons-react";
+import { useState, useTransition } from "react";
+import { toast } from "sonner";
 
 interface UserMeasurementsProps {
   birthdate?: Date | string | null;
@@ -74,6 +74,8 @@ export default function ProfileMeasurements({
   equipment: string[];
   userId: string;
 }) {
+  // Use isPending state from useTransition for showing loading state
+  const [isPending, startTransition] = useTransition();
   const [isLoading, setIsLoading] = useState(false);
   
   // User details
@@ -116,6 +118,9 @@ export default function ProfileMeasurements({
   
   // Equipment
   const [selectedEquipment, setSelectedEquipment] = useState<string[]>(equipment || []);
+  
+  // Success message state
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleSaveAll = async () => {
     setIsLoading(true);
@@ -165,11 +170,29 @@ export default function ProfileMeasurements({
     
     if (!hasErrors) {
       toast.success("Profile updated successfully");
+      setShowSuccess(true);
+      
+      // Use startTransition to update the UI without triggering a full page reload
+      startTransition(() => {
+        // Use window.location.reload() with a slight delay instead of router.refresh()
+        // This will still reload the page, but it's a more controlled approach
+        setTimeout(() => {
+          // Use location hash to prevent infinite loop by indicating this is a return visit
+          window.location.href = window.location.pathname + "?updated=true" + window.location.hash;
+        }, 1000);
+      });
     }
   };
 
   return (
     <div className="grid grid-cols-1 gap-3 mb-5">
+      {/* Success message */}
+      {showSuccess && (
+        <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-3" role="alert">
+          <p className="font-medium">Profile updated successfully!</p>
+        </div>
+      )}
+      
       {/* User Details Card */}
       <Card shadow="none" className="shadow-md mb-3">
         <CardHeader className="text-xl font-semibold px-5 pb-0 gap-x-3 items-center">
@@ -331,7 +354,7 @@ export default function ProfileMeasurements({
           variant="flat"
           size="lg"
           onPress={handleSaveAll}
-          isLoading={isLoading}
+          isLoading={isLoading || isPending}
           startContent={<IconDeviceFloppy size={20} />}
           className="px-8"
         >

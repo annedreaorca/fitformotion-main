@@ -1,13 +1,11 @@
 "use client";
 
-import { Button } from "@nextui-org/button";
 import { Card, CardBody, CardHeader } from "@nextui-org/card";
-import { Divider } from "@nextui-org/divider";
 import { Spinner } from "@nextui-org/spinner";
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/table";
-import { Tabs, Tab } from "@nextui-org/tabs";
-import { useState, useEffect } from "react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ScatterChart, Scatter, ZAxis, BarChart, Bar } from "recharts";
+import { Tab, Tabs } from "@nextui-org/tabs";
+import { useEffect, useState } from "react";
+import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis, ZAxis } from "recharts";
 
 // Define types for our data structures
 interface RepAdjustment {
@@ -274,14 +272,18 @@ export default function ModelValidationPage() {
                       type="monotone" 
                       dataKey="originalError" 
                       name="Original Model Error (lbs)" 
-                      stroke="#8884d8" 
+                      fill="#8884d8"
+                      stroke="#8884d8"
+                      dot={{ r: 5 }}
                       activeDot={{ r: 8 }} 
                     />
                     <Line 
                       type="monotone" 
                       dataKey="enhancedError" 
                       name="Enhanced Model Error (lbs)" 
-                      stroke="#82ca9d" 
+                      fill="#82ca9d"
+                      stroke="#82ca9d"
+                      dot={{ r: 5 }}
                     />
                   </LineChart>
                 </ResponsiveContainer>
@@ -441,7 +443,7 @@ export default function ModelValidationPage() {
                 </TableHeader>
                 <TableBody>
                   {data.sampleData && data.sampleData.map((item, index) => (
-                    <TableRow key={index} className={item.modelType === "Enhanced" ? "bg-green-50" : ""}>
+                    <TableRow key={index} className={item.modelType === "Enhanced" ? "bg-zinc-800" : ""}>
                       <TableCell>{item.oneRM.toFixed(1)}</TableCell>
                       <TableCell>{item.reps}</TableCell>
                       <TableCell>{item.actualWeight.toFixed(1)}</TableCell>

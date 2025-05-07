@@ -1,17 +1,17 @@
 // C:\Users\anned\Desktop\fitformotion\app\(protected)\profile\page.tsx
-import prisma from "@/prisma/prisma";
-import { currentUser } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
-import { headers } from "next/headers";
+import IntroductionWizard from "@/components/IntroductionWizard"; // Import the wizard component
 import { ThemeSwitcher } from "@/components/ThemeSwitcher/ThemeSwitcher";
 import { startTour } from "@/components/TourGuide/ProfileGuide";
+import prisma from "@/prisma/prisma";
+import { isProfileComplete } from "@/utils/ProfileCompletion";
+import { currentUser } from "@clerk/nextjs";
 import { IconWalk } from "@tabler/icons-react";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import ProfileActions from "./_components/ProfileActions";
 import ProfileHero from "./_components/ProfileHero";
 import ProfileMeasurements from "./_components/ProfileMeasurements";
 import ProfileStats from "./_components/ProfileStats";
-import { isProfileComplete } from "@/utils/ProfileCompletion";
-import IntroductionWizard from "@/components/IntroductionWizard"; // Import the wizard component
 
 // Define the updated structure that matches your components
 interface UserMeasurements {
@@ -27,7 +27,7 @@ interface UserMeasurements {
 export default async function ProfilePage({
   searchParams,
 }: {
-  searchParams: { redirect?: string; allowRedirect?: string };
+  searchParams: { redirect?: string; allowRedirect?: string; updated?: string };
 }) {
   const user = await currentUser();
 
@@ -47,18 +47,22 @@ export default async function ProfilePage({
   // Determine if we're in a forced profile view scenario
   const forceProfileView = searchParams.allowRedirect === "false";
   
+  // Check if we're coming back after an update
+  const isAfterUpdate = searchParams.updated === "true";
+  
   // Determine if we're in an explicit sidebar navigation (user clicked profile)
   const headersList = headers();
   const referer = headersList.get("referer") || "";
   const isComingFromSidebar = referer.includes("/dashboard") || referer.includes("/workouts") || 
                              referer.includes("/nutrition") || referer.includes("/settings");
   
-  // Redirect logic:
+  // Modified Redirect logic:
   // 1. If profile is complete AND
   // 2. We're not forcing profile view AND
-  // 3. We're not coming from sidebar navigation
+  // 3. We're not coming from sidebar navigation AND
+  // 4. We're not returning after an update
   // Then redirect to dashboard
-  if (profileComplete && !forceProfileView && !isComingFromSidebar) {
+  if (profileComplete && !forceProfileView && !isComingFromSidebar && !isAfterUpdate) {
     redirect("/dashboard");
   }
 
@@ -119,6 +123,14 @@ export default async function ProfilePage({
         <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6" role="alert">
           <p className="font-medium">Please complete your profile before exploring other areas of the app.</p>
           <p>Complete the required information below to unlock all features.</p>
+        </div>
+      )}
+      
+      {/* Show a success message if returning from update */}
+      {isAfterUpdate && (
+        <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6" role="alert">
+          <p className="font-medium">Profile updated successfully!</p>
+          <p>Your profile has been updated with the latest information.</p>
         </div>
       )}
       
