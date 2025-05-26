@@ -59,11 +59,10 @@ export default function DashboardPage({
     <div className="page-container">
       <div className="flex items-center justify-between mb-6">
         <div id="dashboard-heading">
-          <PageHeading title="Dashboard Overview"/>
+          <PageHeading title="Dashboard"/>
         </div>
 
         <div className="flex gap-[10px] items-center">
-          <DashboardViewToggle />
           <button
             onClick={startTour}
             className="p-[5px] bg-zinc-800 text-white rounded-full hover:bg-zinc-700 w-10 h-10 flex items-center justify-center"
@@ -73,7 +72,23 @@ export default function DashboardPage({
           <KebabMenu
             items={menuItems}
             header="Menu"
-            footer={<ProfileActions />}
+            footer={
+              <div className="flex flex-col gap-2 w-full">
+                <div className="p-[10px]">
+                  <h4 className="pb-[10px] text-zinc-400">
+                    Mode
+                  </h4>
+                  <DashboardViewToggle />
+                </div>
+                
+                <div>
+                  <h4 className="px-[10px] pb-[10px] text-zinc-400">
+                    Other
+                  </h4>
+                  <ProfileActions />
+                </div>
+              </div>
+            }
             itemClassName="hover:bg-blue-100"
           />
         </div>

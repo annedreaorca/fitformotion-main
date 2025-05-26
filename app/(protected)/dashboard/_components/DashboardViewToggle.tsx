@@ -1,9 +1,8 @@
 // C:\Users\anned\Desktop\fitformotion\app\(protected)\dashboard\_components\DashboardViewToggle.tsx
 "use client";
-import { useState, useEffect } from "react";
 import { Switch } from "@nextui-org/switch";
 import { useRouter, useSearchParams } from "next/navigation";
-import { IconBulb, IconGraph } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
 
 export default function DashboardViewToggle() {
   const router = useRouter();
@@ -29,8 +28,7 @@ export default function DashboardViewToggle() {
   }, [isAdvanced, router, searchParams]);
 
   return (
-    <div className="flex items-center gap-2">
-      <IconBulb size={20} className={isAdvanced ? "text-gray-400" : "text-primary"} />
+    <div className="flex items-center gap-2 dashboard-view-toggle">
       <Switch
         size="sm"
         color="primary"
@@ -41,8 +39,7 @@ export default function DashboardViewToggle() {
           base: "flex-row-reverse"
         }}
       />
-      <IconGraph size={20} className={isAdvanced ? "text-primary" : "text-gray-400"} />
-      <span className="text-sm ml-1">{isAdvanced ? "Advanced" : "Beginner"}</span>
+      <span className="text-[16px] ml-1">{isAdvanced ? "Advanced" : "Beginner"}</span>
     </div>
   );
 }

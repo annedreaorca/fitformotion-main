@@ -29,19 +29,19 @@ export default function Home() {
               <br />
               In Every <span className="red">Motion!</span>
             </h1>
-            <p className="text-zinc-500 mt-6 mb-6 text-center description">
+            <p className="text-zinc-500 mt-6 mb-6 text-center w-[500px] max-[768]:w-full mx-auto description">
               Easily find exercises, customize your routine, and stay motivated
               as you achieve your fitness goals.
             </p>
             <div className="flex gap-4 justify-center max-[768px]:flex-col-reverse max-[768px]:items-center max-[768]:gap-1 mt-6">
-              <Button
+              {/* <Button
                 className="bg-transparent text-white w-[150px] max-[768px]:w-[250px] border-1 border-white"
                 as={Link}
                 href="/profile"
                 size="lg"
               >
                 View Demo
-              </Button>
+              </Button> */}
               <Button
                 className="bg-primary-800 text-white w-[150px] max-[768px]:w-[250px] border-1 border-primary-800"
                 as={Link}

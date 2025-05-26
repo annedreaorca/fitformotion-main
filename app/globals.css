@@ -44,6 +44,10 @@ span.cl-badge.🔒️.cl-internal-qosp7d {
   background-color: #272727 !important;
 }
 
+.dashboard-view-toggle .group[data-selected=true] .group-data-\[selected\=true\]\:text-primary-foreground {
+    background-color: #991b1b !important;
+}
+
 .lbs-cont div div div div input {
   padding-inline-end: 0 !important;
 }

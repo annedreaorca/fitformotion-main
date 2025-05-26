@@ -11,7 +11,7 @@ export default function ProfileActions() {
   const router = useRouter();
 
   return (
-      <Button variant="flat" onClick={() => signOut(() => router.push("/"))}>
+      <Button variant="flat" onClick={() => signOut(() => router.push("/"))} className=" text-left justify-start w-full p-[8px] gap-[12px] text-[16px]">
         <IconLogout /> Sign out
       </Button>
   );

@@ -4,13 +4,17 @@ import { startTour } from "@/components/TourGuide/ProfileGuide";
 import prisma from "@/prisma/prisma";
 import { isProfileComplete } from "@/utils/ProfileCompletion";
 import { currentUser } from "@clerk/nextjs";
-import { IconWalk } from "@tabler/icons-react";
+import { IconSettings, IconUser, IconWalk } from "@tabler/icons-react";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import ProfileActions from "./_components/ProfileActions";
+// import ProfileActions from "./_components/ProfileActions";
 import ProfileHero from "./_components/ProfileHero";
 import ProfileMeasurements from "./_components/ProfileMeasurements";
 import ProfileStats from "./_components/ProfileStats";
+
+import ProfileActions from "@/app/(protected)/profile/_components/ProfileActions";
+import KebabMenu from "@/components/KebabMenu/KebabMenu";
+
 
 // Define the updated structure that matches your components
 interface UserMeasurements {
@@ -39,7 +43,18 @@ export default async function ProfilePage({
   const firstName = user?.firstName || undefined;
   const lastName = user?.lastName || undefined;
   const userImage = user?.imageUrl || undefined;
-
+  const menuItems = [
+    {
+      icon: <IconUser size={22} />,
+      label: "Profile",
+      href: "/profile",
+    },
+    {
+      icon: <IconSettings size={22} />,
+      label: "Settings",
+      href: "/profile/advanced",
+    },
+  ];
   // Calculate profile completion status
   const profileComplete = await isProfileComplete(userId);
   
@@ -159,13 +174,28 @@ export default async function ProfilePage({
         </div>
       )}
 
-      <div className="flex items-center justify-end mb-6">
+      <div className="flex items-center justify-end mb-6 gap-[10px]">
         <button
           onClick={startTour}
           className="p-[5px] bg-zinc-800 text-white rounded-full hover:bg-zinc-700 w-10 h-10 flex items-center justify-center"
         >
           <IconWalk size={22} />
         </button>
+        <KebabMenu
+          items={menuItems}
+          header="Menu"
+          footer={
+            <div className="flex flex-col gap-2 w-full">
+              <div>
+                <h4 className="p-[10px] text-zinc-400">
+                  Other
+                </h4>
+                <ProfileActions />
+              </div>
+            </div>
+          }
+          itemClassName="hover:bg-blue-100"
+        />
       </div>
 
       <div id="profile-hero">
@@ -193,9 +223,9 @@ export default async function ProfilePage({
         userId={userId}
       />
 
-      <div id="profile-actions">
+      {/* <div id="profile-actions">
         <ProfileActions />
-      </div>
+      </div> */}
     </>
   );
 }

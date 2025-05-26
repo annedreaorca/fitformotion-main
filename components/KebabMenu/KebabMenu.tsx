@@ -3,7 +3,7 @@ import { IconDotsVertical } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 
 interface NavItemProps {
-    icon: JSX.Element;
+    icon?: JSX.Element;
     label?: string;
     href?: string;
 }
@@ -39,7 +39,7 @@ export default function KebabMenu({
     kebabClassName = "",
     itemClassName = "",
     buttonLabel = "Kebab Menu",
-    width = "12rem",
+    width = "13rem",
 }: KebabMenuProps) {
     const [isOpen, setIsOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
@@ -72,7 +72,7 @@ export default function KebabMenu({
                 <IconDotsVertical size={24} className="text-black dark:text-white kebab-menu-icon" />
             </button>
 
-            <ul className={`absolute right-0 mt-2 bg-white dark:bg-content1 border border-gray-300 dark:border-zinc-700 rounded-md shadow-lg z-50 px-1 transition-all duration-300 ease-out transform ${
+            <ul className={`absolute right-0 mt-2 bg-white dark:bg-content1 border border-gray-300 dark:border-zinc-700 rounded-md shadow-lg z-50 p-3 transition-all duration-300 ease-out transform ${
                     isOpen ? "opacity-100 max-h-[500px]" : "opacity-0 max-h-0"
                 } ${kebabClassName}`}
                 style={{
@@ -81,7 +81,7 @@ export default function KebabMenu({
                 }}
             >
                 {header && (
-                    <h4 className="border-b border-b-[#cccccc] dark:border-b-zinc-800 p-[10px]">
+                    <h4 className="px-[10px]  pb-[5px] text-zinc-400">
                         {header}
                     </h4>
                 )}
@@ -98,7 +98,7 @@ export default function KebabMenu({
                 </div>
 
                 {footer && (
-                    <div className="flex justify-start border-t dark:border-t-zinc-800 p-[10px]">
+                    <div>
                         {footer}
                     </div>
                 )}
