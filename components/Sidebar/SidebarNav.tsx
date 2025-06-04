@@ -23,8 +23,7 @@ import {
   IconLayoutSidebarLeftExpand,
   IconListSearch,
   IconLock,
-  IconStretching2,
-  IconUser
+  IconStretching2
 } from "@tabler/icons-react";
 
 export default function SidebarNav() {
@@ -60,13 +59,13 @@ export default function SidebarNav() {
           disabled={!profileComplete}
         />
 
-        <NavItem
+        {/* <NavItem
           icon={<IconUser size={22} className="shrink-0" />}
           label="Profile"
           href="/profile"
           active={pathname === "/profile"}
           // Profile page is always accessible
-        />
+        /> */}
 
         <NavItem
           icon={<IconListSearch size={22} className="shrink-0" />}
