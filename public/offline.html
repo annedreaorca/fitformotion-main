@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,12 +12,14 @@
       box-sizing: border-box;
     }
 
-    /* Full-screen container */
+    /* Full-screen container matching your dark theme */
     body, html {
       height: 100%;
-      font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-      color: #333;
+      font-family: 'Alexandria', Arial, sans-serif;
+      background-color: #101010;
+      color: #818181;
+      scroll-behavior: smooth;
+      overscroll-behavior: none;
     }
 
     /* Centered content */
@@ -29,71 +31,203 @@
       height: 100%;
       text-align: center;
       padding: 20px;
+      position: relative;
+      overflow: hidden;
     }
 
-    /* Icon or Image */
+    /* Falling lines animation background matching your existing animation */
+    .falling-lines {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .falling-lines div {
+      position: absolute;
+      top: -100px;
+      width: 1px;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      animation: fall 4s linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+    }
+
+    .falling-lines div:nth-child(1) { left: 10%; animation-delay: 0s; }
+    .falling-lines div:nth-child(2) { left: 20%; animation-delay: 0.5s; }
+    .falling-lines div:nth-child(3) { left: 30%; animation-delay: 1s; }
+    .falling-lines div:nth-child(4) { left: 40%; animation-delay: 1.5s; }
+    .falling-lines div:nth-child(5) { left: 50%; animation-delay: 2s; }
+    .falling-lines div:nth-child(6) { left: 60%; animation-delay: 2.5s; }
+    .falling-lines div:nth-child(7) { left: 70%; animation-delay: 3s; }
+    .falling-lines div:nth-child(8) { left: 80%; animation-delay: 3.5s; }
+    .falling-lines div:nth-child(9) { left: 90%; animation-delay: 4s; }
+
+    /* Content wrapper with entrance animation */
+    .content-wrapper {
+      animation: entrance 0.5s ease-out forwards;
+      max-width: 500px;
+    }
+
+    @keyframes entrance {
+      from {
+        opacity: 0;
+        transform: translateY(-100%);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Icon matching your design system */
     .icon {
       font-size: 80px;
-      margin-bottom: 20px;
-      color: #555;
-    }
-
-    /* Message */
-    h1 {
-      font-size: 2em;
-      margin-bottom: 10px;
-    }
-
-    p {
-      font-size: 1.2em;
       margin-bottom: 30px;
+      color: #991b1b;
+      text-shadow: 0 0 20px rgba(153, 27, 27, 0.3);
     }
 
-    /* Button Styles */
+    /* Heading matching your page headings style */
+    h1 {
+      font-size: 32px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 15px;
+      line-height: 1.2;
+    }
+
+    /* Description matching your p.description style */
+    p {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 26px;
+      color: #818181;
+      margin-bottom: 40px;
+      max-width: 400px;
+    }
+
+    /* Button matching your existing button styles */
     .btn {
-      padding: 10px 20px;
-      font-size: 1em;
-      color: #fff;
-      background-color: #0070f3;
+      padding: 10px 25px;
+      font-size: 15px;
+      color: #ffffff;
+      background-color: #991b1b;
       border: none;
-      border-radius: 5px;
+      border-radius: 100px;
       cursor: pointer;
       text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 400;
     }
 
     .btn:hover {
-      background-color: #005bb5;
+      background-color: #b91037;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(153, 27, 27, 0.3);
     }
 
-    /* Responsive Design */
-    @media (max-width: 600px) {
+    /* Status indicator */
+    .status-indicator {
+      background-color: #991b1b46;
+      padding: 5px 17px;
+      font-size: 14px;
+      color: #ffffff;
+      border: 1px solid #8b191981;
+      border-radius: 100px;
+      font-weight: 400;
+      margin-bottom: 20px;
+      display: inline-block;
+    }
+
+    /* Responsive Design matching your breakpoints */
+    @media screen and (max-width: 768px) {
       h1 {
-        font-size: 1.5em;
+        font-size: 28px;
       }
 
       p {
-        font-size: 1em;
+        font-size: 14px;
+        line-height: 24px;
       }
 
       .icon {
         font-size: 60px;
+        margin-bottom: 20px;
+      }
+
+      .container {
+        padding: 15px;
+      }
+    }
+
+    @media screen and (max-width: 580px) {
+      h1 {
+        font-size: 24px;
       }
 
       .btn {
-        padding: 8px 16px;
-        font-size: 0.9em;
+        padding: 8px 20px;
+        font-size: 14px;
+      }
+    }
+
+    @media screen and (max-width: 410px) {
+      h1 {
+        font-size: 22px;
+        line-height: 28px;
+      }
+      
+      .container {
+        padding: 10px;
       }
     }
   </style>
 </head>
 <body>
+  <!-- Animated background lines -->
+  <div class="falling-lines">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+
   <div class="container">
-    <!-- You can use an icon library like Font Awesome for the icon -->
-    <!-- For simplicity, we'll use a Unicode emoji here -->
-    <div class="icon">📴</div>
-    <h1>You're Offline</h1>
-    <p>It seems you're not connected to the internet. Please check your connection and try again.</p>
-    <a href="/" class="btn">Go to Home</a>
+    <div class="content-wrapper">
+      <div class="status-indicator">Connection Status</div>
+      <div class="icon">📡</div>
+      <h1>You're Offline</h1>
+      <p>It seems you're not connected to the internet. Please check your connection and try again to continue your fitness journey.</p>
+      <a href="/" class="btn">Return to Dashboard</a>
+    </div>
   </div>
 </body>
 </html>
