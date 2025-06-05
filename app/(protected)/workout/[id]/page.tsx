@@ -43,11 +43,13 @@ export default async function StartWorkout({
 
   return (
     <div className="page-container">
-      <div className="flex items-center gap-[8px]">
+      <div className="flex items-center gap-[8px] mb-6">
         <PageHeading title={`Workout:`} />
-        <p className="font-[600] text-[26px] max-[410px]:text-[22px] max text-zinc-800 dark:text-white mb-6">{workout.name}</p>
+        <p className="font-[600] text-[26px] max-[410px]:text-[22px] max text-zinc-800 dark:text-white">
+          {workout.name}
+        </p>
       </div>
-      
+
       <WorkoutManager workout={workout} />
     </div>
   );

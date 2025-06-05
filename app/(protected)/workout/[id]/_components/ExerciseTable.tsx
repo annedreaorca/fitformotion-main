@@ -34,17 +34,17 @@ interface ExerciseTableProps {
     exerciseIndex: number,
     setIndex: number,
     exerciseName: string,
-    isSelected: boolean
+    isSelected: boolean,
   ) => void;
   handleWeightChange: (
     exerciseIndex: number,
     setIndex: number,
-    newValue: number
+    newValue: number,
   ) => void;
   handleRepChange: (
     exerciseIndex: number,
     setIndex: number,
-    newValue: number | null
+    newValue: number | null,
   ) => void;
   showInstructions?: boolean; // New prop to control instructions visibility
   onCloseInstructions?: () => void; // New prop to handle closing instructions
@@ -62,7 +62,7 @@ export default function ExerciseTable({
   handleWeightChange,
   handleRepChange,
   showInstructions = false,
-  onCloseInstructions
+  onCloseInstructions,
 }: ExerciseTableProps) {
   const [instructions, setInstructions] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -70,10 +70,12 @@ export default function ExerciseTable({
   // Fetch instructions when needed
   const fetchInstructions = async () => {
     if (!exerciseDetail.exerciseId) return;
-    
+
     setIsLoading(true);
     try {
-      const response = await fetch(`/api/exercises/${exerciseDetail.exerciseId}/instructions`);
+      const response = await fetch(
+        `/api/exercises/${exerciseDetail.exerciseId}/instructions`,
+      );
       if (response.ok) {
         const data = await response.json();
         setInstructions(data.instructions || []);
@@ -159,7 +161,11 @@ export default function ExerciseTable({
                     }
                   }}
                   onChange={(e) =>
-                    handleRepChange(index, setIndex, Number(e.currentTarget.value))
+                    handleRepChange(
+                      index,
+                      setIndex,
+                      Number(e.currentTarget.value),
+                    )
                   }
                   isDisabled={set.completed}
                 />
@@ -176,7 +182,7 @@ export default function ExerciseTable({
                       index,
                       setIndex,
                       exerciseDetail.exerciseName,
-                      isSelected
+                      isSelected,
                     )
                   }
                 />
@@ -190,15 +196,17 @@ export default function ExerciseTable({
       {showInstructions && (
         <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-50">
           <div
-            className="bg-white dark:bg-gray-800 p-6 border border-gray-300 dark:border-gray-700 rounded-lg shadow-md max-w-xl w-full max-h-[90vh] overflow-y-auto"
+            className="bg-white dark:bg-zinc-800 p-6 border border-gray-300 dark:border-gray-700 rounded-lg shadow-md max-w-xl w-full max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-bold dark:text-white">{exerciseDetail.exerciseName}</h3>
-              <Button 
-                isIconOnly 
-                size="sm" 
-                variant="light" 
+              <h3 className="text-xl font-bold dark:text-white">
+                {exerciseDetail.exerciseName}
+              </h3>
+              <Button
+                isIconOnly
+                size="sm"
+                variant="light"
                 onClick={() => onCloseInstructions && onCloseInstructions()}
                 className="hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full"
               >
@@ -211,7 +219,7 @@ export default function ExerciseTable({
               <div className="flex justify-center mb-2">
                 <Image
                   src={`/images/exercises/${formatExerciseNameForImage(
-                    exerciseDetail.exerciseName
+                    exerciseDetail.exerciseName,
                   )}/images/0.gif`}
                   width={300}
                   height={200}
@@ -226,21 +234,30 @@ export default function ExerciseTable({
               ) : (
                 <>
                   <div>
-                    <h4 className="font-semibold text-lg mb-3 dark:text-white">Instructions</h4>
+                    <h4 className="font-semibold text-lg mb-3 dark:text-white">
+                      Instructions
+                    </h4>
                     {instructions && instructions.length > 0 ? (
                       <ol className="list-decimal list-inside space-y-2 text-sm dark:text-gray-300">
                         {instructions.map((instruction, index) => (
-                          <li key={index} className="mb-2">{instruction}</li>
+                          <li key={index} className="mb-2">
+                            {instruction}
+                          </li>
                         ))}
                       </ol>
                     ) : (
-                      <p className="text-gray-600 dark:text-gray-400">No instructions available.</p>
+                      <p className="text-gray-600 dark:text-gray-400">
+                        No instructions available.
+                      </p>
                     )}
                   </div>
                 </>
               )}
 
-              <Button onClick={() => onCloseInstructions && onCloseInstructions()} className="mt-4">
+              <Button
+                onClick={() => onCloseInstructions && onCloseInstructions()}
+                className="mt-4"
+              >
                 Close
               </Button>
             </div>
