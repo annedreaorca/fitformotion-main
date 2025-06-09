@@ -35,7 +35,7 @@ export default async function AdminDashboard(params: {
       <SearchUsers />
 
       {users.length === 0 && query && (
-        <p className="text-gray-500 mb-4">No users found for "{query}"</p>
+        <p className="text-gray-500 mb-4">No users found for &quot;{query}&quot;</p>
       )}
 
       {users.length === 0 && !query && (
