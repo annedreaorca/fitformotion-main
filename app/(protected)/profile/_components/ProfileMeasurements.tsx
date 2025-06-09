@@ -1,4 +1,3 @@
-//C:\Users\Cjoink\Desktop\fitformotion\app\(protected)\profile\_components\ProfileMeasurements.tsx
 "use client";
 import {
   handleUpdateUserDetails,
