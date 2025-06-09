@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/button";
 import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import { Chip } from "@nextui-org/chip";
-import { IconDownload, IconArrowLeft, IconBarbell } from "@tabler/icons-react";
+import { IconDownload, IconArrowLeft, IconBarbell, IconCheck } from "@tabler/icons-react";
 import { toast } from "sonner";
 import PageHeading from "@/components/PageHeading/PageHeading";
 
@@ -41,6 +41,7 @@ export default function ImportRoutineClient({
   shareId,
 }: ImportRoutineClientProps) {
   const [isImporting, setIsImporting] = useState(false);
+  const [isImported, setIsImported] = useState(false);
   const router = useRouter();
 
   const handleImport = async () => {
@@ -51,8 +52,10 @@ export default function ImportRoutineClient({
       });
 
       if (response.ok) {
+        setIsImported(true);
         toast.success("Routine imported successfully!");
-        router.push("/workout");
+        // Optional: Navigate after a delay
+        // setTimeout(() => router.push("/workout"), 2000);
       } else {
         const error = await response.json();
         toast.error(error.message || "Failed to import routine");
@@ -78,31 +81,54 @@ export default function ImportRoutineClient({
         </Button>
         <PageHeading title="Import Routine" />
         <p className="text-zinc-600 dark:text-zinc-400 mt-2">
-          Preview and import this shared workout routine
+          {isImported 
+            ? "Routine successfully imported to your collection!"
+            : "Preview and import this shared workout routine"
+          }
         </p>
       </div>
 
       <div className="grid gap-6">
-        <Card>
+        <Card className={isImported ? "border-2 border-success" : ""}>
           <CardHeader>
             <div className="flex items-center justify-between w-full">
               <div>
-                <h2 className="text-2xl font-bold">{routine.name}</h2>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-2xl font-bold">{routine.name}</h2>
+                  {isImported && (
+                    <div className="flex items-center gap-1 text-success">
+                      <IconCheck size={20} />
+                      <span className="text-sm font-medium">Imported</span>
+                    </div>
+                  )}
+                </div>
                 {routine.notes && (
                   <p className="text-zinc-600 dark:text-zinc-400 mt-1">
                     {routine.notes}
                   </p>
                 )}
               </div>
-              <Button
-                color="primary"
-                size="lg"
-                onClick={handleImport}
-                isLoading={isImporting}
-                startContent={!isImporting && <IconDownload size={20} />}
-              >
-                {isImporting ? "Importing..." : "Import Routine"}
-              </Button>
+              <div className="flex gap-2">
+                {isImported ? (
+                  <Button
+                    color="primary"
+                    size="lg"
+                    onClick={() => router.push("/workout")}
+                  >
+                    Go to Workouts
+                  </Button>
+                ) : (
+                  <Button
+                    color="primary"
+                    size="lg"
+                    onClick={handleImport}
+                    isLoading={isImporting}
+                    startContent={!isImporting && <IconDownload size={20} />}
+                  >
+                    {isImporting ? "Importing..." : "Import Routine"}
+                  </Button>
+                )}
+              </div>
             </div>
           </CardHeader>
           <CardBody>

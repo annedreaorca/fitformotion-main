@@ -50,19 +50,37 @@ export default function PopupChatbot() {
 
   // Load chat history for existing thread
   const loadChatHistory = async (threadId: string) => {
+    console.log(`Attempting to load chat history for thread: ${threadId}`);
+    
     try {
       const response = await fetch(`/api/chat-history?threadId=${threadId}`);
-      if (response.ok) {
-        const data = await response.json();
-        if (data.messages && data.messages.length > 0) {
-          setMessages(data.messages);
-          return true; // Successfully loaded history
-        }
+      console.log(`Chat history response status: ${response.status}`);
+      
+      if (!response.ok) {
+        console.error(`Failed to load chat history: ${response.status} ${response.statusText}`);
+        return false;
+      }
+      
+      const data = await response.json();
+      console.log("Chat history data:", data);
+      
+      if (data.error) {
+        console.error("Error in chat history response:", data.error);
+        return false;
+      }
+      
+      if (data.messages && Array.isArray(data.messages) && data.messages.length > 0) {
+        console.log(`Successfully loaded ${data.messages.length} messages`);
+        setMessages(data.messages);
+        return true;
+      } else {
+        console.log("No messages found in chat history");
+        return false;
       }
     } catch (error) {
       console.error("Error loading chat history:", error);
+      return false;
     }
-    return false; // No history loaded
   };
 
   // Helper function to check if user should receive auto routine
@@ -93,14 +111,30 @@ export default function PopupChatbot() {
           setIsInitialized(true);
           return;
         } else {
-          // Thread exists but no history loaded, clear the invalid threadId
-          localStorage.removeItem('chatThreadId');
-          setThreadId(null);
+          // Thread exists but no history loaded
+          // Check if this thread should have history (i.e., user has received recommendation)
+          if (status?.hasReceivedRoutineRecommendation) {
+            // User has received recommendation but history failed to load
+            // Don't auto-suggest again, just initialize with welcome message
+            console.log("User has received recommendation, initializing with welcome message");
+            setMessages([
+              { role: "assistant", content: "Hello! How can I help you with your fitness journey today?" },
+            ]);
+            setIsInitialized(true);
+            return;
+          } else {
+            // Thread exists but user hasn't received recommendation yet, clear invalid threadId
+            console.log("Thread exists but no recommendation received, clearing threadId");
+            localStorage.removeItem('chatThreadId');
+            setThreadId(null);
+          }
         }
       }
       
       // Auto-open and request routine if conditions are met
+      // This should only run for truly new users who haven't received a recommendation
       if (shouldReceiveAutoRoutine(status) && !hasAutoOpened) {
+        console.log("Auto-opening for routine recommendation");
         setHasAutoOpened(true);
         setIsOpen(true);
         
@@ -115,6 +149,7 @@ export default function PopupChatbot() {
       } else {
         // Regular initialization with welcome message (only if no existing history and not auto-opening)
         if (!existingThreadId && !shouldReceiveAutoRoutine(status)) {
+          console.log("Regular initialization with welcome message");
           setMessages([
             { role: "assistant", content: "Hello! How can I help you with your fitness journey today?" },
           ]);
