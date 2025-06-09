@@ -13,6 +13,7 @@ import {
   IconInfoCircle,
   IconMenu2,
   IconTrash,
+  IconShare,
 } from "@tabler/icons-react";
 import { toast } from "sonner";
 
@@ -28,6 +29,29 @@ export default function RoutineMenu({ routineId }: { routineId: string }) {
     }
   };
 
+  const handleShare = async (routineId: string) => {
+    try {
+      // Generate a unique share ID if it doesn't exist
+      const response = await fetch(`/api/routines/${routineId}/share`, {
+        method: 'POST',
+      });
+      
+      if (response.ok) {
+        const { shareId } = await response.json();
+        const shareUrl = `${window.location.origin}/import-routine/${shareId}`;
+        
+        // Copy to clipboard
+        await navigator.clipboard.writeText(shareUrl);
+        toast.success("Share link copied to clipboard!");
+      } else {
+        toast.error("Failed to generate share link");
+      }
+    } catch (error) {
+      console.error('Error sharing routine:', error);
+      toast.error("Failed to share routine");
+    }
+  };
+
   const handleAction = (key: string, routineId: string) => {
     if (key === "delete") {
       const confirmDelete = window.confirm(
@@ -38,6 +62,8 @@ export default function RoutineMenu({ routineId }: { routineId: string }) {
       }
     } else if (key === "edit") {
       router.push(`/edit-routine/step-1?id=${routineId}`);
+    } else if (key === "share") {
+      handleShare(routineId);
     }
   };
 
@@ -60,6 +86,9 @@ export default function RoutineMenu({ routineId }: { routineId: string }) {
         <DropdownSection showDivider>
           <DropdownItem startContent={<IconEdit size={20} />} key="edit">
             Edit
+          </DropdownItem>
+          <DropdownItem startContent={<IconShare size={20} />} key="share">
+            Share Routine
           </DropdownItem>
         </DropdownSection>
 

@@ -4,7 +4,7 @@ import prisma from "@/prisma/prisma";
 import { auth } from "@clerk/nextjs";
 import { Button } from "@nextui-org/button";
 import { Prisma, WorkoutPlan } from "@prisma/client";
-import { IconPlus, IconWalk } from "@tabler/icons-react";
+import { IconPlus, IconWalk, IconDownload } from "@tabler/icons-react";
 import Link from "next/link";
 import RoutineCards from "./_components/RoutineCards";
 
@@ -83,6 +83,15 @@ export default async function WorkoutPage() {
           >
             <IconWalk size={22} />
           </button>
+          <Button
+            as={Link}
+            href="/import-routine"
+            color="secondary"
+            className="gap-unit-1"
+            id="import-routine-button"
+          >
+            <IconDownload size={16} /> Import Routine
+          </Button>
           <Button
             as={Link}
             href="/edit-routine/step-1"
