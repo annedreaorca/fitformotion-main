@@ -115,7 +115,7 @@ export default function ImportRoutinePage() {
         <ol className="text-sm text-zinc-600 dark:text-zinc-400 space-y-1">
           <li>1. Get a share URL or ID from someone who shared their routine</li>
           <li>2. Paste it in the field above</li>
-          <li>3. Click "Import Routine" to add it to your routines</li>
+          <li>3. Click &quot;Import Routine&quot; to add it to your routines</li>
         </ol>
       </div>
     </div>
