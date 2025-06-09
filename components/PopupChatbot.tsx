@@ -1,9 +1,9 @@
 //PopupChatbot.tsx
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { MessageCircle, X, Send, Maximize2, Minimize2 } from "lucide-react";
 import { Avatar } from "@nextui-org/avatar";
+import { Maximize2, MessageCircle, Minimize2, Send, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 interface Message {
   role: "user" | "assistant";
@@ -389,44 +389,105 @@ export default function PopupChatbot() {
   );
 
   // Message content component
-  const MessageContent = ({ content }: { content: string }) => {
-    const paragraphs = content.includes('\n\n') 
-      ? content.split(/\n\n+/) 
-      : [content];
-    
-    return (
-      <>
-        {paragraphs.map((paragraph, idx) => {
-          if (paragraph.startsWith('### ')) {
-            return <h3 key={idx} className="font-bold mt-2 mb-1">{paragraph.replace('### ', '')}</h3>;
+const MessageContent = ({ content }: { content: string }) => {
+  const paragraphs = content.includes('\n\n') 
+    ? content.split(/\n\n+/) 
+    : [content];
+  
+  return (
+    <>
+      {paragraphs.map((paragraph, idx) => {
+        // Handle headings (### format)
+        if (paragraph.startsWith('### ')) {
+          return (
+            <h3 key={idx} className="font-bold text-lg mt-3 mb-2 text-black dark:text-white">
+              {paragraph.replace('### ', '')}
+            </h3>
+          );
+        }
+        
+        // Handle subheadings or day headers (Day 1, Day 2, etc.) - also handle **bold** format
+        if (paragraph.match(/^(\*\*)?(\s*)?(Day\s+\d+|Week\s+\d+|Session\s+\d+)/i)) {
+          const cleanText = paragraph.replace(/^\*\*|\*\*$/g, '').trim(); // Remove ** markers
+          return (
+            <h4 key={idx} className="font-semibold text-base mt-4 mb-2 text-gray-800 dark:text-white  pb-1">
+              {cleanText}
+            </h4>
+          );
+        }
+        
+        // Handle bullet points - check if paragraph contains bullet points (both - and * formats)
+        if (paragraph.includes('\n- ') || paragraph.startsWith('- ') || 
+            paragraph.includes('\n* ') || paragraph.startsWith('* ')) {
+          // Split by newlines and process each line
+          const lines = paragraph.split('\n');
+          const bulletItems: string[] = [];
+          let currentItem = '';
+          
+          lines.forEach(line => {
+            if (line.startsWith('- ') || line.startsWith('* ')) {
+              // If we have a current item, push it
+              if (currentItem) {
+                bulletItems.push(currentItem);
+              }
+              // Start new item (remove both '- ' and '* ')
+              currentItem = line.startsWith('- ') ? line.substring(2) : line.substring(2);
+            } else if (line.trim() && currentItem) {
+              // Continuation of current item
+              currentItem += ' ' + line.trim();
+            } else if (line.trim() && !currentItem) {
+              // Non-bullet line, treat as separate item
+              bulletItems.push(line.trim());
+            }
+          });
+          
+          // Don't forget the last item
+          if (currentItem) {
+            bulletItems.push(currentItem);
           }
-          else if (paragraph.startsWith('- ') || paragraph.includes('\n- ')) {
-            const items = paragraph.split('\n- ');
-            return (
-              <ul key={idx} className="list-disc pl-5 my-1">
-                {items.map((item, itemIdx) => (
-                  <li key={itemIdx} 
-                      dangerouslySetInnerHTML={{
-                        __html: itemIdx === 0 ? item.replace(/^- /, '') : item
-                      }}
-                  />
-                ))}
-              </ul>
-            );
-          }
-          else {
-            return <p key={idx} className="mb-2" dangerouslySetInnerHTML={{__html: paragraph}} />;
-          }
-        })}
-      </>
-    );
-  };
+          
+          return (
+            <ul key={idx} className="list-disc pl-6 my-3 space-y-1">
+              {bulletItems.map((item, itemIdx) => (
+                <li key={itemIdx} className="text-sm leading-relaxed text-zinc-800 dark:text-[#c4c4c4]">
+                  <span dangerouslySetInnerHTML={{ __html: item }} />
+                </li>
+              ))}
+            </ul>
+          );
+        }
+        
+        // Handle numbered lists
+        if (paragraph.match(/^\d+\./m)) {
+          const items = paragraph.split(/(?=\d+\.)/);
+          return (
+            <ol key={idx} className="list-decimal pl-6 my-3 space-y-1">
+              {items.filter(item => item.trim()).map((item, itemIdx) => (
+                <li key={itemIdx} className="text-sm leading-relaxed">
+                  <span dangerouslySetInnerHTML={{ 
+                    __html: item.replace(/^\d+\.\s*/, '') 
+                  }} />
+                </li>
+              ))}
+            </ol>
+          );
+        }
+        
+        // Regular paragraphs
+        return (
+          <p key={idx} className="mb-3 text-sm leading-relaxed text-zinc-800 dark:text-[#c4c4c4]" 
+             dangerouslySetInnerHTML={{ __html: paragraph }} />
+        );
+      })}
+    </>
+  );
+};
 
   // Button position classes
   const buttonPositionClass = "fixed bottom-20 right-6 md:bottom-6 z-40";
   const chatPositionClass = isFullscreen 
-    ? "fixed inset-0 z-50" 
-    : "absolute bottom-36 md:bottom-20 right-0 w-80 sm:w-96 h-96";
+    ? "fixed inset-0 z-50 rounded-none" 
+    : "absolute bottom-36 md:bottom-20 right-0 w-80 sm:w-96 h-96 bg-white dark:bg-gray-900";
 
   return (
     <div className={buttonPositionClass}>
@@ -442,7 +503,7 @@ export default function PopupChatbot() {
       {isOpen && (
         <div 
           ref={chatContainerRef}
-          className={`${chatPositionClass} bg-gray-900 rounded-lg shadow-xl flex flex-col overflow-hidden border border-gray-700 transition-all duration-300`}
+          className={`${chatPositionClass} bg-white dark:bg-gray-900 rounded-lg shadow-xl flex flex-col overflow-hidden border-zinc-200 dark:border-zinc-800 transition-all duration-300`}
         >
           {/* Header */}
           <div className="bg-red-900 text-white px-4 py-3 flex justify-between items-center">
@@ -476,7 +537,7 @@ export default function PopupChatbot() {
           </div>
 
           {/* Messages container */}
-          <div className="flex-1 p-4 overflow-y-auto bg-gray-950">
+          <div className="flex-1 p-4 overflow-y-auto bg-[#f1f1f1] dark:bg-gray-950">
             {messages.map((msg, index) => (
               <div
                 key={index}
@@ -494,7 +555,7 @@ export default function PopupChatbot() {
                   className={`max-w-[80%] px-4 py-2 rounded-lg ${
                     msg.role === "user" 
                       ? "bg-red-800 text-white rounded-tr-none" 
-                      : "bg-gray-800 text-white rounded-tl-none"
+                      : "bg-white dark:bg-gray-800 text-zinc-950 dark:text-white rounded-tl-none"
                   }`}
                 >
                   {msg.role === "assistant" ? (
@@ -526,7 +587,7 @@ export default function PopupChatbot() {
                     <ChatbotIcon />
                   </div>
                 </div>
-                <div className="max-w-[80%] px-4 py-2 rounded-lg bg-gray-800 text-white rounded-tl-none">
+                <div className="max-w-[80%] px-4 py-2 rounded-lg bg-white dark:bg-gray-800 text-zinc-950 dark:text-white rounded-tl-none">
                   <MessageContent content={displayedText} />
                   <span className="inline-block w-1 h-4 bg-gray-400 ml-1 animate-pulse"></span>
                 </div>
@@ -537,23 +598,23 @@ export default function PopupChatbot() {
           </div>
 
           {/* Input area */}
-          <div className="border-t border-gray-700 p-3 bg-gray-900 flex">
+          <div className=" p-3 bg-[#f1f1f1] dark:bg-gray-900 flex">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && !isLoading && !isTyping && handleSendMessage()}
               placeholder="Type your message..."
-              className="flex-1 bg-gray-800 text-white border border-gray-700 rounded-l-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-red-700"
+              className="flex-1 bg-white dark:bg-gray-800 font-[300] text-zinc-950 dark:text-white border border-zinc-200 dark:border-zinc-800 rounded-l-md px-3 py-2 focus:outline-none"
               disabled={isLoading || isTyping}
             />
             <button
               onClick={handleSendMessage}
               disabled={isLoading || isTyping || !input.trim()}
-              className={`px-4 rounded-r-md ${
+              className={`px-4 rounded-r-md bg-zinc-600  ${
                 isLoading || isTyping || !input.trim()
-                  ? "bg-gray-700 cursor-not-allowed" 
-                  : "bg-red-800 hover:bg-red-700"
+                  ? "opacity-20 cursor-not-allowed" 
+                  : "bg-[#991b1c] opacity-100 hover:bg-red-900"
               } text-white transition-colors`}
             >
               {isLoading ? (

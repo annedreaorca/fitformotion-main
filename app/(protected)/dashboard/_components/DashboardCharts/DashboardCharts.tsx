@@ -1,15 +1,15 @@
-import { Suspense } from "react";
 import {
   IconBarbell,
   IconChartAreaFilled,
   IconChartBar,
   IconChartRadar
 } from "@tabler/icons-react";
+import { Suspense } from "react";
+import DashboardAverageWorkoutTime from "./DashboardAverageWorkoutTime";
 import DashboardChartCard from "./DashboardChartCard";
+import DashboardChartExerciseMuscleDistribution from "./DashboardChartExerciseMuscleDistribution";
 import DashboardChartWeightProgress from "./DashboardChartWeightProgress";
 import DashboardChartWorkoutFrequency from "./DashboardChartWorkoutFrequency";
-import DashboardChartExerciseMuscleDistribution from "./DashboardChartExerciseMuscleDistribution";
-import DashboardAverageWorkoutTime from "./DashboardAverageWorkoutTime";
 
 export default function DashboardCharts({
   chart1DateRange,
@@ -30,7 +30,7 @@ export default function DashboardCharts({
 
   // Only render charts in advanced view
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 mb-3">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-3">
       <DashboardChartCard
         icon={<IconChartBar className="text-primary" />}
         title="Workout Frequency"
