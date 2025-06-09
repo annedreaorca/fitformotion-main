@@ -5,6 +5,7 @@ import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useUser } from "@clerk/nextjs";
 
 interface NavItemProps {
   icon: JSX.Element;
@@ -23,13 +24,17 @@ import {
   IconLayoutSidebarLeftExpand,
   IconListSearch,
   IconLock,
-  IconStretching2
+  IconStretching2,
+  IconUsers,
+  IconUserCog
 } from "@tabler/icons-react";
 
 export default function SidebarNav() {
   const { sidebarCollapse, toggleSidebar } = useSidebarToggleContext();
   const pathname = usePathname();
   const [profileComplete, setProfileComplete] = useState(true);
+  const [userRole, setUserRole] = useState<string>("");
+  const { user } = useUser();
 
   useEffect(() => {
     // Fetch profile completion status
@@ -48,16 +53,45 @@ export default function SidebarNav() {
     checkProfileCompletion();
   }, []);
 
+  useEffect(() => {
+    // Get user role from Clerk user metadata
+    if (user) {
+      const role = user.publicMetadata?.role as string;
+      setUserRole(role || "member");
+    }
+  }, [user]);
+
   return (
     <div className="px-5">
       <ul className="text-sm">
+        {/* Default Dashboard for all users */}
         <NavItem
           icon={<IconLayoutDashboard size={22} className="shrink-0" />}
           label="Dashboard"
           href="/dashboard"
           active={pathname === "/dashboard"}
-          disabled={!profileComplete}
+          disabled={!profileComplete && userRole === "member"}
         />
+
+        {/* Users link for Coach */}
+        {userRole === "coach" && (
+          <NavItem
+            icon={<IconUsers size={22} className="shrink-0" />}
+            label="Users"
+            href="/coach-users"
+            active={pathname === "/coach-users"}
+          />
+        )}
+
+        {/* Admin Dashboard */}
+        {userRole === "admin" && (
+          <NavItem
+            icon={<IconUserCog size={22} className="shrink-0" />}
+            label="Users"
+            href="/admin-users"
+            active={pathname === "/admin-users"}
+          />
+        )}
 
         {/* <NavItem
           icon={<IconUser size={22} className="shrink-0" />}
@@ -72,7 +106,7 @@ export default function SidebarNav() {
           label="Browse Exercises"
           href="/exercises"
           active={pathname === "/exercises"}
-          disabled={!profileComplete}
+          disabled={!profileComplete && userRole === "member"}
         />
 
         <NavItem
@@ -80,7 +114,7 @@ export default function SidebarNav() {
           label="Start Workout"
           href="/workout"
           active={pathname.startsWith("/workout")}
-          disabled={!profileComplete}
+          disabled={!profileComplete && userRole === "member"}
         />
 
         <NavItem
@@ -88,7 +122,7 @@ export default function SidebarNav() {
           label="Workout History"
           href="/activity"
           active={pathname === "/activity"}
-          disabled={!profileComplete}
+          disabled={!profileComplete && userRole === "member"}
         />
 
         <NavItem
@@ -96,16 +130,15 @@ export default function SidebarNav() {
           label="My Physique"
           href="/gallery"
           active={pathname.startsWith("/gallery")}
-          disabled={!profileComplete}
+          disabled={!profileComplete && userRole === "member"}
         />
 
-        
         <NavItem
           icon={<IconStretching2 size={22} className="shrink-0" />}
           label="Coaches"
           href="/coaches"
           active={pathname.startsWith("/coaches")}
-          disabled={!profileComplete}
+          disabled={!profileComplete && userRole === "member"}
         />
         
         <SidebarToggle />
