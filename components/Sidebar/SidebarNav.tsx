@@ -1,11 +1,11 @@
 "use client";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher/ThemeSwitcher";
 import { useSidebarToggleContext } from "@/contexts/SidebarToggleContext";
+import { useUser } from "@clerk/nextjs";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useUser } from "@clerk/nextjs";
 
 interface NavItemProps {
   icon: JSX.Element;
@@ -25,8 +25,8 @@ import {
   IconListSearch,
   IconLock,
   IconStretching2,
-  IconUsers,
-  IconUserCog
+  IconUserCog,
+  IconUsers
 } from "@tabler/icons-react";
 
 export default function SidebarNav() {
@@ -143,13 +143,13 @@ export default function SidebarNav() {
           disabled={!profileComplete && userRole === "member"}
         />
 
-        <NavItem
+        {/* <NavItem
           icon={<IconStretching2 size={22} className="shrink-0" />}
           label="Coaches"
           href="/coaches"
           active={pathname.startsWith("/coaches")}
           disabled={!profileComplete && userRole === "member"}
-        />
+        /> */}
         
         <SidebarToggle />
 

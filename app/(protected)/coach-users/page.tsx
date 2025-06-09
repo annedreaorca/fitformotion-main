@@ -1,10 +1,9 @@
-import { redirect } from "next/navigation";
-import { checkRole } from "@/utils/roles";
-import { SearchUsers } from "./_search-users";
-import { clerkClient } from "@clerk/nextjs";
-import { currentUser } from "@clerk/nextjs";
 import PageHeading from "@/components/PageHeading/PageHeading";
+import { checkRole } from "@/utils/roles";
+import { clerkClient, currentUser } from "@clerk/nextjs";
 import { User } from "@nextui-org/user";
+import { redirect } from "next/navigation";
+import { SearchUsers } from "./_search-users";
 
 export default async function CoachDashboard(params: {
   searchParams: { search?: string };
@@ -47,9 +46,9 @@ export default async function CoachDashboard(params: {
   });
 
   return (
-    <>
+    <div className="page-container">
       <PageHeading title="My Members" />
-      <p className="mb-3">
+      <p className="mt-3 mb-6">
         View and manage members assigned to you. {users.length > 0 ? `You have ${users.length} assigned member${users.length === 1 ? '' : 's'}.` : ''}
       </p>
       
@@ -93,6 +92,6 @@ export default async function CoachDashboard(params: {
           </ul>
         </>
       )}
-    </>
+    </div>
   );
 }
