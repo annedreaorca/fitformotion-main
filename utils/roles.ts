@@ -1,3 +1,4 @@
+// utils/roles.ts (Updated)
 import { Roles } from "@/types/globals";
 import { currentUser } from "@clerk/nextjs";
 
@@ -17,6 +18,16 @@ export const isAdmin = async () => {
 // Helper function to check if user is coach
 export const isCoach = async () => {
   return await checkRole("coach");
+};
+
+// Helper function to check if user is member (or has no role - default member)
+export const isMember = async () => {
+  const user = await currentUser();
+  if (!user) return false;
+  
+  const role = user.publicMetadata?.role as string;
+  // User is a member if they have no role or explicit "member" role
+  return !role || role === "member";
 };
 
 // Helper function to check if user has elevated permissions (admin or coach)

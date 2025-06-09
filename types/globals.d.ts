@@ -1,7 +1,8 @@
+// types/globals.d.ts (Updated)
 export {};
 
 // Create a type for the roles
-export type Roles = "admin" | "coach";
+export type Roles = "admin" | "coach" | "member";
 
 declare global {
   interface CustomJwtSessionClaims {
@@ -10,6 +11,8 @@ declare global {
     };
     publicMetadata: {
       role?: Roles;
+      coachId?: string;
+      coachName?: string;
     };
   }
 }

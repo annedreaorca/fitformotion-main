@@ -83,7 +83,17 @@ export default function SidebarNav() {
           />
         )}
 
-        {/* Admin Dashboard */}
+        {/* Select Coach for Members*/}
+        {userRole === "member" && (
+          <NavItem
+            icon={<IconStretching2 size={22} className="shrink-0" />}
+            label="Coaches"
+            href="/select-coach"
+            active={pathname === "/select-coach"}
+          />
+        )}
+
+        {/* Users link for Admin */}
         {userRole === "admin" && (
           <NavItem
             icon={<IconUserCog size={22} className="shrink-0" />}
