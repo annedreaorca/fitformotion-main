@@ -55,9 +55,9 @@ export default async function CoachDashboard(params: {
       
       {users.length === 0 ? (
         <div className="text-center py-8">
-          <p className="text-gray-500 mb-2">You don't have any assigned members yet.</p>
+          <p className="text-gray-500 mb-2">You don&apos;t have any assigned members yet.</p>
           <p className="text-sm text-gray-400">
-            Members can select you as their coach from the "Select Coach" page.
+            Members can select you as their coach from the &apos;Select Coach&apos; page.
           </p>
         </div>
       ) : (
