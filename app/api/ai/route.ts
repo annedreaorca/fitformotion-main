@@ -1,4 +1,4 @@
-// /app\api\ai\route.ts
+// /app/api/ai/route.ts
 import OpenAI from "openai";
 import { NextRequest, NextResponse } from "next/server";
 import { getAuth } from "@clerk/nextjs/server";
@@ -39,7 +39,7 @@ async function waitForRunCompletion(runId: string, threadId: string) {
 
 export async function POST(req: NextRequest) {
   try {
-    const input: { message: string; threadId?: string } = await req.json();
+    const input: { message: string; threadId?: string; isAutoRoutineRequest?: boolean } = await req.json();
     
     // Get the authenticated user
     const { userId } = getAuth(req);
@@ -51,9 +51,9 @@ export async function POST(req: NextRequest) {
     let userData = null;
     try {
       userData = await prisma.userInfo.findUnique({
-        where: { userId: userId }, // Changed from clerkId to userId
+        where: { userId: userId },
         include: {
-          userWeights: true, // Include the actual related model
+          userWeights: true,
         }
       });
     } catch (error) {
@@ -127,6 +127,18 @@ Please use this information to provide personalized fitness advice and workout r
       .map((content) => content.type === "text" ? content.text.value : null)
       .filter(Boolean)
       .join(" ");
+
+    // If this was an auto routine request, mark the user as having received a recommendation
+    if (input.isAutoRoutineRequest && userData) {
+      try {
+        await prisma.userInfo.update({
+          where: { userId: userId },
+          data: { hasReceivedRoutineRecommendation: true }
+        });
+      } catch (error) {
+        console.error("Error updating routine recommendation status:", error);
+      }
+    }
 
     return NextResponse.json({ 
       content: messageContent,

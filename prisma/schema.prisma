@@ -8,19 +8,20 @@ datasource db {
 }
 
 model UserInfo {
-  id               String           @id @default(uuid())
-  userId           String           @unique
-  height           Float?
-  weight           Float?
-  subscriptionType String           @default("free")
-  experienceLevel  ExperienceLevel?
-  fitnessGoals     String?
-  sessionTime      Int?
-  weeklySession    Int?
-  birthdate        DateTime?
-  userWeights      UserWeight[]
-  isNewUser        Boolean          @default(true)
-  hasSeenWizard    Boolean          @default(false) // New field to track wizard status
+  id                               String           @id @default(uuid())
+  userId                           String           @unique
+  height                           Float?
+  weight                           Float?
+  subscriptionType                 String           @default("free")
+  experienceLevel                  ExperienceLevel?
+  fitnessGoals                     String?
+  sessionTime                      Int?
+  weeklySession                    Int?
+  birthdate                        DateTime?
+  userWeights                      UserWeight[]
+  isNewUser                        Boolean          @default(true)
+  hasSeenWizard                    Boolean          @default(false) // New field to track wizard status
+  hasReceivedRoutineRecommendation Boolean          @default(false)
 }
 
 model UserWeight {

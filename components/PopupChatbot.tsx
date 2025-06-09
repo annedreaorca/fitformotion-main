@@ -13,6 +13,7 @@ interface Message {
 interface ProfileStatus {
   isComplete: boolean;
   hasSeenWizard: boolean;
+  hasReceivedRoutineRecommendation?: boolean;
 }
 
 export default function PopupChatbot() {
@@ -28,7 +29,6 @@ export default function PopupChatbot() {
   const [threadId, setThreadId] = useState<string | null>(null);
   const [profileStatus, setProfileStatus] = useState<ProfileStatus | null>(null);
   const [hasAutoOpened, setHasAutoOpened] = useState(false);
-  const [hasRequestedRoutine, setHasRequestedRoutine] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -65,6 +65,13 @@ export default function PopupChatbot() {
     return false; // No history loaded
   };
 
+  // Helper function to check if user should receive auto routine
+  const shouldReceiveAutoRoutine = (status: ProfileStatus | null) => {
+    return status?.isComplete && 
+           status?.hasSeenWizard && 
+           !status?.hasReceivedRoutineRecommendation;
+  };
+
   // Initialize chat when component mounts
   useEffect(() => {
     const initializeChat = async () => {
@@ -72,35 +79,29 @@ export default function PopupChatbot() {
       
       const status = await checkProfileCompletion();
       
-      // Check if there's an existing threadId in memory
-      const existingThreadId = sessionStorage.getItem('chatThreadId');
-      const existingHasRequestedRoutine = sessionStorage.getItem('hasRequestedRoutine') === 'true';
+      // Check if there's an existing threadId in localStorage
+      const existingThreadId = localStorage.getItem('chatThreadId');
       
       if (existingThreadId) {
         setThreadId(existingThreadId);
-        setHasRequestedRoutine(existingHasRequestedRoutine);
         
         // Try to load existing chat history
         const historyLoaded = await loadChatHistory(existingThreadId);
         
         if (historyLoaded) {
-          // History was loaded, don't auto-request routine again
+          // History was loaded, don't auto-open
           setIsInitialized(true);
           return;
         } else {
           // Thread exists but no history loaded, clear the invalid threadId
-          sessionStorage.removeItem('chatThreadId');
-          sessionStorage.removeItem('hasRequestedRoutine');
+          localStorage.removeItem('chatThreadId');
           setThreadId(null);
-          setHasRequestedRoutine(false);
         }
       }
       
-      // Only auto-open and request routine if BOTH profile is complete AND wizard has been seen
-      // AND we haven't already requested a routine successfully
-      if (status?.isComplete && status?.hasSeenWizard && !hasAutoOpened && !hasRequestedRoutine) {
+      // Auto-open and request routine if conditions are met
+      if (shouldReceiveAutoRoutine(status) && !hasAutoOpened) {
         setHasAutoOpened(true);
-        setHasRequestedRoutine(true);
         setIsOpen(true);
         
         // Set initial message asking for routine recommendation
@@ -113,7 +114,7 @@ export default function PopupChatbot() {
         }, 2000); // Wait 2 seconds before auto-requesting
       } else {
         // Regular initialization with welcome message (only if no existing history and not auto-opening)
-        if (!existingThreadId && !(status?.isComplete && status?.hasSeenWizard)) {
+        if (!existingThreadId && !shouldReceiveAutoRoutine(status)) {
           setMessages([
             { role: "assistant", content: "Hello! How can I help you with your fitness journey today?" },
           ]);
@@ -124,29 +125,25 @@ export default function PopupChatbot() {
     };
 
     initializeChat();
-  }, [isInitialized, hasAutoOpened, hasRequestedRoutine]);
+  }, [isInitialized, hasAutoOpened]);
 
-  // Store threadId in sessionStorage when it changes
+  // Store threadId in localStorage when it changes
   useEffect(() => {
     if (threadId) {
-      sessionStorage.setItem('chatThreadId', threadId);
+      localStorage.setItem('chatThreadId', threadId);
     }
   }, [threadId]);
 
   // Re-check profile status when component becomes visible (in case user completes wizard in another tab/component)
   useEffect(() => {
     const handleVisibilityChange = async () => {
-      if (!document.hidden && !hasRequestedRoutine && isInitialized) {
+      if (!document.hidden && isInitialized && !hasAutoOpened) {
         const status = await checkProfileCompletion();
         
-        // Check if user has now completed both profile and wizard
-        if (status?.isComplete && status?.hasSeenWizard && !hasAutoOpened) {
+        // Check if user has now completed both profile and wizard and hasn't received recommendation
+        if (shouldReceiveAutoRoutine(status)) {
           setHasAutoOpened(true);
-          setHasRequestedRoutine(true);
           setIsOpen(true);
-          
-          // Store that we've requested routine
-          sessionStorage.setItem('hasRequestedRoutine', 'true');
           
           // Clear existing messages and set welcome message
           const welcomeMessage = "Welcome! I see you've completed your profile and introduction. Let me create a personalized workout routine for you based on your information.";
@@ -162,9 +159,9 @@ export default function PopupChatbot() {
 
     document.addEventListener('visibilitychange', handleVisibilityChange);
     return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
-  }, [hasAutoOpened, hasRequestedRoutine, isInitialized]);
+  }, [hasAutoOpened, isInitialized]);
 
-  // Auto-request routine when profile is complete AND wizard is seen
+  // Auto-request routine when profile is complete AND wizard is seen AND not recommended before
   const handleAutoRoutineRequest = async () => {
     const routineRequest = "Please create a personalized workout routine for me based on my profile information.";
     
@@ -179,7 +176,8 @@ export default function PopupChatbot() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
           message: routineRequest,
-          threadId: threadId
+          threadId: threadId,
+          isAutoRoutineRequest: true // Flag to mark in database
         }),
       });
 
@@ -193,13 +191,16 @@ export default function PopupChatbot() {
         setThreadId(data.threadId);
       }
       
-      // Store that we've successfully requested routine after getting threadId
-      sessionStorage.setItem('hasRequestedRoutine', 'true');
-      
       const formattedContent = formatResponseText(data.content);
       
       // Start typing effect
       startTypingAnimation(formattedContent);
+      
+      // UPDATE: Update local profile status to reflect that recommendation has been given
+      setProfileStatus(prev => prev ? {
+        ...prev,
+        hasReceivedRoutineRecommendation: true
+      } : null);
       
     } catch (error) {
       console.error("Error getting routine recommendation:", error);
@@ -207,10 +208,6 @@ export default function PopupChatbot() {
         ...prev,
         { role: "assistant", content: "Sorry, I couldn't generate your routine recommendation right now. Please try asking me directly!" },
       ]);
-      
-      // Don't mark as requested if it failed
-      sessionStorage.removeItem('hasRequestedRoutine');
-      setHasRequestedRoutine(false);
     } finally {
       setIsLoading(false);
     }
@@ -360,11 +357,9 @@ export default function PopupChatbot() {
       setCharIndex(0);
       
       setThreadId(null);
-      setHasRequestedRoutine(false);
       
-      // Clear sessionStorage
-      sessionStorage.removeItem('chatThreadId');
-      sessionStorage.removeItem('hasRequestedRoutine');
+      // Clear localStorage
+      localStorage.removeItem('chatThreadId');
       
       setMessages([
         { role: "assistant", content: "Hello! How can I help you with your fitness journey today?" },
@@ -375,6 +370,14 @@ export default function PopupChatbot() {
   // Toggle fullscreen mode
   const toggleFullscreen = () => {
     setIsFullscreen(!isFullscreen);
+  };
+
+  // Handle Enter key press in input
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
   };
 
   // ChatBot icon SVG
@@ -389,99 +392,99 @@ export default function PopupChatbot() {
   );
 
   // Message content component
-const MessageContent = ({ content }: { content: string }) => {
-  const paragraphs = content.includes('\n\n') 
-    ? content.split(/\n\n+/) 
-    : [content];
-  
-  return (
-    <>
-      {paragraphs.map((paragraph, idx) => {
-        // Handle headings (### format)
-        if (paragraph.startsWith('### ')) {
-          return (
-            <h3 key={idx} className="font-bold text-lg mt-3 mb-2 text-black dark:text-white">
-              {paragraph.replace('### ', '')}
-            </h3>
-          );
-        }
-        
-        // Handle subheadings or day headers (Day 1, Day 2, etc.) - also handle **bold** format
-        if (paragraph.match(/^(\*\*)?(\s*)?(Day\s+\d+|Week\s+\d+|Session\s+\d+)/i)) {
-          const cleanText = paragraph.replace(/^\*\*|\*\*$/g, '').trim(); // Remove ** markers
-          return (
-            <h4 key={idx} className="font-semibold text-base mt-4 mb-2 text-gray-800 dark:text-white  pb-1">
-              {cleanText}
-            </h4>
-          );
-        }
-        
-        // Handle bullet points - check if paragraph contains bullet points (both - and * formats)
-        if (paragraph.includes('\n- ') || paragraph.startsWith('- ') || 
-            paragraph.includes('\n* ') || paragraph.startsWith('* ')) {
-          // Split by newlines and process each line
-          const lines = paragraph.split('\n');
-          const bulletItems: string[] = [];
-          let currentItem = '';
-          
-          lines.forEach(line => {
-            if (line.startsWith('- ') || line.startsWith('* ')) {
-              // If we have a current item, push it
-              if (currentItem) {
-                bulletItems.push(currentItem);
-              }
-              // Start new item (remove both '- ' and '* ')
-              currentItem = line.startsWith('- ') ? line.substring(2) : line.substring(2);
-            } else if (line.trim() && currentItem) {
-              // Continuation of current item
-              currentItem += ' ' + line.trim();
-            } else if (line.trim() && !currentItem) {
-              // Non-bullet line, treat as separate item
-              bulletItems.push(line.trim());
-            }
-          });
-          
-          // Don't forget the last item
-          if (currentItem) {
-            bulletItems.push(currentItem);
+  const MessageContent = ({ content }: { content: string }) => {
+    const paragraphs = content.includes('\n\n') 
+      ? content.split(/\n\n+/) 
+      : [content];
+    
+    return (
+      <>
+        {paragraphs.map((paragraph, idx) => {
+          // Handle headings (### format)
+          if (paragraph.startsWith('### ')) {
+            return (
+              <h3 key={idx} className="font-bold text-lg mt-3 mb-2 text-black dark:text-white">
+                {paragraph.replace('### ', '')}
+              </h3>
+            );
           }
           
+          // Handle subheadings or day headers (Day 1, Day 2, etc.) - also handle **bold** format
+          if (paragraph.match(/^(\*\*)?(\s*)?(Day\s+\d+|Week\s+\d+|Session\s+\d+)/i)) {
+            const cleanText = paragraph.replace(/^\*\*|\*\*$/g, '').trim(); // Remove ** markers
+            return (
+              <h4 key={idx} className="font-semibold text-base mt-4 mb-2 text-gray-800 dark:text-white pb-1">
+                {cleanText}
+              </h4>
+            );
+          }
+          
+          // Handle bullet points - check if paragraph contains bullet points (both - and * formats)
+          if (paragraph.includes('\n- ') || paragraph.startsWith('- ') || 
+              paragraph.includes('\n* ') || paragraph.startsWith('* ')) {
+            // Split by newlines and process each line
+            const lines = paragraph.split('\n');
+            const bulletItems: string[] = [];
+            let currentItem = '';
+            
+            lines.forEach(line => {
+              if (line.startsWith('- ') || line.startsWith('* ')) {
+                // If we have a current item, push it
+                if (currentItem) {
+                  bulletItems.push(currentItem);
+                }
+                // Start new item (remove both '- ' and '* ')
+                currentItem = line.startsWith('- ') ? line.substring(2) : line.substring(2);
+              } else if (line.trim() && currentItem) {
+                // Continuation of current item
+                currentItem += ' ' + line.trim();
+              } else if (line.trim() && !currentItem) {
+                // Non-bullet line, treat as separate item
+                bulletItems.push(line.trim());
+              }
+            });
+            
+            // Don't forget the last item
+            if (currentItem) {
+              bulletItems.push(currentItem);
+            }
+            
+            return (
+              <ul key={idx} className="list-disc pl-6 my-3 space-y-1">
+                {bulletItems.map((item, itemIdx) => (
+                  <li key={itemIdx} className="text-sm leading-relaxed text-zinc-800 dark:text-[#c4c4c4]">
+                    <span dangerouslySetInnerHTML={{ __html: item }} />
+                  </li>
+                ))}
+              </ul>
+            );
+          }
+          
+          // Handle numbered lists
+          if (paragraph.match(/^\d+\./m)) {
+            const items = paragraph.split(/(?=\d+\.)/);
+            return (
+              <ol key={idx} className="list-decimal pl-6 my-3 space-y-1">
+                {items.filter(item => item.trim()).map((item, itemIdx) => (
+                  <li key={itemIdx} className="text-sm leading-relaxed">
+                    <span dangerouslySetInnerHTML={{ 
+                      __html: item.replace(/^\d+\.\s*/, '') 
+                    }} />
+                  </li>
+                ))}
+              </ol>
+            );
+          }
+          
+          // Regular paragraphs
           return (
-            <ul key={idx} className="list-disc pl-6 my-3 space-y-1">
-              {bulletItems.map((item, itemIdx) => (
-                <li key={itemIdx} className="text-sm leading-relaxed text-zinc-800 dark:text-[#c4c4c4]">
-                  <span dangerouslySetInnerHTML={{ __html: item }} />
-                </li>
-              ))}
-            </ul>
+            <p key={idx} className="mb-3 text-sm leading-relaxed text-zinc-800 dark:text-[#c4c4c4]" 
+               dangerouslySetInnerHTML={{ __html: paragraph }} />
           );
-        }
-        
-        // Handle numbered lists
-        if (paragraph.match(/^\d+\./m)) {
-          const items = paragraph.split(/(?=\d+\.)/);
-          return (
-            <ol key={idx} className="list-decimal pl-6 my-3 space-y-1">
-              {items.filter(item => item.trim()).map((item, itemIdx) => (
-                <li key={itemIdx} className="text-sm leading-relaxed">
-                  <span dangerouslySetInnerHTML={{ 
-                    __html: item.replace(/^\d+\.\s*/, '') 
-                  }} />
-                </li>
-              ))}
-            </ol>
-          );
-        }
-        
-        // Regular paragraphs
-        return (
-          <p key={idx} className="mb-3 text-sm leading-relaxed text-zinc-800 dark:text-[#c4c4c4]" 
-             dangerouslySetInnerHTML={{ __html: paragraph }} />
-        );
-      })}
-    </>
-  );
-};
+        })}
+      </>
+    );
+  };
 
   // Button position classes
   const buttonPositionClass = "fixed bottom-20 right-6 md:bottom-6 z-40";
@@ -594,34 +597,44 @@ const MessageContent = ({ content }: { content: string }) => {
               </div>
             )}
             
+            {/* Loading indicator */}
+            {isLoading && !isTyping && (
+              <div className="mb-4 flex justify-start">
+                <div className="mr-2 flex-shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-red-800 flex items-center justify-center text-white">
+                    <ChatbotIcon />
+                  </div>
+                </div>
+                <div className="max-w-[80%] px-4 py-2 rounded-lg bg-white dark:bg-gray-800 text-zinc-950 dark:text-white rounded-tl-none">
+                  <div className="flex items-center space-x-1">
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  </div>
+                </div>
+              </div>
+            )}
+            
             <div ref={messagesEndRef} />
           </div>
 
           {/* Input area */}
-          <div className=" p-3 bg-[#f1f1f1] dark:bg-gray-900 flex">
+          <div className="p-3 bg-[#f1f1f1] dark:bg-gray-900 flex">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && !isLoading && !isTyping && handleSendMessage()}
+              onKeyPress={handleKeyPress}
               placeholder="Type your message..."
-              className="flex-1 bg-white dark:bg-gray-800 font-[300] text-zinc-950 dark:text-white border border-zinc-200 dark:border-zinc-800 rounded-l-md px-3 py-2 focus:outline-none"
               disabled={isLoading || isTyping}
+              className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-red-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white disabled:opacity-50"
             />
             <button
               onClick={handleSendMessage}
               disabled={isLoading || isTyping || !input.trim()}
-              className={`px-4 rounded-r-md bg-zinc-600  ${
-                isLoading || isTyping || !input.trim()
-                  ? "opacity-20 cursor-not-allowed" 
-                  : "bg-[#991b1c] opacity-100 hover:bg-red-900"
-              } text-white transition-colors`}
+              className="px-4 py-2 bg-red-800 text-white rounded-r-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
-              {isLoading ? (
-                <div className="w-5 h-5 border-t-2 border-white rounded-full animate-spin" />
-              ) : (
-                <Send size={18} />
-              )}
+              <Send size={20} />
             </button>
           </div>
         </div>
