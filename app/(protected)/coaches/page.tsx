@@ -138,7 +138,7 @@ export default function CoachesPage() {
 
       <section>
         <div className="flex flex-col gap-[40px] animate__animated animate__fadeInUp duration-1000">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {coaches.map((coach, index) => (
               <CoachCard
                 key={index}
