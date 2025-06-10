@@ -422,7 +422,7 @@ async function UserRecentActivity({ userId }: { userId: string }) {
               <div className="flex justify-between items-start mb-3">
                 <div>
                   <h4 className="font-medium text-sm">
-                    {workout.WorkoutPlan?.name || "Custom Workout"}
+                    {workout.WorkoutPlan?.name ?? "Custom Workout"}
                   </h4>
                   <p className="text-xs text-gray-500">
                     {format(new Date(workout.date), "MMM d, yyyy")} • {format(new Date(workout.createdAt), "h:mm a")}
