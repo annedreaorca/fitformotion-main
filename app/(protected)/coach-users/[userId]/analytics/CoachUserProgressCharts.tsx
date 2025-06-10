@@ -397,7 +397,7 @@ async function UserRecentActivity({ userId }: { userId: string }) {
         </div>
         <div className="text-center py-8 text-gray-500">
           <p>No workout activity found</p>
-          <p className="text-sm">Member hasn't completed any workouts yet</p>
+          <p className="text-sm">Member hasn&apos;t completed any workouts yet</p>
         </div>
       </div>
     );
