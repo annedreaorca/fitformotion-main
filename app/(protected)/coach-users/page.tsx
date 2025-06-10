@@ -8,7 +8,7 @@ import { SearchUsers } from "./_search-users";
 import { getUserAnalytics, getUserRecentActivity } from "./actions";
 import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import { Button } from "@nextui-org/button";
-import { IconCalendarWeek, IconWeight, IconHourglass, IconHeartFilled, IconChartBar } from "@tabler/icons-react";
+import { IconCalendarWeek, IconWeight, IconHourglass, IconHeartFilled, IconChartBar, IconUsers } from "@tabler/icons-react";
 import { format } from "date-fns";
 import Link from "next/link";
 
@@ -68,6 +68,24 @@ export default async function CoachDashboard(params: {
   return (
     <div className="page-container">
       <PageHeading title="My Members" />
+      
+      {/* Total Members Count Card */}
+      <Card className="mb-6">
+        <CardBody className="flex flex-row items-center gap-4 p-6">
+          <div className="flex items-center justify-center w-12 h-12 bg-primary-100 rounded-lg">
+            <IconUsers className="w-6 h-6 text-primary-600" />
+          </div>
+          <div>
+            <h3 className="text-2xl font-bold text-gray-900">
+              {users.length}
+            </h3>
+            <p className="text-gray-600">
+              Total {users.length === 1 ? 'Member' : 'Clients'} Enrolled
+            </p>
+          </div>
+        </CardBody>
+      </Card>
+
       <p className="mt-3 mb-6">
         View and manage members assigned to you. {users.length > 0 ? `You have ${users.length} assigned member${users.length === 1 ? '' : 's'}.` : ''}
       </p>

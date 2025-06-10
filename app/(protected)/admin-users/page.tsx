@@ -7,6 +7,8 @@ import { setRole } from "./_actions";
 import PageHeading from "@/components/PageHeading/PageHeading";
 import { User } from "@nextui-org/user";
 import { Button } from "@nextui-org/button";
+import { Card, CardBody } from "@nextui-org/card";
+import { IconUsers } from "@tabler/icons-react";
 
 export default async function AdminDashboard(params: {
   searchParams: { search?: string };
@@ -28,6 +30,24 @@ export default async function AdminDashboard(params: {
   return (
     <>
       <PageHeading title="Admin Dashboard" />
+      
+      {/* Total Users Count Card */}
+      <Card className="mb-6">
+        <CardBody className="flex flex-row items-center gap-4 p-6">
+          <div className="flex items-center justify-center w-12 h-12 bg-primary-100 rounded-lg">
+            <IconUsers className="w-6 h-6 text-primary-600" />
+          </div>
+          <div>
+            <h3 className="text-2xl font-bold text-gray-900">
+              {users.length}
+            </h3>
+            <p className="text-gray-600">
+              Total {users.length === 1 ? 'User' : 'Users'}
+            </p>
+          </div>
+        </CardBody>
+      </Card>
+
       <p className="mb-3">
         This page is restricted to users with the &apos;admin&apos; role.
       </p>
