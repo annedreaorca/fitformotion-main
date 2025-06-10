@@ -1,9 +1,16 @@
+// app/(protected)/coach-users/page.tsx
 import PageHeading from "@/components/PageHeading/PageHeading";
 import { checkRole } from "@/utils/roles";
 import { clerkClient, currentUser } from "@clerk/nextjs";
 import { User } from "@nextui-org/user";
 import { redirect } from "next/navigation";
 import { SearchUsers } from "./_search-users";
+import { getUserAnalytics, getUserRecentActivity } from "./actions";
+import { Card, CardBody, CardHeader } from "@nextui-org/card";
+import { Button } from "@nextui-org/button";
+import { IconCalendarWeek, IconWeight, IconHourglass, IconHeartFilled, IconChartBar } from "@tabler/icons-react";
+import { format } from "date-fns";
+import Link from "next/link";
 
 export default async function CoachDashboard(params: {
   searchParams: { search?: string };
@@ -29,7 +36,7 @@ export default async function CoachDashboard(params: {
   // Fetch all users by default, or search if query is provided
   let users = await clerkClient.users.getUserList({ 
     query: query || undefined,
-    limit: 100 // Adjust limit as needed
+    limit: 100
   });
   
   // Filter to only show members assigned to this coach
@@ -37,13 +44,26 @@ export default async function CoachDashboard(params: {
     const role = user.publicMetadata.role as string;
     const userCoachId = user.publicMetadata.coachId as string;
     
-    // Only show members (users with no role or explicit "member" role)
-    // AND who are assigned to this coach
     const isMember = !role || role === "member";
     const isAssignedToThisCoach = userCoachId === coachId;
     
     return isMember && isAssignedToThisCoach;
   });
+
+  // Fetch analytics and recent activity for each user
+  const usersWithAnalytics = await Promise.all(
+    users.map(async (user) => {
+      const [analytics, recentActivity] = await Promise.all([
+        getUserAnalytics(user.id),
+        getUserRecentActivity(user.id)
+      ]);
+      return {
+        ...user,
+        analytics,
+        recentActivity
+      };
+    })
+  );
 
   return (
     <div className="page-container">
@@ -62,34 +82,49 @@ export default async function CoachDashboard(params: {
       ) : (
         <>
           <SearchUsers />
-          <ul className="space-y-3">
-            {users.map((user) => {
-              const role = user.publicMetadata.role as string;
-              const userType = role || "member";
+          <div className="space-y-6">
+            {usersWithAnalytics.map((user) => {
               const userString = `${user.firstName} ${user.lastName}`;
+              const { analytics, recentActivity } = user;
+              
               return (
-                <li key={user.id} className="flex justify-between items-center p-4 border rounded-lg">
-                  <User
-                    name={userString}
-                    description={
-                      user.emailAddresses.find(
-                        (email) => email.id === user.primaryEmailAddressId,
-                      )?.emailAddress
-                    }
-                    avatarProps={{
-                      src: user.imageUrl,
-                    }}
-                    classNames={{ description: "text-zinc-500" }}
-                  />
-                  <div className="flex gap-3 items-center">
-                    <span className="text-sm text-green-600 font-medium">
-                      Your Member
-                    </span>
-                  </div>
-                </li>
+                <Card key={user.id} className="p-4">
+                  <CardBody>
+                    {/* User Info Header */}
+                    <div className="flex justify-between items-center mb-4">
+                      <User
+                        name={userString}
+                        description={
+                          user.emailAddresses.find(
+                            (email) => email.id === user.primaryEmailAddressId,
+                          )?.emailAddress
+                        }
+                        avatarProps={{
+                          src: user.imageUrl,
+                        }}
+                        classNames={{ description: "text-zinc-500" }}
+                      />
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          color="primary"
+                          variant="bordered"
+                          startContent={<IconChartBar className="w-4 h-4" />}
+                          as={Link}
+                          href={`/coach-users/${user.id}/analytics`}
+                        >
+                          View Analytics
+                        </Button>
+                        <span className="text-sm text-green-600 font-medium self-center">
+                          Your Member
+                        </span>
+                      </div>
+                    </div>
+                  </CardBody>
+                </Card>
               );
             })}
-          </ul>
+          </div>
         </>
       )}
     </div>
