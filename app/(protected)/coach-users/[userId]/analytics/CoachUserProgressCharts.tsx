@@ -163,7 +163,7 @@ async function UserProgressData({ userId }: { userId: string }) {
       <div className="bg-blue-50 dark:bg-blue-950/20 rounded-xl p-4 mb-6">
         <div className="flex items-center gap-2 mb-3">
           <IconTarget className="text-blue-600" size={20} />
-          <h3 className="font-medium text-blue-900 dark:text-blue-100">Member's Goals & Settings</h3>
+          <h3 className="font-medium text-blue-900 dark:text-blue-100">Member&apos;s Goals & Settings</h3>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
           <div>
