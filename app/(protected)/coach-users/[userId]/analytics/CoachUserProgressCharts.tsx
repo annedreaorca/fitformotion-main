@@ -468,10 +468,10 @@ async function UserRecentActivity({ userId }: { userId: string }) {
                     <div className="font-medium">
                       {(() => {
                         const weights = workout.exercises.flatMap(ex => 
-                          ex.sets.map(set => set.weight).filter(w => w !== null)
+                          ex.sets.map(set => set.weight).filter((w): w is number => w !== null && w !== undefined)
                         );
                         const avgWeight = weights.length > 0 
-                          ? weights.reduce((sum, w) => sum + (w || 0), 0) / weights.length 
+                          ? weights.reduce((sum, w) => sum + w, 0) / weights.length 
                           : 0;
                         return avgWeight > 0 ? `${Math.round(avgWeight)} kg` : "N/A";
                       })()}
