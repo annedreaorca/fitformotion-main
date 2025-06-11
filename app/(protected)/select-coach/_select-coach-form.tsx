@@ -1,9 +1,9 @@
 // app/(protected)/select-coach/_select-coach-form.tsx
 "use client";
+import { useUser } from "@clerk/nextjs";
 import { Button } from "@nextui-org/button";
 import { useState } from "react";
-import { useUser } from "@clerk/nextjs";
-import { updateUserCoach, removeUserCoach } from "./actions";
+import { removeUserCoach, updateUserCoach } from "./actions";
 
 interface SelectCoachFormProps {
   coachId: string;
@@ -60,13 +60,13 @@ export const SelectCoachForm = ({ coachId, coachName }: SelectCoachFormProps) =>
   if (isCurrentCoach) {
     return (
       <div className="flex gap-2 items-center">
-        <span className="text-green-600 font-medium">Your Coach</span>
+        <span className="text-[12px] bg-[#47993338] py-[7.5px] px-[15px] text-green-600 rounded-full font-medium self-center">Your Coach</span>
         <Button
           size="sm"
           variant="bordered"
-          color="danger"
           onPress={handleRemoveCoach}
           isLoading={isLoading}
+          className="border-1 border-red-500 text-red-500 hover:bg-[#991b1b] hover:text-white hover:border-[#991b1b] py-[8px] px-[15px]"
         >
           Remove
         </Button>

@@ -77,7 +77,7 @@ export default function SidebarNav() {
         {userRole === "coach" && (
           <NavItem
             icon={<IconUsers size={22} className="shrink-0" />}
-            label="Users"
+            label="Clients"
             href="/coach-users"
             active={pathname === "/coach-users"}
           />
@@ -97,7 +97,7 @@ export default function SidebarNav() {
         {userRole === "admin" && (
           <NavItem
             icon={<IconUserCog size={22} className="shrink-0" />}
-            label="Users"
+            label="Clients"
             href="/admin-users"
             active={pathname === "/admin-users"}
           />

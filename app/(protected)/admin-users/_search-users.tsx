@@ -1,8 +1,9 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
-import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
+import { Input } from "@nextui-org/input";
+import { IconEraser, IconFilter } from "@tabler/icons-react";
+import { usePathname, useRouter } from "next/navigation";
 
 export const SearchUsers = () => {
   const router = useRouter();
@@ -25,26 +26,28 @@ export const SearchUsers = () => {
           }
         }}
       >
-        <div className="flex gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row">
           <Input
             label="Filter Users"
             placeholder="Enter name to filter users"
             id="search"
             name="search"
             type="text"
-            className="flex-1"
+            className="flex-3"
           />
-          <Button type="submit" className="self-end">
-            Filter
-          </Button>
-          <Button 
-            type="button" 
-            variant="bordered"
-            className="self-end"
-            onClick={() => router.push(pathname)}
-          >
-            Clear
-          </Button>
+          <div className="flex gap-2">
+            <Button type="submit" className="w-auto h-15 self-stretch p-3 sm:p-0">
+              <IconFilter/>
+            </Button>
+            <Button 
+              type="button" 
+              variant="bordered"
+              className="w-auto h-15 self-stretch p-0"
+              onClick={() => router.push(pathname)}
+            >
+              <IconEraser/>
+            </Button>
+          </div>
         </div>
       </form>
     </div>

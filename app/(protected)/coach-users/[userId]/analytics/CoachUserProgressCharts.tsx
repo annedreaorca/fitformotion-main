@@ -1,7 +1,7 @@
 // app/(protected)/coach-users/[userId]/analytics/CoachUserProgressCharts.tsx
-import { Progress } from "@nextui-org/progress";
 import prisma from "@/prisma/prisma";
-import { IconTrendingUp, IconCalendarStats, IconClock, IconTarget, IconChartBar } from "@tabler/icons-react";
+import { Progress } from "@nextui-org/progress";
+import { IconCalendarStats, IconChartBar, IconClock, IconTarget, IconTrendingUp } from "@tabler/icons-react";
 import { format, subDays } from "date-fns";
 import { Suspense } from "react";
 
@@ -91,7 +91,7 @@ async function UserProgressData({ userId }: { userId: string }) {
   let weightGoalMet = false;
   let weightProgressText = "Getting started";
   let weightProgressStatus = "Just started";
-  let weightProgressColor = "text-blue-500";
+  let weightProgressColor = "text-red-500";
 
   if (weightLogs.length >= 1) {
     // Update current weight to the most recent log
@@ -160,29 +160,29 @@ async function UserProgressData({ userId }: { userId: string }) {
   return (
     <div className="space-y-6">
       {/* User Goals Overview */}
-      <div className="bg-blue-50 dark:bg-blue-950/20 rounded-xl p-4 mb-6">
+      <div className="bg-white dark:bg-red-950/20 rounded-xl p-4 mb-6">
         <div className="flex items-center gap-2 mb-3">
-          <IconTarget className="text-blue-600" size={20} />
-          <h3 className="font-medium text-blue-900 dark:text-blue-100">Member&apos;s Goals & Settings</h3>
+          <IconTarget className="text-red-600" size={20} />
+          <h3 className="font-medium text-zinc-900 dark:text-red-100">Member&apos;s Goals & Settings</h3>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
           <div>
-            <span className="text-blue-600 dark:text-blue-400 font-medium">Goal:</span>
-            <p className="text-blue-800 dark:text-blue-200 capitalize">
+            <span className="text-black dark:text-red-400 font-bold">Goal:</span>
+            <p className="text-zinc-800 dark:text-red-200 capitalize">
               {fitnessGoal.replace('_', ' ').toLowerCase()}
             </p>
           </div>
           <div>
-            <span className="text-blue-600 dark:text-blue-400 font-medium">Level:</span>
-            <p className="text-blue-800 dark:text-blue-200 capitalize">{experienceLevel}</p>
+            <span className="text-black dark:text-red-400 font-bold">Level:</span>
+            <p className="text-zinc-800 dark:text-red-200 capitalize">{experienceLevel}</p>
           </div>
           <div>
-            <span className="text-blue-600 dark:text-blue-400 font-medium">Weekly Target:</span>
-            <p className="text-blue-800 dark:text-blue-200">{weeklySessionGoal} workouts</p>
+            <span className="text-black dark:text-red-400 font-bold">Weekly Target:</span>
+            <p className="text-zinc-800 dark:text-red-200">{weeklySessionGoal} workouts</p>
           </div>
           <div>
-            <span className="text-blue-600 dark:text-blue-400 font-medium">Session Target:</span>
-            <p className="text-blue-800 dark:text-blue-200">{sessionTimeGoal} minutes</p>
+            <span className="text-black dark:text-red-400 font-bold">Session Target:</span>
+            <p className="text-zinc-800 dark:text-red-200">{sessionTimeGoal} minutes</p>
           </div>
         </div>
       </div>

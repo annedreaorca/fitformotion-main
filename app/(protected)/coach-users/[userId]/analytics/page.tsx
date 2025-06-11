@@ -2,12 +2,11 @@
 import PageHeading from "@/components/PageHeading/PageHeading";
 import { checkRole } from "@/utils/roles";
 import { clerkClient, currentUser } from "@clerk/nextjs";
-import { User } from "@nextui-org/user";
-import { redirect } from "next/navigation";
-import { Card, CardBody } from "@nextui-org/card";
+import { Avatar } from "@nextui-org/avatar"; // Import Avatar component
 import { Button } from "@nextui-org/button";
-import { IconArrowLeft, IconCalendarStats, IconWeight, IconHourglass, IconChartBar } from "@tabler/icons-react";
+import { IconArrowLeft } from "@tabler/icons-react";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { CoachUserProgressCharts } from "./CoachUserProgressCharts";
 
 interface Props {
@@ -47,45 +46,37 @@ export default async function CoachUserAnalytics({ params }: Props) {
 
   return (
     <div className="page-container">
-      <div className="flex items-center gap-4 mb-6">
+      <div className="flex items-center justify-between gap-4 mb-8">
+        <div className="flex items-center gap-5">
+          {/* Option 1: Just the Avatar component */}
+          <Avatar
+            src={user.imageUrl}
+            size="lg"
+            name={userString} // Fallback initials if no image
+            className="ring-2 ring-primary-500" // Optional styling
+          />
+          
+          {/* User info alongside avatar */}
+          <div>
+            <PageHeading title={`${userString}`} />
+            <p className="text-gray-500 mt-2">
+              Detailed progress tracking and performance metrics
+            </p>
+          </div>
+        </div>
+        
         <Button
           as={Link}
           href="/coach-users"
           variant="light"
           isIconOnly
           aria-label="Back to members"
+          className="bg-white dark:bg-zinc-800 hover:bg-gray-100 active:bg-gray-200 focus:bg-gray-200 focus:ring-2 focus:ring-gray-300 w-auto"
         >
-          <IconArrowLeft className="w-4 h-4" />
+          <IconArrowLeft className="w-6 h-6 text-zinc-950 dark:text-white"/>
+          <p className="hidden pl-[5px] sm:block font-[400] text-zinc-950 dark:text-white">Back to Clients</p>
         </Button>
-        <div>
-          <PageHeading title={`${userString}'s Analytics`} />
-          <p className="text-gray-500 mt-1">
-            Detailed progress tracking and performance metrics
-          </p>
-        </div>
       </div>
-
-      {/* User Info Card */}
-      <Card className="mb-6">
-        <CardBody className="p-6">
-          <User
-            name={userString}
-            description={
-              user.emailAddresses.find(
-                (email) => email.id === user.primaryEmailAddressId,
-              )?.emailAddress
-            }
-            avatarProps={{
-              src: user.imageUrl,
-              size: "lg"
-            }}
-            classNames={{ 
-              description: "text-zinc-500",
-              name: "text-lg font-semibold"
-            }}
-          />
-        </CardBody>
-      </Card>
 
       {/* Progress Charts */}
       <CoachUserProgressCharts userId={params.userId} />
