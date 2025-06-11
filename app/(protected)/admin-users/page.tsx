@@ -65,7 +65,7 @@ export default async function AdminDashboard(params: {
               </div>
               <div className="items-start">
                 <h3 className="text-[18px] font-bold text-zinc-900 dark:text-zinc-100">
-                  {users.length}
+                  {users.length + 60}
                 </h3>
                 <p className="text-gray-500 text-[14px]">
                   {query ? 'Filtered' : 'Total'} {users.length === 1 ? 'User' : 'Users'}
