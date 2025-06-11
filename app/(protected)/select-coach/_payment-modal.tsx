@@ -97,7 +97,7 @@ export const PaymentModal = ({ isOpen, onClose, coachId, coachName }: PaymentMod
               
               <div className="bg-zinc-800/30 p-3 rounded-lg border border-zinc-700">
                 <p className="text-xs text-zinc-400 text-center">
-                  You'll be redirected to a secure payment page to complete your transaction
+                  You&apos;ll be redirected to a secure payment page to complete your transaction
                 </p>
               </div>
             </div>
